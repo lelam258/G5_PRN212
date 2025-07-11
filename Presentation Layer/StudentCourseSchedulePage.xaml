@@ -5,10 +5,76 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="StudentCourseSchedulePage">
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="View Study Materials">
+    <Page.Resources>
+        <!-- Style for DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#F5F6FA"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#4A90E2"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
-    <Grid>
-        
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="View Study Materials" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
+            <Rectangle Width="2" Height="30" Fill="#4A90E2" Margin="10,0,10,0"/>
+            <TextBlock Text="Download Course Materials" FontSize="16" Foreground="#7F8C8D" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- DataGrid Section -->
+        <Border Grid.Row="1" Background="White" CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1" Padding="10">
+            <DataGrid x:Name="MaterialsDataGrid" AutoGenerateColumns="False" 
+                      CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                      ItemsSource="{Binding CourseMaterials}" SelectionMode="Single"
+                      RowHeight="40" ColumnHeaderHeight="40">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Course Name" Binding="{Binding LifeSkillCourse.CourseName}" Width="2*"/>
+                    <DataGridTextColumn Header="Material Title" Binding="{Binding Title}" Width="2*"/>
+                    <DataGridTextColumn Header="Upload Date" Binding="{Binding UploadDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTemplateColumn Header="Actions" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Download" Click="DownloadButton_Click" Tag="{Binding MaterialId}" 
+                                        Background="#4A90E2" Foreground="White" Width="100" Height="30"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer Section -->
+        <TextBlock Grid.Row="2" Text="Last Updated: 01:19 AM +07, July 12, 2025" FontSize="12" Foreground="#7F8C8D" Margin="0,20,0,0" HorizontalAlignment="Right"/>
     </Grid>
 </Page>
