@@ -5,10 +5,85 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="StudentCoursePage">
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="Student Course Registration" Background="#F5F6FA">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <Grid>
-        
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Explore Available Courses" FontSize="28" FontWeight="Bold" Foreground="#2C3E50" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Search Bar with Placeholder -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <TextBox x:Name="SearchBox" Width="300" Height="40" VerticalAlignment="Center" 
+                     FontSize="14" Padding="10,0,10,0" Background="White" BorderBrush="#BDC3C7" 
+                     BorderThickness="1" TextChanged="SearchBox_TextChanged">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            <TextBlock IsHitTestVisible="False" Text="Search courses..." FontSize="14" Foreground="#BDC3C7" 
+                       VerticalAlignment="Center" Margin="10,0,0,0" x:Name="PlaceholderText">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
+        <!-- Course List -->
+        <ListView Grid.Row="2" x:Name="CourseListView" Background="White" BorderBrush="#ECF0F1" BorderThickness="1"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border CornerRadius="10" Background="#FFFFFF" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding CourseName}" FontSize="18" FontWeight="SemiBold" Foreground="#34495E"/>
+                                <TextBlock Text="{Binding Instructor.InstructorName}" FontSize="14" Foreground="#7F8C8D" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding StartDate, StringFormat='Start: {0:dd/MM/yyyy}'}" FontSize="12" Foreground="#7F8C8D" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding Price, StringFormat='Price: {0:C}'}" FontSize="16" Foreground="#E74C3C" FontWeight="Bold" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding Status}" FontSize="12" Foreground="#27AE60" FontWeight="Medium" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" x:Name="RegisterButton" Content="Register Course" Width="140" Height="40" 
+                                    Background="#3498DB" Foreground="White" BorderBrush="Transparent" Click="RegisterButton_Click"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding CanRegister}">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

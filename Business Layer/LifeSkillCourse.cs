@@ -20,7 +20,9 @@ namespace Business_Layer
         public string? Description { get; set; }
         public int? MaxStudents { get; set; }
         public decimal? Price { get; set; }
-        public string? Status { get; set; } 
+        public string? Status { get; set; }
         public Instructor? Instructor { get; set; }
+        public virtual ICollection<Enrollment>? Enrollments { get; set; } // Navigation property for Enrollments
+        public bool CanRegister { get; set; } // Added CanRegister property
     }
 }
