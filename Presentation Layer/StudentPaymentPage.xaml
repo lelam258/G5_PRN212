@@ -1,14 +1,50 @@
 ﻿<Page x:Class="Presentation_Layer.StudentPaymentPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Presentation_Layer"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="StudentPaymentPage">
 
-    <Grid>
-        
-    </Grid>
+    <Border Background="#F4F6F8" Padding="30">
+        <Grid>
+            <!-- Tiêu đề -->
+            <TextBlock Text="💳 Trạng thái thanh toán"
+                       FontSize="26"
+                       FontWeight="SemiBold"
+                       Foreground="#2C3E50"
+                       Margin="0,0,0,20" />
+
+            <!-- DataGrid hiển thị thanh toán -->
+            <Border Background="White"
+                    CornerRadius="10"
+                    BorderBrush="#DADADA"
+                    BorderThickness="1"
+                    Padding="10"
+                    Margin="0,40,0,0">
+                <DataGrid ItemsSource="{Binding PaymentItems}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          AlternatingRowBackground="#FAFAFA"
+                          FontSize="14"
+                          GridLinesVisibility="Horizontal"
+                          ColumnHeaderHeight="40"
+                          RowHeight="35">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Background" Value="#ECF0F1"/>
+                            <Setter Property="Foreground" Value="#2C3E50"/>
+                        </Style>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tên khóa học" Binding="{Binding CourseName}" Width="2*" />
+                        <DataGridTextColumn Header="Số tiền" Binding="{Binding Amount}" Width="1.2*" />
+                        <DataGridTextColumn Header="Ngày thanh toán" Binding="{Binding PaymentDate}" Width="1.5*" />
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+    </Border>
 </Page>
