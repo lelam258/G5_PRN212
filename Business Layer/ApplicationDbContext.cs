@@ -53,6 +53,8 @@ namespace Business_Layer
         private ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
            : base(options)
         {
+            Console.WriteLine("Đang kết nối DB: " + this.Database.GetDbConnection().ConnectionString);
+
             Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
