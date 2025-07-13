@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
@@ -10,12 +10,14 @@ namespace Presentation_Layer
 {
     public partial class StudentCourseSchedulePage : Page
     {
-        public ObservableCollection<ScheduleDisplayItem> ScheduleItems { get; set; } = new();
+        // Danh sách hiển thị lên DataGrid
+        public ObservableCollection<ScheduleDisplayItem> ScheduleItems { get; } = new();
 
+        // Các dependency
         private readonly int _studentId;
-        private readonly EnrollmentDAO _enrollmentDAO = new();
-        private readonly CourseScheduleRepository _courseScheduleRepo = new();
-        private readonly LifeSkillCourseRepository _courseRepo = new();
+        private readonly EnrollmentDAO _enrollmentDAO          = new();
+        private readonly CourseScheduleRepository _scheduleRepo = new();
+        private readonly LifeSkillCourseRepository _courseRepo  = new();
 
         public StudentCourseSchedulePage(int studentId)
         {
@@ -25,42 +27,38 @@ namespace Presentation_Layer
             LoadSchedule();
         }
 
+        /// <summary>
+        /// Lấy lịch học của sinh viên và đổ vào ObservableCollection
+        /// </summary>
         private void LoadSchedule()
         {
             var enrollments = _enrollmentDAO.GetAllEnrollments()
-                                .Where(e => e.StudentId == _studentId)
-                                .ToList();
+                                            .Where(e => e.StudentId == _studentId)
+                                            .ToList();
 
             foreach (var enrollment in enrollments)
             {
                 var course = _courseRepo.GetLifeSkillCourseById(enrollment.CourseId);
                 if (course == null) continue;
 
-                var schedules = _courseScheduleRepo.GetAllCourseSchedules()
-                                   .Where(s => s.CourseId == course.CourseId)
-                                   .ToList();
+                var schedules = _scheduleRepo.GetAllCourseSchedules()
+                                             .Where(s => s.CourseId == course.CourseId)
+                                             .ToList();
 
                 foreach (var schedule in schedules)
                 {
                     ScheduleItems.Add(new ScheduleDisplayItem
                     {
-                        CourseName = course.CourseName,
+                        CourseName  = course.CourseName,
                         SessionDate = schedule.SessionDate.ToString("dd/MM/yyyy"),
-                        StartTime = schedule.StartTime.ToString(@"hh\:mm"),
-                        EndTime = schedule.EndTime.ToString(@"hh\:mm"),
-                        Room = schedule.Room
+                        StartTime   = schedule.StartTime.ToString(@"hh\:mm"),
+                        EndTime     = schedule.EndTime.ToString(@"hh\:mm"),
+                        Room        = schedule.Room
                     });
                 }
             }
         }
 
-        public class ScheduleDisplayItem
-        {
-            public string CourseName { get; set; }
-            public string SessionDate { get; set; }
-            public string StartTime { get; set; }
-            public string EndTime { get; set; }
-            public string Room { get; set; }
-        }
-    }
-}
+        /// <summary>
+        /// Model hiển thị cho DataGrid
+        /
