@@ -1,91 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Business_Layer;
-using Microsoft.Win32;
+using Data_Layer;
 using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
-    /// <summary>
-    /// Interaction logic for StudentCourseSchedulePage.xaml
-    /// </summary>
     public partial class StudentCourseSchedulePage : Page
     {
-        private readonly CourseMaterialRepository _materialRepository;
-        private readonly ApplicationDbContext _context;
-        private readonly int _currentStudentId; // Assume this is set from login session
+        // Danh sách hiển thị lên DataGrid
+        public ObservableCollection<ScheduleDisplayItem> ScheduleItems { get; } = new();
 
-        public List<CourseMaterialViewModel> CourseMaterials { get; set; } = new List<CourseMaterialViewModel>();
+        // Các dependency
+        private readonly int _studentId;
+        private readonly EnrollmentDAO _enrollmentDAO          = new();
+        private readonly CourseScheduleRepository _scheduleRepo = new();
+        private readonly LifeSkillCourseRepository _courseRepo  = new();
 
         public StudentCourseSchedulePage(int studentId)
         {
             InitializeComponent();
-            _materialRepository = new CourseMaterialRepository();
-            _context = ApplicationDbContext.Instance;
-            _currentStudentId = studentId;
-            LoadCourseMaterials();
+            _studentId = studentId;
             DataContext = this;
+            LoadSchedule();
         }
 
-        private void LoadCourseMaterials()
+        /// <summary>
+        /// Lấy lịch học của sinh viên và đổ vào ObservableCollection
+        /// </summary>
+        private void LoadSchedule()
         {
-            CourseMaterials = _context.CourseMaterials
-                .Where(cm => cm.LifeSkillCourse.Enrollments.Any(e => e.StudentId == _currentStudentId))
-                .Select(cm => new CourseMaterialViewModel
-                {
-                    MaterialId = cm.MaterialId,
-                    CourseId = cm.CourseId,
-                    Title = cm.Title,
-                    FilePath = cm.FilePath,
-                    UploadDate = cm.UploadDate,
-                    LifeSkillCourse = cm.LifeSkillCourse
-                }).ToList();
-            MaterialsDataGrid.ItemsSource = CourseMaterials;
-        }
+            var enrollments = _enrollmentDAO.GetAllEnrollments()
+                                            .Where(e => e.StudentId == _studentId)
+                                            .ToList();
 
-        private void DownloadButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag is int materialId)
+            foreach (var enrollment in enrollments)
             {
-                var material = _context.CourseMaterials.FirstOrDefault(cm => cm.MaterialId == materialId);
-                if (material != null)
+                var course = _courseRepo.GetLifeSkillCourseById(enrollment.CourseId);
+                if (course == null) continue;
+
+                var schedules = _scheduleRepo.GetAllCourseSchedules()
+                                             .Where(s => s.CourseId == course.CourseId)
+                                             .ToList();
+
+                foreach (var schedule in schedules)
                 {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    ScheduleItems.Add(new ScheduleDisplayItem
                     {
-                        FileName = material.Title,
-                        Filter = "All files (*.*)|*.*",
-                        Title = "Save Material File"
-                    };
-                    if (saveFileDialog.ShowDialog() == true)
-                    {
-                        // Note: This is a placeholder. Actual file download would require file system access or server logic.
-                        // For demonstration, we'll simulate saving a file path.
-                        MessageBox.Show($"File saved to: {saveFileDialog.FileName}", "Download Successful", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
+                        CourseName  = course.CourseName,
+                        SessionDate = schedule.SessionDate.ToString("dd/MM/yyyy"),
+                        StartTime   = schedule.StartTime.ToString(@"hh\:mm"),
+                        EndTime     = schedule.EndTime.ToString(@"hh\:mm"),
+                        Room        = schedule.Room
+                    });
                 }
             }
         }
-    }
 
-    public class CourseMaterialViewModel
-    {
-        public int MaterialId { get; set; }
-        public int CourseId { get; set; }
-        public string Title { get; set; }
-        public string FilePath { get; set; }
-        public DateTime UploadDate { get; set; }
-        public LifeSkillCourse LifeSkillCourse { get; set; }
-    }
-}
+        /// <summary>
+        /// Model hiển thị cho DataGrid
+        /
