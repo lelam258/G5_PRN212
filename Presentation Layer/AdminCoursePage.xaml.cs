@@ -34,12 +34,12 @@ namespace Presentation_Layer
 
         public class CourseViewModel
         {
-            public int CourseID{ get; set; }
+            public int CourseID { get; set; }
             public string CourseName { get; set; }
             public string Instructor { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-            public string Description { get; set; } 
+            public string Description { get; set; }
             public int MaxStudents { get; set; }
             public decimal Price { get; set; }
             public string Status { get; set; }
@@ -53,17 +53,17 @@ namespace Presentation_Layer
         {
             var courses = _lifeSkillCourseRepository.GetAllLifeSkillCourses()
             .Select(c => new CourseViewModel
-             {
-                 CourseID = c.CourseId,
-                 CourseName = c.CourseName,
-                 Instructor = _instructorRepository.GetInstructorById(c.InstructorId)?.InstructorName ?? "Unknown",
-                 StartDate = (DateTime)c.StartDate,
-                 EndDate = (DateTime)c.EndDate,
-                 Description = c.Description,
-                 MaxStudents = (int)c.MaxStudents,
-                 Price = (decimal)c.Price,
-                 Status = c.Status
-             }).ToList();
+            {
+                CourseID = c.CourseId,
+                CourseName = c.CourseName,
+                Instructor = _instructorRepository.GetInstructorById(c.InstructorId)?.InstructorName ?? "Unknown",
+                StartDate = (DateTime)c.StartDate,
+                EndDate = (DateTime)c.EndDate,
+                Description = c.Description,
+                MaxStudents = (int)c.MaxStudents,
+                Price = (decimal)c.Price,
+                Status = c.Status
+            }).ToList();
             var instructors = _instructorRepository.GetAllInstructors()
                 .Select(i => new InstructorView
                 {
@@ -71,7 +71,7 @@ namespace Presentation_Layer
                     InstructorName = i.InstructorName
                 }).ToList();
             InstructorComboBox.ItemsSource = instructors;
-            InstructorComboBox.DisplayMemberPath = "InstructorName"; 
+            InstructorComboBox.DisplayMemberPath = "InstructorName";
 
             DataGrid.ItemsSource = courses;
         }
@@ -125,7 +125,7 @@ namespace Presentation_Layer
                     Instructor = _instructorRepository.GetInstructorById(c.InstructorId)?.InstructorName ?? "Unknown",
                     StartDate = (DateTime)c.StartDate,
                     EndDate = (DateTime)c.EndDate,
-                    Description = c.Description ?? string.Empty, 
+                    Description = c.Description ?? string.Empty,
                     MaxStudents = (int)c.MaxStudents,
                     Price = (decimal)c.Price,
                     Status = c.Status
@@ -254,7 +254,7 @@ namespace Presentation_Layer
                 }
                 StartDatePicker.SelectedDate = selectedCourse.StartDate;
                 EndDatePicker.SelectedDate = selectedCourse.EndDate;
-                DescriptionTextBox.Text = selectedCourse.Description ?? string.Empty; 
+                DescriptionTextBox.Text = selectedCourse.Description ?? string.Empty;
                 MaxStudentsTextBox.Text = selectedCourse.MaxStudents.ToString();
                 PriceTextBox.Text = selectedCourse.Price.ToString("F2");
 

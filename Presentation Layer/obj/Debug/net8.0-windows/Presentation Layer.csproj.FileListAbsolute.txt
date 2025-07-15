@@ -124,3 +124,129 @@ C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_ProjectSoluti
 C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_ProjectSolution\Presentation Layer\obj\Debug\net8.0-windows\StudentNotificationPage.baml
 C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_ProjectSolution\Presentation Layer\obj\Debug\net8.0-windows\StudentPaymentPage.baml
 C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_ProjectSolution\Presentation Layer\obj\Debug\net8.0-windows\StudentSettingPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Presentation Layer.exe
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\appsettings.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Presentation Layer.deps.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Presentation Layer.runtimeconfig.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Presentation Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Presentation Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Azure.Core.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Azure.Identity.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\BCrypt.Net-Next.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Data.SqlClient.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Identity.Client.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Logging.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Protocols.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Tokens.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Microsoft.SqlServer.Server.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\System.ClientModel.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\System.Memory.Data.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\System.Runtime.Caching.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Business Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Data Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Repositories.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Business Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Data Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\bin\Debug\net8.0-windows\Repositories.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.csproj.AssemblyReference.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminActivityLogPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminAssessmentPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminBackupRestorePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCertificatePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCourseMaterialPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCoursePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCourseSchedulePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminFeedbackPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminInstructorPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminNotificationPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminPaymentPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminReportPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminStudentPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminWindow.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\EnrolledCoursePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\LoginWindow.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentAssessmentPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCertificatePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCourseMaterialPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCoursePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCourseSchedulePage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentFeedbackPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentInfomationPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentNotificationPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentPaymentPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentSettingPage.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentWindow.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer_MarkupCompile.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer_MarkupCompile.lref
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminActivityLogPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminAssessmentPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminBackupRestorePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCertificatePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCourseMaterialPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCoursePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminCourseSchedulePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminFeedbackPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminInstructorPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminNotificationPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminPaymentPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminReportPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminStudentPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\AdminWindow.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\EnrolledCoursePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\LoginWindow.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentAssessmentPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCertificatePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCourseMaterialPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCoursePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentCourseSchedulePage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentFeedbackPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentInfomationPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentNotificationPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentPaymentPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentSettingPage.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\StudentWindow.baml
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.g.resources
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.AssemblyInfoInputs.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.AssemblyInfo.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.csproj.CoreCompileInputs.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.sourcelink.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presenta.B0A29D85.Up2Date
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\refint\Presentation Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\Presentation Layer.genruntimeconfig.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\Backup\Presentation Layer\obj\Debug\net8.0-windows\ref\Presentation Layer.dll

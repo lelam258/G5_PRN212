@@ -3138,11 +3138,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Presentation Layer\\Presentation Layer.csproj",
+      "projectUniqueName": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Presentation Layer\\Presentation Layer.csproj",
       "projectName": "Presentation Layer",
-      "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Presentation Layer\\Presentation Layer.csproj",
+      "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Presentation Layer\\Presentation Layer.csproj",
       "packagesPath": "C:\\Users\\GBCenter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Presentation Layer\\obj\\",
+      "outputPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Presentation Layer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3163,14 +3163,14 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Business Layer\\Business Layer.csproj": {
-              "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Business Layer\\Business Layer.csproj"
+            "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Business Layer\\Business Layer.csproj": {
+              "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Business Layer\\Business Layer.csproj"
             },
-            "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Data Layer\\Data Layer.csproj": {
-              "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Data Layer\\Data Layer.csproj"
+            "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Data Layer\\Data Layer.csproj": {
+              "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Data Layer\\Data Layer.csproj"
             },
-            "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Repositories\\Repositories.csproj": {
-              "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_ProjectSolution\\Repositories\\Repositories.csproj"
+            "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Repositories\\Repositories.csproj": {
+              "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\Backup\\Repositories\\Repositories.csproj"
             }
           }
         }

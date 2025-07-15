@@ -22,11 +22,6 @@ namespace Presentation_Layer
         public AdminWindow()
         {
             InitializeComponent();
-            // Select first menu by default
-            if (MenuListBox.Items.Count > 0)
-            {
-                MenuListBox.SelectedIndex = 0;
-            }
         }
 
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,29 +29,31 @@ namespace Presentation_Layer
             if (MenuListBox.SelectedItem is ListBoxItem selectedItem)
             {
                 string pagePath = selectedItem.Tag.ToString();
-                if (pagePath == "Logout")
-                {
-                    var result = MessageBox.Show("Bạn có chắc muốn đăng xuất không?",
-                                                 "Xác nhận đăng xuất",
-                                                 MessageBoxButton.YesNo,
-                                                 MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        // Show login window
-                        LoginWindow loginWindow = new LoginWindow();
-                        loginWindow.Show();
-                        // Close current admin window
-                        this.Close();
-                    }
-
-                    // Cancel logout if No is selected
-                    selectedItem.IsSelected = false;
-                    return;
-                }
                 try
-                {                   
-                    ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));
+                {
+                    if (pagePath == "Logout")
+                    {
+                        var result = MessageBox.Show("Bạn có chắc muốn đăng xuất không?",
+                                                     "Xác nhận đăng xuất",
+                                                     MessageBoxButton.YesNo,
+                                                     MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            // Show login window
+                            LoginWindow loginWindow = new LoginWindow();
+                            loginWindow.Show();
+                            // Close current admin window
+                            this.Close();
+                        }
+                        // Cancel logout if No is selected
+                        selectedItem.IsSelected = false;
+                        return;
+                    }
+                    else
+                    {
+                        ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));
+                    }
                 }
                 catch (Exception ex)
                 {

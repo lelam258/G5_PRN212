@@ -56,7 +56,43 @@ namespace Presentation_Layer
                         selectedItem.IsSelected = false;
                         return;
                     }
-                    ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));
+                    if (pagePath == "StudentCourseSchedulePage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentCourseSchedulePage(student.StudentId));
+                        }
+                    }
+                    else if (pagePath == "StudentPaymentPage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentPaymentPage(student.StudentId));
+                        }
+                    }
+                    else if (pagePath == "StudentNotificationPage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentNotificationPage(student.StudentId));
+                        }
+                    }
+                    else if (pagePath == "StudentInformationPage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentInformationPage(student.StudentId));
+                        }
+                    }
+                    else
+                    {
+                        // 👈 mặc định các page không cần tham số
+                        ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));
+                    }
                 }
                 catch (Exception ex)
                 {

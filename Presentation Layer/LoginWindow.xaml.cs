@@ -28,7 +28,7 @@ namespace Presentation_Layer
         public LoginWindow()
         {
             InitializeComponent();
-            _studentRepository = new StudentRepository(); 
+            _studentRepository = new StudentRepository();
         }
 
         private void Status_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -51,23 +51,34 @@ namespace Presentation_Layer
             }
             else if (role == "Người học")
             {
-                var student = _studentRepository.Login(codeName, BCrypt.Net.BCrypt.HashPassword(password));
-                if (student != null)
+                var student = _studentRepository.GetStudentByCode(codeName);
+
+                if (student == null)
                 {
-                    student.LastLogin = DateTime.Now;
-                    _studentRepository.UpdateStudent(student);
-                    MessageBox.Show($"Chào bạn {student.StudentCode}!");
-                    // Navigate to student dashboard
-                    StudentWindow studentDashboard = new StudentWindow(codeName);
-                    studentDashboard.Show();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Sai mã người dùng hoặc mật khẩu");
+                    MessageBox.Show("⚠️ Mã người dùng không tồn tại.");
                     return;
                 }
+
+                // So sánh đúng: password là người dùng nhập, student.Password là từ DB
+                bool isMatch = BCrypt.Net.BCrypt.Verify(password.Trim(), student.Password);
+
+
+                if (!isMatch)
+                {
+                    MessageBox.Show("❌ Mật khẩu không đúng.");
+                    return;
+                }
+
+                // Nếu đúng:
+                student.LastLogin = DateTime.Now;
+                _studentRepository.UpdateStudent(student);
+                MessageBox.Show($"✅ Chào bạn {student.StudentCode}!");
+                StudentWindow studentDashboard = new StudentWindow(codeName);
+                studentDashboard.Show();
+                this.Close();
             }
+
+
             else if (role == "Quản trị viên")
             {
                 // Admin login logic can be added here
