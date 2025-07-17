@@ -8,7 +8,7 @@
         <!-- Header -->
         <Style TargetType="DataGridColumnHeader">
             <Setter Property="Foreground" Value="{DynamicResource TextForegroundColor}" />
-            <Setter Property="Background" Value="#2B2B2B" />
+            <Setter Property="Background" Value="Gray" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Padding" Value="10,4" />
