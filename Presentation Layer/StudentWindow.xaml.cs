@@ -88,14 +88,6 @@ namespace Presentation_Layer
                             ContentFrame.Navigate(new StudentInformationPage(student.StudentId));
                         }
                     }
-                    else if (pagePath == "StudentSettingPage.xaml")
-                    {
-                        var student = _studentRepository.GetStudentByCode(_code);
-                        if (student != null)
-                        {
-                            ContentFrame.Navigate(new StudentSettingPage(student.StudentId));
-                        }
-                    }
                     else
                     {
                         // 👈 mặc định các page không cần tham số
