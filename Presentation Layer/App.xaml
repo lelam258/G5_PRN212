@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:Presentation_Layer"
              StartupUri="LoginWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="WindowBackgroundColor" Color="#F4F6F8"/>
+        <SolidColorBrush x:Key="TextForegroundColor" Color="#000000"/>
+        <SolidColorBrush x:Key="PanelBackgroundColor" Color="#2b2b2b"/>
     </Application.Resources>
+    
+
 </Application>
