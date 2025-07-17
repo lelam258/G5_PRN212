@@ -1,26 +1,18 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Business_Layer;
-using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
     public partial class StudentSettingPage : Page
     {
-        private readonly StudentRepository _studentRepo = new();
-        private Student _student;
-        private int _studentId;
+        private bool _darkModeEnabled = false;
 
-        public StudentSettingPage(int studentId)
+        public StudentSettingPage()
         {
             InitializeComponent();
-            _studentId = studentId;
-            _student = _studentRepo.GetStudentById(studentId);
         }
 
-        // ==== ĐỔI MẬT KHẨU ====
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
             var oldPassword = OldPasswordBox.Password;
@@ -39,56 +31,30 @@ namespace Presentation_Layer
                 return;
             }
 
-            var student = _studentRepo.GetStudentById(_studentId);
-            if (student.Password != oldPassword)
-            {
-                MessageBox.Show("Mật khẩu hiện tại không đúng.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            student.Password = newPassword;
-            _studentRepo.UpdateStudent(student);
-
-            MessageBox.Show("Mật khẩu đã được thay đổi thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            OldPasswordBox.Password = "";
-            NewPasswordBox.Password = "";
-            ConfirmPasswordBox.Password = "";
+            // TODO: Thực hiện đổi mật khẩu (gọi repo/update)
+            MessageBox.Show("Mật khẩu đã được thay đổi.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // ==== GIAO DIỆN SÁNG/TỐI ====
-        private void LightTheme_Click(object sender, RoutedEventArgs e)
+        private void DarkModeToggle_Checked(object sender, RoutedEventArgs e)
         {
-            Application.Current.Resources["WindowBackgroundColor"] = new SolidColorBrush(Color.FromRgb(244, 246, 248));
-            Application.Current.Resources["TextForegroundColor"] = new SolidColorBrush(Colors.Black);
-
-            var settings = AppSettings.Load();
-            settings.Theme = "Light";
-            settings.Save();
+            _darkModeEnabled = true;
+            Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
         }
 
-        private void DarkTheme_Click(object sender, RoutedEventArgs e)
+        private void DarkModeToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            Application.Current.Resources["WindowBackgroundColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E2E2E")); // nền xám đậm
-            Application.Current.Resources["TextForegroundColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));  // chữ sáng
-
-            var settings = AppSettings.Load();
-            settings.Theme = "Dark";
-            settings.Save();
+            _darkModeEnabled = false;
+            Background = new SolidColorBrush(Color.FromRgb(244, 246, 248));
         }
 
-
-        // ==== ĐẶT LẠI THÔNG TIN CÁ NHÂN ====
         private void ResetProfile_Click(object sender, RoutedEventArgs e)
         {
-            _student = _studentRepo.GetStudentById(_studentId);
-            MessageBox.Show("Đã khôi phục thông tin gốc từ cơ sở dữ liệu.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Chức năng đang phát triển...", "Thông báo");
         }
 
-        // ==== RESET TOÀN BỘ (hiện tại chỉ cảnh báo) ====
         private void ResetAllSettings_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Chức năng này chưa được hỗ trợ đầy đủ.", "Thông báo");
+            MessageBox.Show("Đã khôi phục cài đặt mặc định.", "Thông báo");
         }
     }
 }

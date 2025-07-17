@@ -49,7 +49,7 @@ namespace Presentation_Layer
                 Directory.CreateDirectory("AppData/Avatars");
                 File.Copy(dialog.FileName, destPath, true);
 
-                AvatarPath = Path.GetFullPath(destPath);
+                AvatarPath = destPath;
                 DataContext = null;
                 DataContext = this;
             }
