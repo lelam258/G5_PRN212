@@ -5,8 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="StudentCoursePage">
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="Student Course Registration" Background="#F5F6FA">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
     <Grid Background="#F5F5F5">
         <Grid.RowDefinitions>
@@ -61,6 +67,7 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
+
         </ListView>
     </Grid>
 </Page>

@@ -5,10 +5,71 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="StudentCourseMaterialPage">
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="My Courses">
+    <Page.Resources>
+        <!-- Style for DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#F5F6FA"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#4A90E2"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
-    <Grid>
-        
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="My Courses" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
+            <Rectangle Width="2" Height="30" Fill="#4A90E2" Margin="10,0,10,0"/>
+            <TextBlock Text="Overview of Enrolled Courses" FontSize="16" Foreground="#7F8C8D" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- DataGrid Section -->
+        <Border Grid.Row="1" Background="White" CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1" Padding="10">
+            <DataGrid x:Name="CoursesDataGrid" AutoGenerateColumns="False" 
+                      CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                      ItemsSource="{Binding EnrolledCourses}" SelectionMode="Single"
+                      RowHeight="40" ColumnHeaderHeight="40">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Course Name" Binding="{Binding Course.CourseName}" Width="2*"/>
+                    <DataGridTextColumn Header="Instructor" Binding="{Binding Course.Instructor.InstructorName}" Width="2*"/>
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding Course.StartDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTextColumn Header="End Date" Binding="{Binding Course.EndDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTextColumn Header="Completion Status" Binding="{Binding CompletionStatusText}" Width="*"/>
+                    <DataGridTextColumn Header="Progress (%)" Binding="{Binding Progress, StringFormat={}{0:F1}}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer Section -->
+        <TextBlock Grid.Row="2" Text="Last Updated: 12:45 AM +07, July 12, 2025" FontSize="12" Foreground="#7F8C8D" Margin="0,20,0,0" HorizontalAlignment="Right"/>
     </Grid>
 </Page>

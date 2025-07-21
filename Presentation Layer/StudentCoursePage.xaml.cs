@@ -1,88 +1,97 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Business_Layer;
+using Data_Layer; // For ApplicationDbContext
+using Microsoft.EntityFrameworkCore; // For Include method
 using Repositories.Interfaces;
 using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
     /// <summary>
-    /// Interaction logic for StudentCoursePage.xaml
+    /// Interaction logic for EnrolledCoursePage.xaml
     /// </summary>
-    public partial class StudentCoursePage : Page
+    public partial class EnrolledCoursePage : Page
     {
+        private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly ILifeSkillCourseRepository _courseRepository;
-        private readonly IEnrollmentRepository _enrollmentRepository; // Assume this exists
         private readonly ApplicationDbContext _context; // Inject context
         private int _currentStudentId = 1; // Example student ID, replace with logged-in user ID
 
-        public StudentCoursePage()
+        public EnrolledCoursePage()
         {
             InitializeComponent();
             _context = ApplicationDbContext.Instance; // Use singleton instance
+            _enrollmentRepository = new EnrollmentRepository();
             _courseRepository = new LifeSkillCourseRepository();
-            _enrollmentRepository = new EnrollmentRepository(); // Assume this exists
-            LoadCourses();
+            LoadEnrolledCourses();
         }
 
-        private void LoadCourses()
+        private void LoadEnrolledCourses()
         {
-            var allCourses = _courseRepository.GetAllLifeSkillCourses();
-            var openCourses = (from course in allCourses
-                               join enrollment in _context.Enrollments on course.CourseId equals enrollment.CourseId into enrollmentsGroup
-                               where course.Status == "Mở đăng ký"
-                               select new
-                               {
-                                   CourseId = course.CourseId,
-                                   CourseName = course.CourseName,
-                                   Instructor = course.Instructor,
-                                   StartDate = course.StartDate,
-                                   EndDate = course.EndDate,
-                                   Price = course.Price,
-                                   MaxStudents = course.MaxStudents,
-                                   AvailableSpots = course.MaxStudents - enrollmentsGroup.Count(),
-                                   CanRegister = course.MaxStudents > enrollmentsGroup.Count() && HasPaidForCourse(course.CourseId)
-                               }).ToList();
+            var enrollments = _enrollmentRepository.GetAllEnrollments()
+                .Where(e => e.StudentId == _currentStudentId)
+                .Join(_context.LifeSkillCourses.Include(c => c.Instructor), // Eagerly load Instructor
+                      e => e.CourseId,
+                      c => c.CourseId,
+                      (e, c) => new
+                      {
+                          EnrollmentId = e.EnrollmentId, // Include EnrollmentId for cancellation
+                          CourseId = c.CourseId,
+                          CourseName = c.CourseName,
+                          Instructor = c.Instructor,
+                          StartDate = c.StartDate,
+                          EndDate = c.EndDate,
+                          CompletionStatus = e.CompletionStatus,
+                          ProgressPercentage = CalculateProgress(e) // Placeholder for progress calculation
+                      }).ToList();
 
-            CourseList.ItemsSource = openCourses;
+            EnrolledCourseList.ItemsSource = enrollments;
         }
 
-        private bool HasPaidForCourse(int courseId)
+        private double CalculateProgress(Enrollment enrollment)
         {
-            // Placeholder logic - implement actual payment check using PaymentRepository
-            // This should query Payments table to check if student has paid for the course
-            return true; // Replace with actual logic
+            // Placeholder logic: Assume 100% if completed, 0% if not
+            // For a real implementation, join with AssessmentResults to calculate based on scores
+            return enrollment.CompletionStatus ? 100.0 : 0.0;
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        private void CancelCourse_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            try
             {
-                // Safely cast DataContext to dynamic to access CourseId
-                dynamic dataContext = button.DataContext;
-                if (dataContext != null)
+                // Get the selected enrollment from the button's DataContext
+                var button = sender as Button;
+                var enrollment = button?.DataContext as dynamic;
+                if (enrollment == null)
                 {
-                    int courseId = dataContext.CourseId;
-                    var enrollment = new Enrollment { StudentId = _currentStudentId, CourseId = courseId, CompletionStatus = false };
-                    // Placeholder: Implement enrollment logic using _enrollmentRepository
-                    _enrollmentRepository.AddEnrollment(enrollment); // Assume this method exists
-                    MessageBox.Show($"Registered for course ID {courseId} successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LoadCourses(); // Refresh list
+                    MessageBox.Show("Please select a course to cancel.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
+
+                // Confirm cancellation with the user
+                var result = MessageBox.Show($"Are you sure you want to cancel the course '{enrollment.CourseName}'?",
+                                             "Confirm Cancellation",
+                                             MessageBoxButton.YesNo,
+                                             MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                // Delete the enrollment using the repository
+                _enrollmentRepository.DeleteEnrollment(enrollment.EnrollmentId);
+
+                // Refresh the course list
+                LoadEnrolledCourses();
+
+                MessageBox.Show("Course canceled successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while canceling the course: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
 }
-
