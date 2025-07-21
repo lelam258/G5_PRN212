@@ -10,6 +10,7 @@ namespace Repositories.Interfaces
     public interface IEnrollmentRepository
     {
         List<Enrollment> GetAllEnrollments();
+        List<Enrollment> GetEnrollmentsByStudentId(int studentId);
         Enrollment GetEnrollmentById(int id);
         void AddEnrollment(Enrollment enrollment);
         void UpdateEnrollment(Enrollment enrollment);
