@@ -93,5 +93,28 @@ namespace Presentation_Layer
                 MessageBox.Show($"An error occurred while canceling the course: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void ViewDetails_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Get the selected enrollment from the button's DataContext
+                var button = sender as Button;
+                var enrollment = button?.DataContext as dynamic;
+                if (enrollment == null)
+                {
+                    MessageBox.Show("Please select a course to view details.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Navigate to the CourseDetailsPage, passing the CourseId
+                var detailsPage = new CourseDetailsPage(enrollment.CourseId, _currentStudentId);
+                NavigationService?.Navigate(detailsPage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading course details: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
