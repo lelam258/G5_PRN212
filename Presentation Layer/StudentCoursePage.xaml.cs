@@ -1,86 +1,97 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Business_Layer;
-using Data_Layer;
+using Data_Layer; // For ApplicationDbContext
+using Microsoft.EntityFrameworkCore; // For Include method
+using Repositories.Interfaces;
+using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
-    public partial class StudentCoursePage : Page
+    /// <summary>
+    /// Interaction logic for EnrolledCoursePage.xaml
+    /// </summary>
+    public partial class EnrolledCoursePage : Page
     {
-        private readonly LifeSkillCourseDAO _courseDAO;
-        private readonly Student _currentStudent;
+        private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly ILifeSkillCourseRepository _courseRepository;
+        private readonly ApplicationDbContext _context; // Inject context
+        private int _currentStudentId = 1; // Example student ID, replace with logged-in user ID
 
-        public StudentCoursePage(Student student)
+        public EnrolledCoursePage()
         {
             InitializeComponent();
-            _courseDAO = new LifeSkillCourseDAO();
-            _currentStudent = student;
-            LoadCourses();
+            _context = ApplicationDbContext.Instance; // Use singleton instance
+            _enrollmentRepository = new EnrollmentRepository();
+            _courseRepository = new LifeSkillCourseRepository();
+            LoadEnrolledCourses();
         }
 
-        private void LoadCourses()
+        private void LoadEnrolledCourses()
         {
-            var courses = _courseDAO.GetAllLifeSkillCourses()
-                .Where(c => c.Status == "Mở đăng ký" && (c.MaxStudents == null || c.Enrollments?.Count < c.MaxStudents))
-                .ToList();
+            var enrollments = _enrollmentRepository.GetAllEnrollments()
+                .Where(e => e.StudentId == _currentStudentId)
+                .Join(_context.LifeSkillCourses.Include(c => c.Instructor), // Eagerly load Instructor
+                      e => e.CourseId,
+                      c => c.CourseId,
+                      (e, c) => new
+                      {
+                          EnrollmentId = e.EnrollmentId, // Include EnrollmentId for cancellation
+                          CourseId = c.CourseId,
+                          CourseName = c.CourseName,
+                          Instructor = c.Instructor,
+                          StartDate = c.StartDate,
+                          EndDate = c.EndDate,
+                          CompletionStatus = e.CompletionStatus,
+                          ProgressPercentage = CalculateProgress(e) // Placeholder for progress calculation
+                      }).ToList();
 
-            foreach (var course in courses)
-            {
-                course.CanRegister = HasPaidForCourse(course.CourseId) && (course.Enrollments?.All(e => e.StudentId != _currentStudent.StudentId) ?? true);
-            }
-
-            CourseListView.ItemsSource = courses;
+            EnrolledCourseList.ItemsSource = enrollments;
         }
 
-        private bool HasPaidForCourse(int courseId)
+        private double CalculateProgress(Enrollment enrollment)
         {
-            using (var context = ApplicationDbContext.Instance)
-            {
-                return context.Payments.Any(p => p.StudentId == _currentStudent.StudentId && p.CourseId == courseId && p.Status == "Đã thanh toán");
-            }
+            // Placeholder logic: Assume 100% if completed, 0% if not
+            // For a real implementation, join with AssessmentResults to calculate based on scores
+            return enrollment.CompletionStatus ? 100.0 : 0.0;
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        private void CancelCourse_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            if (button?.DataContext is LifeSkillCourse course)
+            try
             {
-                var enrollment = new Enrollment
+                // Get the selected enrollment from the button's DataContext
+                var button = sender as Button;
+                var enrollment = button?.DataContext as dynamic;
+                if (enrollment == null)
                 {
-                    StudentId = _currentStudent.StudentId,
-                    CourseId = course.CourseId,
-                    CompletionStatus = false,
-                    CompletionDate = null
-                };
-
-                using (var context = ApplicationDbContext.Instance)
-                {
-                    context.Enrollments.Add(enrollment);
-                    context.SaveChanges();
+                    MessageBox.Show("Please select a course to cancel.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
 
-                MessageBox.Show($"Đăng ký khóa học {course.CourseName} thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
-                LoadCourses(); // Refresh the list
+                // Confirm cancellation with the user
+                var result = MessageBox.Show($"Are you sure you want to cancel the course '{enrollment.CourseName}'?",
+                                             "Confirm Cancellation",
+                                             MessageBoxButton.YesNo,
+                                             MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                // Delete the enrollment using the repository
+                _enrollmentRepository.DeleteEnrollment(enrollment.EnrollmentId);
+
+                // Refresh the course list
+                LoadEnrolledCourses();
+
+                MessageBox.Show("Course canceled successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
-
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var searchText = (sender as TextBox)?.Text?.ToLower() ?? string.Empty;
-            var courses = _courseDAO.GetAllLifeSkillCourses()
-                .Where(c => c.Status == "Mở đăng ký" && (c.MaxStudents == null || c.Enrollments?.Count < c.MaxStudents)
-                    && (c.CourseName.ToLower().Contains(searchText) || (c.Instructor?.InstructorName.ToLower().Contains(searchText) ?? false)))
-                .ToList();
-
-            foreach (var course in courses)
+            catch (Exception ex)
             {
-                course.CanRegister = HasPaidForCourse(course.CourseId) && (course.Enrollments?.All(e => e.StudentId != _currentStudent.StudentId) ?? true);
+                MessageBox.Show($"An error occurred while canceling the course: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            CourseListView.ItemsSource = courses;
         }
     }
 }
