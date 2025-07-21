@@ -10,6 +10,7 @@ namespace Repositories.Interfaces
     public interface ICertificateRepository
     {
         List<Certificate> GetAllCertificates();
+        List<Certificate> GetCertificatesByStudentId(int studentId);
         Certificate GetCertificateById(int id);
         void AddCertificate(Certificate certificate);
         void UpdateCertificate(Certificate certificate);

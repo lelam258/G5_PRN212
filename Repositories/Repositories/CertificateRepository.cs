@@ -16,6 +16,8 @@ namespace Repositories.Repositories
         {
             _certificateDAO = new CertificateDAO();
         }
+        public List<Certificate> GetCertificatesByStudentId(int studentId)
+    => _certificateDAO.GetCertificatesByStudentId(studentId);
         public void AddCertificate(Certificate certificate) => _certificateDAO.AddCertificate(certificate);
         public void DeleteCertificate(int id) => _certificateDAO.DeleteCertificate(id);
         public Certificate GetCertificateById(int id) => _certificateDAO.GetCertificateById(id);

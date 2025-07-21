@@ -8,7 +8,86 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="StudentCertificatePage">
 
-    <Grid>
-        
+    <Page.Resources>
+        <!-- Style for DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#F5F6FA"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#4A90E2"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="My Certificates" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
+            <Rectangle Width="2" Height="30" Fill="#4A90E2" Margin="10,0,10,0"/>
+            <TextBlock Text="Your earned certificates" FontSize="16" Foreground="#7F8C8D" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- DataGrid Section -->
+        <Border Grid.Row="1" Background="White" CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1" Padding="10">
+            <DataGrid x:Name="CertificatesDataGrid"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding Certificates}"
+                      SelectionMode="Single"
+                      RowHeight="40"
+                      ColumnHeaderHeight="40">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Certificate Code" Binding="{Binding CertificateCode}" Width="*"/>
+                    <DataGridTextColumn Header="Course Name" Binding="{Binding LifeSkillCourse.CourseName}" Width="2*"/>
+                    <DataGridTextColumn Header="Issue Date" Binding="{Binding IssueDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTemplateColumn Header="Actions" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Download"
+                                        Command="{Binding DataContext.DownloadCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding FilePath}"
+                                        Padding="10,2"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer Section -->
+        <TextBlock Grid.Row="2"
+                   Text="Last Updated: {Binding LastUpdatedText}"
+                   FontSize="12"
+                   Foreground="#7F8C8D"
+                   Margin="0,20,0,0"
+                   HorizontalAlignment="Right"/>
     </Grid>
 </Page>
