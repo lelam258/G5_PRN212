@@ -5,10 +5,174 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdminActivityLogPage">
+    <Page.Resources>
+        <!-- Common DataGrid style -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#F5F6FA"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="ColumnHeaderHeight" Value="40"/>
+            <Setter Property="RowHeight" Value="35"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#4A90E2"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Input controls spacing -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Page.Resources>
 
-    <Grid>
-        
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Filter -->
+            <RowDefinition Height="*"/>
+            <!-- DataGrid -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+               Text="Quản lý Nhật ký hoạt động"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="#2C3E50"
+               Margin="0,0,0,20"/>
+
+        <!-- Filter Panel -->
+        <Border Grid.Row="1"
+            Background="White"
+            CornerRadius="8"
+            Padding="15"
+            BorderBrush="#DDD"
+            BorderThickness="1"
+            Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Filter by User -->
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Người dùng" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="FilterUserComboBox"
+                          Height="30"
+                          DisplayMemberPath="Display"
+                          SelectedValuePath="UserId"/>
+                </StackPanel>
+
+                <!-- Filter by Action -->
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Hành động" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                    <TextBox x:Name="FilterActionTextBox" Height="30"/>
+                </StackPanel>
+
+                <!-- From Date -->
+                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Từ ngày" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                    <DatePicker x:Name="FilterStartDatePicker"
+                            Height="30"
+                            DisplayDateStart="{x:Static sys:DateTime.Today}"/>
+                </StackPanel>
+
+                <!-- To Date -->
+                <StackPanel Grid.Column="3" Orientation="Vertical" Margin="0,0,0,0">
+                    <TextBlock Text="Đến ngày" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                    <DatePicker x:Name="FilterEndDatePicker"
+                            Height="30"
+                            DisplayDateStart="{x:Static sys:DateTime.Today}"/>
+                </StackPanel>
+
+                <Button Grid.Column="4"
+                    x:Name="FilterButton"
+                    Content="Lọc"
+                    Width="80"
+                    Height="30"
+                    Margin="10,21,10,0"
+                    Background="#2C3E50"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    Click="FilterButton_Click"/>
+                <Button Grid.Column="5"
+                    x:Name="ResetButton"
+                    Content="Mặc định"
+                    Width="80"
+                    Height="30"
+                    Margin="10,21,10,0"
+                    Background="#7F8C8D"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    Click="ResetButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- DataGrid -->
+        <Border Grid.Row="2"
+            Background="White"
+            CornerRadius="8"
+            Padding="15"
+            BorderBrush="#DDD"
+            BorderThickness="1">
+            <DataGrid x:Name="LogDataGrid"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Thời gian"
+                                    Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}"
+                                    Width="150" />
+                    <DataGridTextColumn Header="Người dùng"
+                                    Binding="{Binding UserCode}"
+                                    Width="150" />
+                    <DataGridTextColumn Header="Hành động"
+                                    Binding="{Binding Action}"
+                                    Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
     </Grid>
 </Page>

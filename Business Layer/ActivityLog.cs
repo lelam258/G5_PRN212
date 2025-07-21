@@ -13,7 +13,7 @@ namespace Business_Layer
         [Key]
         public int LogId { get; set; }
         [ForeignKey("Student")]
-        public required int StudentId { get; set; }
+        public required int UserId { get; set; }
         public required string Action { get; set; }
         public required DateTime Timestamp { get; set; }
         public Student? Student { get; set; }
