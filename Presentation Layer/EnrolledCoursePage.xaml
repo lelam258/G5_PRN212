@@ -29,17 +29,21 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Course Name" DisplayMemberBinding="{Binding CourseName}" Width="200"/>
-                    <GridViewColumn Header="Instructor" DisplayMemberBinding="{Binding Instructor.InstructorName}" Width="150"/>
-                    <GridViewColumn Header="Start Date" DisplayMemberBinding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>
+                    <GridViewColumn Header="Course Name" DisplayMemberBinding="{Binding CourseName}" Width="110"/>
+                    <GridViewColumn Header="Instructor" DisplayMemberBinding="{Binding Instructor.InstructorName}" Width="110"/>
+                    <GridViewColumn Header="Start Date" DisplayMemberBinding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}" Width="110"/>
                     <GridViewColumn Header="End Date" DisplayMemberBinding="{Binding EndDate, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>
-                    <GridViewColumn Header="Completion Status" DisplayMemberBinding="{Binding CompletionStatus, StringFormat={}{0}}" Width="130"/>
+                    <GridViewColumn Header="Completion Status" DisplayMemberBinding="{Binding CompletionStatus, StringFormat={}{0}}" Width="110"/>
                     <GridViewColumn Header="Progress (%)" DisplayMemberBinding="{Binding ProgressPercentage, StringFormat={}{0:F0}}" Width="100"/>
-                    <GridViewColumn Header="Action" Width="100">
+                    <GridViewColumn Header="Action" Width="130">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Cancel" Click="CancelCourse_Click" Background="#C0392B" Foreground="White" Padding="5" Margin="5" 
-                                        BorderThickness="0" Cursor="Hand"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Details" Click="ViewDetails_Click" Background="#3498DB" Foreground="White" Padding="5" Margin="5" 
+                                            BorderThickness="0" Cursor="Hand"/>
+                                    <Button Content="Cancel" Click="CancelCourse_Click" Background="#C0392B" Foreground="White" Padding="5" Margin="5" 
+                                            BorderThickness="0" Cursor="Hand"/>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
