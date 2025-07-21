@@ -8,7 +8,59 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="StudentCoursePage">
 
-    <Grid>
-        
+    <Grid Background="#F5F5F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="20" CornerRadius="0 0 10 10">
+            <TextBlock Text="Course Registration" FontSize="24" FontWeight="Bold" Foreground="White"/>
+        </Border>
+
+        <!-- Course List -->
+        <ListView x:Name="CourseList" Grid.Row="1" Margin="20" Background="White" BorderBrush="#E0E0E0" BorderThickness="1" 
+                  ItemsSource="{Binding OpenCourses}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Course Name" DisplayMemberBinding="{Binding CourseName}" Width="110"/>
+                    <GridViewColumn Header="Instructor" DisplayMemberBinding="{Binding Instructor.InstructorName}" Width="110"/>
+                    <GridViewColumn Header="Start Date" DisplayMemberBinding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}" Width="110"/>
+                    <GridViewColumn Header="End Date" DisplayMemberBinding="{Binding EndDate, StringFormat={}{0:dd/MM/yyyy}}" Width="110"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price, StringFormat={}{0:C}}" Width="90"/>
+                    <GridViewColumn Header="Available Spots" DisplayMemberBinding="{Binding AvailableSpots}" Width="110"/>
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="Action" HorizontalAlignment="Center"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="RegisterButton" Content="Register Course" Click="RegisterButton_Click" 
+                                        Background="#27AE60" Foreground="White" Padding="5" 
+                                        IsEnabled="{Binding CanRegister}" Width="120" Height="30">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Background" Value="#95A5A6"/>
+                                                    <Setter Property="Foreground" Value="#ECF0F1"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Page>
