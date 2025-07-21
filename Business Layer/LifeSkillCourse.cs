@@ -23,6 +23,5 @@ namespace Business_Layer
         public string? Status { get; set; }
         public Instructor? Instructor { get; set; }
         public virtual ICollection<Enrollment>? Enrollments { get; set; } // Navigation property for Enrollments
-        public bool CanRegister { get; set; } // Added CanRegister property
     }
 }

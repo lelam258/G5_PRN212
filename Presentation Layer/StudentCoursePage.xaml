@@ -48,8 +48,8 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="RegisterButton" Content="Register Course" Click="RegisterButton_Click" 
-                                        Background="#27AE60" Foreground="White" Padding="5" 
-                                        IsEnabled="{Binding CanRegister}" Width="120" Height="30">
+    Background="#27AE60" Foreground="White" Padding="5" 
+    Width="120" Height="30">
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Setter Property="Cursor" Value="Hand"/>
