@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business_Layer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data_Layer
 {
@@ -16,7 +17,7 @@ namespace Data_Layer
         }
         public List<LifeSkillCourse> GetAllLifeSkillCourses()
         {
-            return _context.LifeSkillCourses.ToList();
+            return _context.LifeSkillCourses.Include(c => c.Instructor).ToList();
         }
         public LifeSkillCourse GetLifeSkillCourseById(int id)
         {

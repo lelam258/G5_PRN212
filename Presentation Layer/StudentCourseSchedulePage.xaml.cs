@@ -11,54 +11,18 @@ namespace Presentation_Layer
     public partial class StudentCourseSchedulePage : Page
     {
         // Danh sách hiển thị lên DataGrid
-        public ObservableCollection<ScheduleDisplayItem> ScheduleItems { get; } = new();
+
 
         // Các dependency
         private readonly int _studentId;
-        private readonly EnrollmentDAO _enrollmentDAO          = new();
+        private readonly EnrollmentDAO _enrollmentDAO = new();
         private readonly CourseScheduleRepository _scheduleRepo = new();
-        private readonly LifeSkillCourseRepository _courseRepo  = new();
+        private readonly LifeSkillCourseRepository _courseRepo = new();
 
         public StudentCourseSchedulePage(int studentId)
         {
             InitializeComponent();
             _studentId = studentId;
-            DataContext = this;
-            LoadSchedule();
         }
-
-        /// <summary>
-        /// Lấy lịch học của sinh viên và đổ vào ObservableCollection
-        /// </summary>
-        private void LoadSchedule()
-        {
-            var enrollments = _enrollmentDAO.GetAllEnrollments()
-                                            .Where(e => e.StudentId == _studentId)
-                                            .ToList();
-
-            foreach (var enrollment in enrollments)
-            {
-                var course = _courseRepo.GetLifeSkillCourseById(enrollment.CourseId);
-                if (course == null) continue;
-
-                var schedules = _scheduleRepo.GetAllCourseSchedules()
-                                             .Where(s => s.CourseId == course.CourseId)
-                                             .ToList();
-
-                foreach (var schedule in schedules)
-                {
-                    ScheduleItems.Add(new ScheduleDisplayItem
-                    {
-                        CourseName  = course.CourseName,
-                        SessionDate = schedule.SessionDate.ToString("dd/MM/yyyy"),
-                        StartTime   = schedule.StartTime.ToString(@"hh\:mm"),
-                        EndTime     = schedule.EndTime.ToString(@"hh\:mm"),
-                        Room        = schedule.Room
-                    });
-                }
-            }
-        }
-
-        /// <summary>
-        /// Model hiển thị cho DataGrid
-        /
+    }
+}
