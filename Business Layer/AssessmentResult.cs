@@ -18,6 +18,7 @@ namespace Business_Layer
         public required int StudentId { get; set; }
         public decimal? Score { get; set; }
         public DateTime? SubmissionDate { get; set; }
+        public string? SubmissionFilePath { get; set; }
         public Assessment? Assessment { get; set; }
         public Student? Student { get; set; }
     }

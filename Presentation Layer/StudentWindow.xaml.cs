@@ -88,6 +88,22 @@ namespace Presentation_Layer
                             ContentFrame.Navigate(new StudentInformationPage(student.StudentId));
                         }
                     }
+                    else if (pagePath == "StudentAssessmentPage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentAssessmentPage(student.StudentId));
+                        }
+                    }
+                    else if (pagePath == "StudentCourseMaterialPage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentCourseMaterialPage(student.StudentId));
+                        }
+                    }
                     else
                     {
                         // 👈 mặc định các page không cần tham số
