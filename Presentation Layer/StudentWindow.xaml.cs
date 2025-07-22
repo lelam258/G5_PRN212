@@ -80,28 +80,44 @@ namespace Presentation_Layer
                             ContentFrame.Navigate(new StudentNotificationPage(student.StudentId));
                         }
                     }
-                    else if (pagePath == "StudentInformationPage.xaml")
-                    {
-                        var student = _studentRepository.GetStudentByCode(_code);
-                        if (student != null)
-                        {
-                            ContentFrame.Navigate(new StudentInformationPage(student.StudentId));
-                        }
-                    }
-                    else if (pagePath == "StudentCertificatePage.xaml")
-                    {
-                        var student = _studentRepository.GetStudentByCode(_code);
-                        if (student != null)
-                        {
-                            ContentFrame.Navigate(new StudentCertificatePage(student.StudentId));
-                        }
-                    }
-                    else
-                    {
-                        // 👈 mặc định các page không cần tham số
-                        ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));
-                    }
-                }
+                        else if (pagePath == "StudentInformationPage.xaml")
+    {
+        var student = _studentRepository.GetStudentByCode(_code);
+        if (student != null)
+        {
+            ContentFrame.Navigate(new StudentInformationPage(student.StudentId));
+        }
+    }
+    else if (pagePath == "StudentAssessmentPage.xaml")
+    {
+        var student = _studentRepository.GetStudentByCode(_code);
+        if (student != null)
+        {
+            ContentFrame.Navigate(new StudentAssessmentPage(student.StudentId));
+        }
+    }
+    else if (pagePath == "StudentCourseMaterialPage.xaml")
+    {
+        var student = _studentRepository.GetStudentByCode(_code);
+        if (student != null)
+        {
+            ContentFrame.Navigate(new StudentCourseMaterialPage(student.StudentId));
+        }
+    }
+    else if (pagePath == "StudentFeedbackPage.xaml")
+    {
+        var student = _studentRepository.GetStudentByCode(_code);
+        if (student != null)
+        {
+        ContentFrame.Navigate(new StudentFeedbackPage(student.StudentId));
+        }
+    }
+    else
+    {
+        // 👈 mặc định các page không cần tham số
+        ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));
+    }
+}
                 catch (Exception ex)
                 {
                     MessageBox.Show("Trang này hiện không khả dụng", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
