@@ -1,101 +1,159 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Business_Layer;
 using Data_Layer;
+using Microsoft.Win32;
+using Repositories.Interfaces;
 using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
-    /// <summary>
-    /// Interaction logic for StudentCourseMaterialPage.xaml
-    /// </summary>
     public partial class StudentCourseMaterialPage : Page
     {
-        private readonly LifeSkillCourseRepository _courseRepository;
-        private readonly ApplicationDbContext _context;
-        private readonly int _currentStudentId; // Assume this is set from login session
-
-        public List<EnrollmentViewModel> EnrolledCourses { get; set; }
 
         public StudentCourseMaterialPage(int studentId)
         {
             InitializeComponent();
-            _courseRepository = new LifeSkillCourseRepository();
-            _context = ApplicationDbContext.Instance;
-            _currentStudentId = studentId;
-            LoadEnrolledCourses();
-            DataContext = this;
+            if (studentId <= 0) throw new ArgumentException("Invalid student ID.", nameof(studentId));
+            DataContext = new StudentCourseMaterialViewModel(studentId);
         }
+    }
+    public class StudentCourseMaterialViewModel : INotifyPropertyChanged
+    {
+        private readonly ICourseMaterialRepository _courseMaterialRepository;
+        private readonly int _studentId;
+        private ObservableCollection<CourseMaterial> _courseMaterials = new ObservableCollection<CourseMaterial>();
 
-        private void LoadEnrolledCourses()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<CourseMaterial> CourseMaterials
         {
-            var enrollments = _context.Enrollments
-                .Where(e => e.StudentId == _currentStudentId)
-                .Select(e => new
-                {
-                    e.EnrollmentId,
-                    e.StudentId,
-                    e.CourseId,
-                    e.CompletionStatus,
-                    e.CompletionDate,
-                    e.Student,
-                    e.Course
-                })
-                .ToList();
-
-            EnrolledCourses = enrollments.Select(e => new EnrollmentViewModel
+            get => _courseMaterials;
+            set
             {
-                EnrollmentId = e.EnrollmentId,
-                StudentId = e.StudentId,
-                CourseId = e.CourseId,
-                CompletionStatus = e.CompletionStatus,
-                CompletionDate = e.CompletionDate,
-                Student = e.Student,
-                Course = e.Course,
-                Progress = CalculateProgress(e.CourseId, e.CompletionStatus),
-                CompletionStatusText = e.CompletionStatus ? "Completed" : "In Progress"
-            }).ToList();
-
-            CoursesDataGrid.ItemsSource = EnrolledCourses;
+                _courseMaterials = value;
+                OnPropertyChanged(nameof(CourseMaterials));
+            }
         }
 
-        private double CalculateProgress(int courseId, bool completionStatus)
+        public ICommand DownloadCommand { get; }
+
+        public StudentCourseMaterialViewModel(int studentId)
         {
-            if (completionStatus)
-                return 100.0;
+            _studentId = studentId;
+            _courseMaterialRepository = new CourseMaterialRepository() ?? throw new InvalidOperationException("Failed to initialize CourseMaterialRepository.");
+            DownloadCommand = new RelayCommand<CourseMaterial>(ExecuteDownload);
+            LoadCourseMaterials();
+        }
 
-            var assessments = _context.Assessments
-                .Where(a => a.CourseId == courseId)
-                .ToList();
+        private void LoadCourseMaterials()
+        {
+            try
+            {
+                var context = ApplicationDbContext.Instance;
+                if (context == null) throw new InvalidOperationException("ApplicationDbContext is not initialized.");
 
-            if (!assessments.Any())
-                return 0.0;
+                var enrollments = context.Enrollments
+                    ?.Where(e => e.StudentId == _studentId)
+                    .Select(e => e.CourseId)
+                    .ToList() ?? new List<int>();
 
-            var results = _context.AssessmentResults
-                .Where(ar => ar.StudentId == _currentStudentId && assessments.Select(a => a.AssessmentId).Contains(ar.AssessmentId))
-                .ToList();
+                if (!enrollments.Any())
+                {
+                    MessageBox.Show($"No enrolled courses found for Student ID {_studentId}.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    CourseMaterials.Clear();
+                    return;
+                }
 
-            if (!results.Any())
-                return 0.0;
+                var materials = _courseMaterialRepository.GetAllCourseMaterials()
+                    ?.Where(cm => enrollments.Contains(cm.CourseId))
+                    .ToList() ?? new List<CourseMaterial>();
 
-            double totalScore = (double)results.Sum(r => r.Score ?? 0); // Explicitly cast decimal to double
-            double maxScore = (double)assessments.Sum(a => a.MaxScore); // Explicitly cast decimal to double
-            return maxScore > 0 ? (totalScore / maxScore) * 100 : 0.0;
+                CourseMaterials.Clear();
+                foreach (var material in materials)
+                {
+                    CourseMaterials.Add(material);
+                }
+
+                if (!CourseMaterials.Any())
+                {
+                    MessageBox.Show($"No course materials found for enrolled courses of Student ID {_studentId}.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading course materials: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CourseMaterials.Clear();
+            }
+        }
+
+        private void ExecuteDownload(CourseMaterial material)
+        {
+            if (material == null) throw new ArgumentNullException(nameof(material));
+
+            try
+            {
+                if (string.IsNullOrEmpty(material.FilePath) || !File.Exists(material.FilePath))
+                {
+                    MessageBox.Show("File not found on the server.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = Path.GetFileName(material.FilePath),
+                    Filter = "All Files (*.*)|*.*",
+                    Title = "Save Course Material",
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    File.Copy(material.FilePath, saveFileDialog.FileName, true);
+                    MessageBox.Show("File downloaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error downloading file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
-    public class EnrollmentViewModel
+    public class RelayCommand<T> : ICommand
     {
-        public int EnrollmentId { get; set; }
-        public int StudentId { get; set; }
-        public int CourseId { get; set; }
-        public bool CompletionStatus { get; set; }
-        public DateTime? CompletionDate { get; set; }
-        public Student? Student { get; set; }
-        public LifeSkillCourse? Course { get; set; }
-        public double Progress { get; set; }
-        public string CompletionStatusText { get; set; }
+        private readonly Action<T> _execute;
+        private readonly Func<T, bool> _canExecute;
+
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter) => parameter is T && (_canExecute == null || _canExecute((T)parameter));
+
+        public void Execute(object parameter)
+        {
+            if (parameter is T item) _execute(item);
+            else throw new ArgumentException("Parameter is not of the expected type.", nameof(parameter));
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
     }
 }

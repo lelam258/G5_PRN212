@@ -1,128 +1,294 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Business_Layer;
-using Data_Layer;
+using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.Win32;
+using Business_Layer;
+using Repositories.Interfaces;
 using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
-    /// <summary>  
-    /// Interaction logic for StudentAssessmentPage.xaml  
-    /// </summary>  
     public partial class StudentAssessmentPage : Page
     {
-        private readonly AssessmentRepository _assessmentRepository;
-        private readonly AssessmentResultRepository _assessmentResultRepository;
-        private readonly ApplicationDbContext _context;
-        private readonly int _currentStudentId; // Assume this is set from login session  
-        private readonly Notification _notification; // For adding notification  
-
-        public List<AssessmentResultViewModel> AssessmentResults { get; set; }
-
         public StudentAssessmentPage(int studentId)
         {
             InitializeComponent();
-            _assessmentRepository = new AssessmentRepository();
-            _assessmentResultRepository = new AssessmentResultRepository();
-            _context = ApplicationDbContext.Instance;
-            _currentStudentId = studentId;
-            _notification = new Notification
-            {
-                Title = string.Empty, // Initialize required property  
-                Content = string.Empty // Initialize required property  
-            };
-            LoadAssessments();
-            LoadAssessmentResults();
-            DataContext = this;
-        }
-
-        private void LoadAssessments()
-        {
-            var assessments = _context.Assessments
-                .Where(a => a.LifeSkillCourse.Enrollments.Any(e => e.StudentId == _currentStudentId))
-                .ToList();
-            AssessmentComboBox.ItemsSource = assessments;
-        }
-
-        private void LoadAssessmentResults()
-        {
-            AssessmentResults = _context.AssessmentResults
-                .Where(ar => ar.StudentId == _currentStudentId)
-                .Select(ar => new AssessmentResultViewModel
-                {
-                    ResultId = ar.ResultId,
-                    AssessmentId = ar.AssessmentId,
-                    StudentId = ar.StudentId,
-                    Score = ar.Score,
-                    SubmissionDate = ar.SubmissionDate,
-                    Assessment = ar.Assessment
-                }).ToList();
-            ScoresDataGrid.ItemsSource = AssessmentResults;
-        }
-
-        private void UploadButton_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new() // Simplified 'new' expression  
-            {
-                Filter = "All files (*.*)|*.*",
-                Title = "Select a File"
-            };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                FilePathTextBox.Text = openFileDialog.FileName;
-                SubmitButton.IsEnabled = true;
-            }
-        }
-
-        private void SubmitButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (AssessmentComboBox.SelectedItem is Assessment selectedAssessment)
-            {
-                DateTime currentTime = DateTime.Now;
-                if (currentTime > selectedAssessment.DueDate)
-                {
-                    StatusTextBlock.Text = "Submission failed: Deadline has passed.";
-                    return;
-                }
-
-                var assessmentResult = new AssessmentResult
-                {
-                    AssessmentId = selectedAssessment.AssessmentId,
-                    StudentId = _currentStudentId,
-                    Score = null, // Score will be set by instructor later  
-                    SubmissionDate = currentTime
-                };
-
-                _assessmentResultRepository.AddAssessmentResult(assessmentResult);
-                LoadAssessmentResults();
-
-                // Add notification  
-                _notification.Title = "Assessment Submitted";
-                _notification.Content = $"You have successfully submitted {selectedAssessment.AssessmentName} on {currentTime:dd/MM/yyyy HH:mm}.";
-                _notification.StudentId = _currentStudentId;
-                _notification.CreatedDate = currentTime;
-                _context.Notifications.Add(_notification);
-                _context.SaveChanges();
-
-                StatusTextBlock.Text = "Assessment submitted successfully!";
-                StatusTextBlock.Foreground = System.Windows.Media.Brushes.Green;
-                FilePathTextBox.Text = "";
-                SubmitButton.IsEnabled = false;
-            }
+            DataContext = new StudentAssessmentViewModel(studentId);
         }
     }
 
-    public class AssessmentResultViewModel
+    public class StudentAssessmentViewModel : INotifyPropertyChanged
     {
-        public int ResultId { get; set; }
-        public int AssessmentId { get; set; }
-        public int StudentId { get; set; }
-        public decimal? Score { get; set; }
-        public DateTime? SubmissionDate { get; set; }
-        public Assessment? Assessment { get; set; }
+        private readonly IAssessmentRepository _assessmentRepository;
+        private readonly IAssessmentResultRepository _assessmentResultRepository;
+        private readonly int _studentId;
+        private string _filePath;
+        private Assessment _selectedAssessment;
+        private string _statusMessage;
+        private Brush _statusColor;
+        private bool _isLoading;
+        private List<Assessment> _assessments;
+        private List<AssessmentResult> _assessmentResults;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public List<Assessment> Assessments
+        {
+            get => _assessments;
+            set
+            {
+                _assessments = value;
+                OnPropertyChanged(nameof(Assessments));
+            }
+        }
+
+        public Assessment SelectedAssessment
+        {
+            get => _selectedAssessment;
+            set
+            {
+                _selectedAssessment = value;
+                OnPropertyChanged(nameof(SelectedAssessment));
+                UpdateSubmitButtonState();
+                StatusMessage = _selectedAssessment == null ? "Please select an assessment." : "";
+            }
+        }
+
+        public string FilePath
+        {
+            get => _filePath;
+            set
+            {
+                _filePath = value;
+                OnPropertyChanged(nameof(FilePath));
+                UpdateSubmitButtonState();
+            }
+        }
+
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                StatusColor = string.IsNullOrEmpty(value) || value.Contains("successfully") ? Brushes.Green : Brushes.Red;
+                OnPropertyChanged(nameof(StatusMessage));
+            }
+        }
+
+        public Brush StatusColor
+        {
+            get => _statusColor;
+            set
+            {
+                _statusColor = value;
+                OnPropertyChanged(nameof(StatusColor));
+            }
+        }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+
+        public List<AssessmentResult> AssessmentResults
+        {
+            get => _assessmentResults;
+            set
+            {
+                _assessmentResults = value;
+                OnPropertyChanged(nameof(AssessmentResults));
+            }
+        }
+
+        public bool IsSubmitEnabled => _selectedAssessment != null && !string.IsNullOrEmpty(_filePath) && File.Exists(_filePath);
+
+        public ICommand UploadCommand { get; }
+        public ICommand SubmitCommand { get; }
+
+        public StudentAssessmentViewModel(int studentId)
+        {
+            _studentId = studentId;
+            _assessmentRepository = new AssessmentRepository();
+            _assessmentResultRepository = new AssessmentResultRepository();
+            UploadCommand = new RelayCommand(ExecuteUpload);
+            SubmitCommand = new RelayCommand(ExecuteSubmit, CanExecuteSubmit);
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                IsLoading = true;
+                var allAssessments = _assessmentRepository.GetAllAssessments();
+                var enrollments = ApplicationDbContext.Instance.Enrollments
+                    .Where(e => e.StudentId == _studentId).ToList();
+                var submittedResults = _assessmentResultRepository.GetAllAssessmentResults()
+                    .Where(ar => ar.StudentId == _studentId && ar.SubmissionDate != null)
+                    .Select(ar => ar.AssessmentId).ToList();
+
+                Assessments = allAssessments
+                    .Where(a => a.DueDate >= DateTime.Today)
+                    .Where(a => enrollments.Any(e => e.CourseId == a.CourseId))
+                    .Where(a => !submittedResults.Contains(a.AssessmentId))
+                    .ToList();
+
+                if (!Assessments.Any())
+                {
+                    StatusMessage = "No open assessments available for this student.";
+                }
+                else
+                {
+                    StatusMessage = "";
+                }
+
+                // Load previous results
+                AssessmentResults = _assessmentResultRepository.GetAllAssessmentResults()
+                    .Where(ar => ar.StudentId == _studentId && ar.SubmissionDate != null)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error loading data: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void ExecuteUpload(object parameter)
+        {
+            if (_selectedAssessment == null)
+            {
+                StatusMessage = "Please select an assessment first.";
+                return;
+            }
+
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "PDF files (*.pdf)|*.pdf|Word files (*.doc;*.docx)|*.doc;*.docx|All files (*.*)|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                FilePath = openFileDialog.FileName;
+                StatusMessage = "";
+            }
+        }
+
+        private bool CanExecuteSubmit(object parameter) => IsSubmitEnabled;
+
+        private void ExecuteSubmit(object parameter)
+        {
+            try
+            {
+                IsLoading = true;
+                if (_selectedAssessment == null)
+                {
+                    StatusMessage = "Please select an assessment.";
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(_filePath) || !File.Exists(_filePath))
+                {
+                    StatusMessage = "Please upload a valid file.";
+                    return;
+                }
+
+                if (_selectedAssessment.DueDate < DateTime.Today)
+                {
+                    StatusMessage = "This assessment is past due.";
+                    return;
+                }
+
+                // Verify enrollment
+                bool isEnrolled = ApplicationDbContext.Instance.Enrollments
+                    .Any(e => e.StudentId == _studentId && e.CourseId == _selectedAssessment.CourseId);
+                if (!isEnrolled)
+                {
+                    StatusMessage = "You are not enrolled in this course.";
+                    return;
+                }
+
+                // Save file
+                string fileName = $"{_studentId}_{_selectedAssessment.AssessmentId}_{Path.GetFileName(_filePath)}";
+                string destinationPath = Path.Combine("AppData/Submissions", fileName);
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                File.Copy(_filePath, destinationPath, true);
+
+                // Save to AssessmentResults
+                var assessmentResult = new AssessmentResult
+                {
+                    AssessmentId = _selectedAssessment.AssessmentId,
+                    StudentId = _studentId,
+                    SubmissionDate = DateTime.Now,
+                    SubmissionFilePath = destinationPath
+                    // Score remains null until graded
+                };
+
+                _assessmentResultRepository.AddAssessmentResult(assessmentResult);
+                StatusMessage = "Assessment submitted successfully!";
+
+                // Reset UI
+                SelectedAssessment = null;
+                FilePath = "";
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error submitting assessment: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void UpdateSubmitButtonState()
+        {
+            OnPropertyChanged(nameof(IsSubmitEnabled));
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    // RelayCommand for ICommand implementation
+    public class RelayCommand : ICommand
+    {
+        private readonly Action<object> _execute;
+        private readonly Func<object, bool> _canExecute;
+
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        {
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
+
+        public void Execute(object parameter) => _execute(parameter);
+
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }
