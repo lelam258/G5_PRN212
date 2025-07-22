@@ -104,6 +104,14 @@ namespace Presentation_Layer
             ContentFrame.Navigate(new StudentCourseMaterialPage(student.StudentId));
         }
     }
+    else if (pagePath == "StudentFeedbackPage.xaml")
+    {
+        var student = _studentRepository.GetStudentByCode(_code);
+        if (student != null)
+        {
+        ContentFrame.Navigate(new StudentFeedbackPage(student.StudentId));
+        }
+    }
     else
     {
         // 👈 mặc định các page không cần tham số
