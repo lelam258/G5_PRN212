@@ -5,10 +5,145 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="500" d:DesignWidth="800"
       Title="AdminInstructorPage">
 
-    <Grid>
-        
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+               Text="Quản lý giảng viên"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="#2C3E50"
+               Margin="0,0,0,15"/>
+
+        <!-- Content: form & grid -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Form CRUD -->
+            <Border Grid.Column="0"
+              Background="White"
+              CornerRadius="8"
+              BorderBrush="#DDD"
+              BorderThickness="1"
+              Padding="20">
+                <StackPanel>
+                    <TextBlock Text="Thông tin giảng viên"
+                     FontSize="20"
+                     FontWeight="SemiBold"
+                     Foreground="#34495E"
+                     Margin="0,0,0,20"/>
+
+                    <TextBlock Text="Họ tên" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox x:Name="NameTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Kinh nghiệm (năm)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox x:Name="ExperienceTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Email" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox x:Name="EmailTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Số điện thoại" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox x:Name="PhoneTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,20"/>
+
+                    <!-- Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button x:Name="AddButton"
+                    Content="Thêm mới"
+                    Width="70" Height="35"
+                    Background="#27AE60"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    Click="AddButton_Click"/>
+                        <Button x:Name="UpdateButton"
+                    Content="Cập nhật"
+                    Width="70" Height="35"
+                    Margin="5,0,0,0"
+                    Background="#2980B9"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    IsEnabled="False"
+                    Click="UpdateButton_Click"/>
+                        <Button x:Name="DeleteButton"
+                    Content="Xóa"
+                    Width="70" Height="35"
+                    Background="#C0392B"
+                    Foreground="White"
+                    Margin="5,0,0,0"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    IsEnabled="False"
+                    Click="DeleteButton_Click"/>
+                         <Button x:Name="ClearButton"
+                    Content="Nhập lại"
+                    Width="70" Height="35"
+                    Background="#7F8C8D"
+                    Margin="5,0,0,0"             
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    Click="ClearButton_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Spacer -->
+            <GridSplitter Grid.Column="1"
+                    Width="10"
+                    Background="#CCC"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"/>
+
+            <!-- DataGrid danh sách giảng viên -->
+            <Border Grid.Column="2"
+              Background="White"
+              CornerRadius="8"
+              BorderBrush="#DDD"
+              BorderThickness="1"
+              Padding="10">
+                <DataGrid x:Name="InstructorsDataGrid"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  RowBackground="#F9FBFC"
+                  AlternatingRowBackground="White"
+                  GridLinesVisibility="Horizontal"
+                  SelectionMode="Single"
+                  SelectionChanged="InstructorsDataGrid_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID"
+                                Binding="{Binding InstructorId}"
+                                Width="50"/>
+                        <DataGridTextColumn Header="Họ tên"
+                                Binding="{Binding InstructorName}"
+                                Width="*"/>
+                        <DataGridTextColumn Header="Kinh nghiệm"
+                                Binding="{Binding Experience}"
+                                Width="100"/>
+                        <DataGridTextColumn Header="Email"
+                                Binding="{Binding Email}"
+                                Width="200"/>
+                        <DataGridTextColumn Header="SĐT"
+                                Binding="{Binding PhoneNumber}"
+                                Width="120"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

@@ -3,12 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:Presentation_Layer"
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdminReportPage">
     <Page.Resources>
         <!-- Style chung cho DataGrid -->
+        <conv:ValueToWidthConverter x:Key="WidthConverter"/>
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="#F5F6FA"/>
             <Setter Property="BorderBrush" Value="#DDD"/>
@@ -135,7 +137,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Rectangle Fill="#3498DB" 
                                                   Height="20" 
-                                                  Width="{Binding Value, Converter={x:Static local:ValueToWidthConverter.Instance}}"
+                                                  Width="{Binding Value, Converter={StaticResource WidthConverter}}"
                                                   Margin="0,2"/>
                                         <TextBlock Text="{Binding Value, StringFormat=N1}" 
                                                   VerticalAlignment="Center" 
