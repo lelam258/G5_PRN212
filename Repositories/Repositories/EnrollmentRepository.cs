@@ -12,6 +12,9 @@ namespace Repositories.Repositories
     public class EnrollmentRepository : IEnrollmentRepository
     {
         private readonly EnrollmentDAO _enrollmentDAO;
+         
+    public List<Enrollment> GetEnrollmentsByStudentId(int studentId)
+        => _enrollmentDAO.GetEnrollmentsByStudentId(studentId);
         public EnrollmentRepository()
         {
             _enrollmentDAO = new EnrollmentDAO();

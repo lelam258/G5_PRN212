@@ -32,6 +32,7 @@ namespace Data_Layer
             _context.Enrollments.Update(enrollment);
             _context.SaveChanges();
         }
+
         public void DeleteEnrollment(int id)
         {
             var enrollment = _context.Enrollments.FirstOrDefault(e => e.EnrollmentId == id);
@@ -41,5 +42,12 @@ namespace Data_Layer
                 _context.SaveChanges();
             }
         }
+
+        public List<Enrollment> GetEnrollmentsByStudentId(int studentId)
+      => _context.Enrollments
+                 .Where(e => e.StudentId == studentId)
+                 .ToList();
     }
 }
+
+

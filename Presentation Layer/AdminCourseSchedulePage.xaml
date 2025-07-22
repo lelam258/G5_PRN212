@@ -3,12 +3,229 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="750" d:DesignWidth="800"
+      Loaded="Page_Loaded"
       Title="AdminCourseSchedulePage">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Filter -->
+            <RowDefinition Height="*"/>
+            <!-- Main content -->
+        </Grid.RowDefinitions>
 
-    <Grid>
-        
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+                   Text="Quản lý Lịch học"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Foreground="Black"
+                   Margin="0,0,0,15"/>
+
+        <!-- Filter Panel -->
+        <Border Grid.Row="1"
+                CornerRadius="8"
+                Background="White"
+                Padding="10"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Filter by Course -->
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Khóa" FontSize="12" Foreground="#555" Margin="3,0,0,3"/>
+                    <ComboBox x:Name="FilterCourseComboBox" DisplayMemberPath="CourseName" Height="28" />
+                </StackPanel>
+
+                <!-- Filter by Start Date -->
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Từ ngày" FontSize="12" Foreground="#555" Margin="3,0,0,3"/>
+                    <DatePicker x:Name="FilterStartDatePicker" Height="28" />
+                </StackPanel>
+
+                <!-- Filter by End Date -->
+                <StackPanel Grid.Column="2" Orientation="Vertical">
+                    <TextBlock Text="Đến ngày" FontSize="12" Foreground="#555" Margin="3,0,0,3" Width="161"/>
+                    <DatePicker x:Name="FilterEndDatePicker" Height="28" Width="160" />
+                </StackPanel>
+
+                <Button Grid.Column="3"
+                        x:Name="FilterButton"
+                        Content="Lọc"
+                        Width="80"
+                        Height="30"
+                        Margin="0,18,0,0"
+                        Background="#2C3E50"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        Click="FilterButton_Click"/>
+                <Button Grid.Column="4"
+                        x:Name="ResetButton"
+                        Content="Mặc định"
+                        Width="80"
+                        Height="30"
+                        Margin="10,18,0,0"
+                        Background="#7F8C8D"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        Click="ResetButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Main content: Form and DataGrid -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Form -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="8"
+                    Padding="20"
+                    BorderBrush="#DDD"
+                    BorderThickness="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Chi tiết lịch học"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="#34495E"
+                                   Margin="0,0,0,20"/>
+
+                        <!-- Course -->
+                        <TextBlock Text="Khóa" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="CourseFormComboBox"
+                                  DisplayMemberPath="CourseName"
+                                  Height="30"
+                                  Margin="0,0,0,10" />
+
+                        <!-- Session Date -->
+                        <TextBlock Text="Ngày" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <DatePicker x:Name="SessionDatePicker"
+                                    Height="30"
+                                    Margin="0,0,0,10"
+                                    DisplayDateStart="{x:Static sys:DateTime.Today}" />
+
+                        <!-- Start Time -->
+                        <TextBlock Text="Giờ bắt đầu" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <ComboBox x:Name="StartHourComboBox" Width="60" Margin="0,0,5,0"/>
+                            <TextBlock Text=":" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="StartMinuteComboBox" Width="60"/>
+                        </StackPanel>
+
+                        <!-- End Time -->
+                        <TextBlock Text="Giờ kết thúc" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <ComboBox x:Name="EndHourComboBox" Width="60" Margin="0,0,5,0"/>
+                            <TextBlock Text=":" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="EndMinuteComboBox" Width="60"/>
+                        </StackPanel>
+
+                        <!-- Room -->
+                        <TextBlock Text="Phòng" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="RoomTextBox"
+                                 Height="30"
+                                 Margin="0,0,0,20" />
+
+                        <!-- Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button x:Name="AddButton"
+                                    Content="Thêm"
+                                    Width="80"
+                                    Height="35"
+                                    Background="#27AE60"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Click="AddButton_Click"
+                                    Margin="0,0,10,0" />
+                            <Button x:Name="UpdateButton"
+                                    Content="Cập nhật"
+                                    Width="80"
+                                    Height="35"
+                                    Background="#2980B9"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Click="UpdateButton_Click"
+                                    IsEnabled="False"
+                                    Margin="0,0,10,0" />
+                            <Button x:Name="DeleteButton"
+                                    Content="Xóa"
+                                    Width="80"
+                                    Height="35"
+                                    Background="#C0392B"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Click="DeleteButton_Click"
+                                    IsEnabled="False" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1"
+                          Width="10"
+                          Background="#CCC"
+                          HorizontalAlignment="Center" />
+
+            <!-- DataGrid -->
+            <Border Grid.Column="2"
+                    Background="White"
+                    CornerRadius="8"
+                    Padding="10"
+                    BorderBrush="#DDD"
+                    BorderThickness="1">
+                <DataGrid x:Name="ScheduleDataGrid"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          SelectionChanged="ScheduleDataGrid_SelectionChanged"
+                          RowBackground="#F9FBFC"
+                          AlternatingRowBackground="White"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID"
+                                            Binding="{Binding ScheduleId}"
+                                            Width="40" />
+                        <DataGridTextColumn Header="Khóa học"
+                                            Binding="{Binding LifeSkillCourse.CourseName}"
+                                            Width="*" />
+                        <DataGridTextColumn Header="Ngày"
+                                            Binding="{Binding SessionDate, StringFormat=dd/MM/yyyy}"
+                                            Width="*" />
+                        <DataGridTextColumn Header="Bắt đầu"
+                                            Binding="{Binding StartTime}"
+                                            Width="*" />
+                        <DataGridTextColumn Header="Kết thúc"
+                                            Binding="{Binding EndTime}"
+                                            Width="*" />
+                        <DataGridTextColumn Header="Phòng"
+                                            Binding="{Binding Room}"
+                                            Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

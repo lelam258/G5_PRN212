@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business_Layer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data_Layer
 {
@@ -41,5 +42,11 @@ namespace Data_Layer
                 _context.SaveChanges();
             }
         }
+        public List<Certificate> GetCertificatesByStudentId(int studentId)
+   => _context.Certificates
+              .Include(c => c.LifeSkillCourse)
+              .Where(c => c.StudentId == studentId)
+              .ToList();
     }
+
 }
