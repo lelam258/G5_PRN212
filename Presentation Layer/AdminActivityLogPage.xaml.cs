@@ -9,10 +9,12 @@ using Repositories.Repositories;
 
 namespace Presentation_Layer
 {
+
     public partial class AdminActivityLogPage : Page
     {
         private readonly ActivityLogRepository _logRepo = new ActivityLogRepository();
         private readonly StudentRepository _studentRepo = new StudentRepository();
+
         private List<UserItem> _users; // Fixed: Added generic type
 
         public class UserItem

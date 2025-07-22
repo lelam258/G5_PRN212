@@ -206,8 +206,8 @@ namespace Presentation_Layer
 
             // Vẽ bảng
             double tableWidth = pageWidth;
-            double col1Width = tableWidth * 0.7; 
-            double col2Width = tableWidth * 0.3; 
+            double col1Width = tableWidth * 0.7;
+            double col2Width = tableWidth * 0.3;
             double rowHeight = 25;
 
             // Header của bảng
@@ -281,66 +281,29 @@ namespace Presentation_Layer
             document.Close();
         }
 
-        private string GenerateHTMLReport(List<ReportItem> items)
+
+
+        // Value to Width Converter for simple bar chart visualization
+        public class ValueToWidthConverter : IValueConverter
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("<!DOCTYPE html>");
-            sb.AppendLine("<html>");
-            sb.AppendLine("<head>");
-            sb.AppendLine("<meta charset='utf-8'>");
-            sb.AppendLine("<title>Báo cáo thống kê</title>");
-            sb.AppendLine("<style>");
-            sb.AppendLine("body { font-family: Arial, sans-serif; margin: 40px; }");
-            sb.AppendLine("h1 { color: #2C3E50; text-align: center; }");
-            sb.AppendLine("table { border-collapse: collapse; width: 100%; margin-top: 20px; }");
-            sb.AppendLine("th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }");
-            sb.AppendLine("th { background-color: #2C3E50; color: white; }");
-            sb.AppendLine("tr:nth-child(even) { background-color: #f9f9f9; }");
-            sb.AppendLine(".footer { margin-top: 30px; text-align: center; font-size: 12px; color: #666; }");
-            sb.AppendLine("</style>");
-            sb.AppendLine("</head>");
-            sb.AppendLine("<body>");
+            public static ValueToWidthConverter Instance = new ValueToWidthConverter();
 
-            sb.AppendLine("<h1>Báo cáo thống kê</h1>");
-            sb.AppendLine($"<p><strong>Ngày xuất:</strong> {DateTime.Now:dd/MM/yyyy HH:mm:ss}</p>");
-
-            sb.AppendLine("<table>");
-            sb.AppendLine("<tr><th>Chỉ số</th><th>Giá trị</th></tr>");
-
-            foreach (var item in items)
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             {
-                sb.AppendLine($"<tr><td>{item.Metric}</td><td>{item.Value:N2}</td></tr>");
+                if (value is double doubleValue)
+                {
+                    // Scale the value to fit in a reasonable width (max 200 pixels)
+                    // You can adjust the scaling factor based on your data range
+                    double scaledValue = Math.Min(doubleValue * 2, 200);
+                    return Math.Max(scaledValue, 5); // Minimum width of 5 pixels
+                }
+                return 5;
             }
 
-            sb.AppendLine("</table>");
-            sb.AppendLine("<div class='footer'>Báo cáo được tạo bởi hệ thống quản lý</div>");
-            sb.AppendLine("</body>");
-            sb.AppendLine("</html>");
-
-            return sb.ToString();
-        }
-    }
-
-    // Value to Width Converter for simple bar chart visualization
-    public class ValueToWidthConverter : IValueConverter
-    {
-        public static ValueToWidthConverter Instance = new ValueToWidthConverter();
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is double doubleValue)
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             {
-                // Scale the value to fit in a reasonable width (max 200 pixels)
-                // You can adjust the scaling factor based on your data range
-                double scaledValue = Math.Min(doubleValue * 2, 200);
-                return Math.Max(scaledValue, 5); // Minimum width of 5 pixels
+                throw new NotImplementedException();
             }
-            return 5;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

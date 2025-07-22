@@ -27,16 +27,16 @@ namespace Presentation_Layer
         {
            
             InitializeComponent();
-
-            Loaded += OnLoaded;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            // Load tất cả khóa lên combo
-            CourseComboBox.ItemsSource = _courseRepo.GetAllLifeSkillCourses();
+            var courses = _courseRepo.GetAllLifeSkillCourses();
+            
+            CourseComboBox.ItemsSource = courses;
+            CourseComboBox.DisplayMemberPath = "CourseName";
+            CourseComboBox.SelectedValuePath = "CourseId";
             CourseComboBox.SelectedIndex = -1;
+            
         }
+
+       
 
         // Khi bấm "Tải danh sách"
         private void LoadEligible_Click(object sender, RoutedEventArgs e)
