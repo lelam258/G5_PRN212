@@ -157,6 +157,7 @@
                                     FontWeight="Bold"
                                     Click="AddButton_Click"
                                     Margin="0,0,10,0" />
+                            
                             <Button x:Name="UpdateButton"
                                     Content="Cập nhật"
                                     Width="80"

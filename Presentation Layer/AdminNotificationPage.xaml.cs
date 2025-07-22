@@ -22,7 +22,7 @@ namespace Presentation_Layer
             Loaded += Page_Loaded;
         }
 
-        // Đổi từ fields sang properties
+       
         public class RecipientItem
         {
             public int? StudentId { get; set; }
@@ -62,7 +62,7 @@ namespace Presentation_Layer
             }
         }
 
-        // Cải thiện xử lý TextChanged
+       
         private void RecipientComboBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -78,20 +78,20 @@ namespace Presentation_Layer
                     ? _allRecipients
                     : _allRecipients.Where(r => r?.Display?.ToLower().Contains(text) == true).ToList();
 
-                // Tạm thời remove event để tránh infinite loop
+                
                 comboBox.RemoveHandler(TextBoxBase.TextChangedEvent,
                     new TextChangedEventHandler(RecipientComboBox_TextChanged));
 
                 comboBox.ItemsSource = filtered;
                 comboBox.IsDropDownOpen = filtered.Any();
 
-                // Add lại event
+               
                 comboBox.AddHandler(TextBoxBase.TextChangedEvent,
                     new TextChangedEventHandler(RecipientComboBox_TextChanged));
             }
             catch (Exception ex)
             {
-                // Log error nhưng không hiển thị MessageBox để tránh spam
+                
                 System.Diagnostics.Debug.WriteLine($"ComboBox TextChanged error: {ex.Message}");
             }
         }
