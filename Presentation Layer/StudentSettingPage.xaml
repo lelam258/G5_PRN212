@@ -47,24 +47,9 @@
                                Foreground="{DynamicResource ForegroundBrush}"
                                Margin="0,0,10,0"/>
                     <ToggleButton x:Name="DarkModeToggle"
-                                  Width="60" Height="25"
+                                  Width="40" Height="25"
                                   Checked="DarkModeToggle_Checked"
                                   Unchecked="DarkModeToggle_Unchecked"/>
-                </StackPanel>
-            </GroupBox>
-
-            <!-- Placeholder thiết lập khác -->
-            <GroupBox Header="🔄 Tùy chọn khác"
-                      Foreground="{DynamicResource ForegroundBrush}">
-                <StackPanel Margin="10">
-                    <Button Content="Đặt lại thông tin cá nhân"
-                            Width="200" Margin="0,0,0,10"
-                            Click="ResetProfile_Click"
-                            Foreground="{DynamicResource ForegroundBrush}"/>
-                    <Button Content="Đặt lại tất cả cài đặt"
-                            Width="200"
-                            Click="ResetAllSettings_Click"
-                            Foreground="{DynamicResource ForegroundBrush}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
