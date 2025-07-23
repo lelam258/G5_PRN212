@@ -3,31 +3,66 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:conv="clr-namespace:Presentation_Layer"
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="1500"
       Title="AdminReportPage">
+
     <Page.Resources>
-        <!-- Style chung cho DataGrid -->
-        <conv:ValueToWidthConverter x:Key="WidthConverter"/>
+        <!-- Value to Width Converter -->
+        <local:ValueToWidthConverter x:Key="WidthConverter"/>
+
+        <!-- Loading Animation -->
+        <Style x:Key="LoadingCircle" TargetType="Ellipse">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Fill" Value="#3498DB"/>
+            <Setter Property="Opacity" Value="1"/>
+            <Style.Resources>
+                <Storyboard x:Key="LoadingAnimation" RepeatBehavior="Forever">
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                   From="1" To="0.3" Duration="0:0:0.6" 
+                                   AutoReverse="True"/>
+                </Storyboard>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsVisible" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource LoadingAnimation}"/>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- DataGrid Style -->
         <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="#F5F6FA"/>
-            <Setter Property="BorderBrush" Value="#DDD"/>
+            <Setter Property="Background" Value="#F8F9FA"/>
+            <Setter Property="BorderBrush" Value="#DEE2E6"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#FAFAFA"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="AlternatingRowBackground" Value="#F8F9FA"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="ColumnHeaderHeight" Value="40"/>
             <Setter Property="RowHeight" Value="35"/>
+            <Setter Property="CanUserResizeColumns" Value="True"/>
+            <Setter Property="CanUserSortColumns" Value="True"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#E9ECEF"/>
             <Setter Property="ColumnHeaderStyle">
                 <Setter.Value>
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="#2C3E50"/>
+                        <Setter Property="Background" Value="#495057"/>
                         <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="12,8"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="BorderBrush" Value="#6C757D"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#6C757D"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Setter.Value>
             </Setter>
@@ -36,132 +71,444 @@
                     <Style TargetType="DataGridCell">
                         <Setter Property="Padding" Value="8"/>
                         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        <Setter Property="BorderBrush" Value="#E9ECEF"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#E3F2FD"/>
+                                <Setter Property="Foreground" Value="#1976D2"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F1F3F4"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Style cho Button xuất -->
+        <!-- Button Style -->
         <Style TargetType="Button">
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="Background" Value="#3498DB"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Margin" Value="8,0"/>
+            <Setter Property="Background" Value="#007BFF"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#2980B9"/>
+            <Setter Property="BorderBrush" Value="#0056B3"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinWidth" Value="120"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="3">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"
+                                            Margin="{TemplateBinding Padding}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#2980B9"/>
+                                <Setter Property="Background" Value="#0056B3"/>
+                                <Setter Property="BorderBrush" Value="#004085"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004085"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#6C757D"/>
+                                <Setter Property="BorderBrush" Value="#5A6268"/>
+                                <Setter Property="Foreground" Value="#ADB5BD"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Export Button Styles -->
+        <Style x:Key="ExcelButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#28A745"/>
+            <Setter Property="BorderBrush" Value="#1E7E34"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1E7E34"/>
+                    <Setter Property="BorderBrush" Value="#155724"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#155724"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PdfButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#DC3545"/>
+            <Setter Property="BorderBrush" Value="#C82333"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#C82333"/>
+                    <Setter Property="BorderBrush" Value="#A71E2A"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#A71E2A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="RefreshButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#6F42C1"/>
+            <Setter Property="BorderBrush" Value="#5A32A3"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#5A32A3"/>
+                    <Setter Property="BorderBrush" Value="#4C2A85"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#4C2A85"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Chart Bar Style -->
+        <Style x:Key="ChartBarStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="#007BFF"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="RadiusX" Value="2"/>
+            <Setter Property="RadiusY" Value="2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="#0056B3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderBrush" Value="#DEE2E6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#E0E0E0" 
+                                      Direction="270" 
+                                      ShadowDepth="2" 
+                                      BlurRadius="8" 
+                                      Opacity="0.2"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <!-- Header -->
-        <TextBlock Text="Báo cáo thống kê"
-               FontSize="28"
-               FontWeight="Bold"
-               Foreground="#2C3E50"
-               Margin="0,0,0,20"/>
-
-        <!-- Content -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- DataGrid Section -->
-            <Border Grid.Column="0"
-              Background="White"
-              CornerRadius="5"
-              BorderBrush="#DDD"
-              BorderThickness="1"
-              Padding="10">
-                <DataGrid x:Name="ReportDataGrid"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  IsReadOnly="True"
-                  HeadersVisibility="Column"
-                  RowHeight="30"
-                  ColumnHeaderHeight="35"
-                  AlternatingRowBackground="#F9FBFC"
-                  GridLinesVisibility="Horizontal">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Chỉ số"        Binding="{Binding Metric}"       Width="*"/>
-                        <DataGridTextColumn Header="Giá trị"       Binding="{Binding Value, StringFormat=N2}"        Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
-
-            <!-- Chart Section -->
-            <Border Grid.Column="2"
-              Background="White"
-              CornerRadius="5"
-              BorderBrush="#DDD"
-              BorderThickness="1"
-              Padding="10">
-                <StackPanel>
-                    <TextBlock Text="Biểu đồ thống kê" 
-                              FontSize="16" 
-                              FontWeight="Bold" 
-                              HorizontalAlignment="Center" 
-                              Margin="0,0,0,15"/>
-                    <ItemsControl x:Name="ChartItemsControl">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="0,5">
-                                    <TextBlock Text="{Binding Metric}" FontSize="12" FontWeight="SemiBold"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Rectangle Fill="#3498DB" 
-                                                  Height="20" 
-                                                  Width="{Binding Value, Converter={StaticResource WidthConverter}}"
-                                                  Margin="0,2"/>
-                                        <TextBlock Text="{Binding Value, StringFormat=N1}" 
-                                                  VerticalAlignment="Center" 
-                                                  Margin="5,0"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+        <!-- Loading Overlay -->
+        <Grid x:Name="LoadingGrid" 
+              Background="#80FFFFFF" 
+              Visibility="Collapsed"
+              Panel.ZIndex="1000">
+            <StackPanel HorizontalAlignment="Center" 
+                       VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20">
+                    <Ellipse Style="{StaticResource LoadingCircle}" Margin="0,0,5,0"/>
+                    <Ellipse Style="{StaticResource LoadingCircle}" Margin="0,0,5,0">
+                        <Ellipse.RenderTransform>
+                            <TranslateTransform Y="0"/>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Y" 
+                                                       From="0" To="-10" Duration="0:0:0.6" 
+                                                       AutoReverse="True" BeginTime="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <Ellipse Style="{StaticResource LoadingCircle}">
+                        <Ellipse.RenderTransform>
+                            <TranslateTransform Y="0"/>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Y" 
+                                                       From="0" To="-10" Duration="0:0:0.6" 
+                                                       AutoReverse="True" BeginTime="0:0:0.4"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
                 </StackPanel>
-            </Border>
+                <TextBlock Text="Đang tải dữ liệu báo cáo..." 
+                          FontSize="18" 
+                          FontWeight="SemiBold"
+                          Foreground="#495057"
+                          HorizontalAlignment="Center"/>
+                <TextBlock Text="Vui lòng chờ trong giây lát..." 
+                          FontSize="14" 
+                          Foreground="#6C757D"
+                          HorizontalAlignment="Center"
+                          Margin="0,8,0,0"/>
+            </StackPanel>
         </Grid>
 
-        <!-- Export Buttons -->
-        <StackPanel Grid.Row="2" 
-                   Orientation="Horizontal" 
-                   HorizontalAlignment="Right" 
-                   Margin="0,15,0,0">
-            <Button x:Name="ExportExcelButton" 
-                   Content="📊 Xuất Excel" 
-                   Click="ExportExcelButton_Click"/>
-            <Button x:Name="ExportPdfButton" 
-                   Content="📄 Xuất PDF" 
-                   Click="ExportPdfButton_Click"/>
-        </StackPanel>
+        <!-- Main Content -->
+        <Grid x:Name="ContentGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header Section -->
+            <Border Grid.Row="0" 
+                    Style="{StaticResource CardStyle}"
+                    
+                    Margin="0,0,0,20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#667EEA" Offset="0" />
+                        <GradientStop Color="#764BA2" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="📊 BÁO CÁO THỐNG KÊ HỆ THỐNG"
+                                  FontSize="24"
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <TextBlock x:Name="StatusTextBlock"
+                                  Text="Đang chuẩn bị dữ liệu..."
+                                  FontSize="14"
+                                  Foreground="White"
+                                  Opacity="0.9"/>
+                    </StackPanel>
+
+                    <Button x:Name="RefreshButton"
+                           Grid.Column="1"
+                           Content="🔄 Làm mới"
+                           Style="{StaticResource RefreshButtonStyle}"
+                           Click="RefreshButton_Click"
+                           VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Content Section -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Data Table Section -->
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Table Header -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                            <Border Background="#E3F2FD" 
+                                   CornerRadius="6" 
+                                   Padding="8,4"
+                                   Margin="0,0,12,0">
+                                <TextBlock Text="📋" FontSize="16"/>
+                            </Border>
+                            <TextBlock Text="Bảng dữ liệu chi tiết" 
+                                      FontSize="18" 
+                                      FontWeight="Bold" 
+                                      Foreground="#495057"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Data Grid -->
+                        <DataGrid Grid.Row="1"
+                                 x:Name="ReportDataGrid"
+                                 AutoGenerateColumns="False"
+                                 CanUserAddRows="False"
+                                 IsReadOnly="True"
+                                 HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="📊 Chỉ số thống kê" 
+                                                   Binding="{Binding Metric}" 
+                                                   Width="2*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextAlignment" Value="Left"/>
+                                            <Setter Property="Padding" Value="12,0"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="📈 Giá trị" 
+                                                   Binding="{Binding Value, StringFormat=N2}" 
+                                                   Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Foreground" Value="#007BFF"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="📝 Mô tả" 
+                                                   Binding="{Binding Description}" 
+                                                   Width="2*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextAlignment" Value="Left"/>
+                                            <Setter Property="Padding" Value="12,0"/>
+                                            <Setter Property="Foreground" Value="#6C757D"/>
+                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+
+                <!-- Chart Section -->
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Chart Header -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                            <Border Background="#FFF3E0" 
+                                   CornerRadius="6" 
+                                   Padding="8,4"
+                                   Margin="0,0,12,0">
+                                <TextBlock Text="📊" FontSize="16"/>
+                            </Border>
+                            <TextBlock Text="Biểu đồ trực quan" 
+                                      FontSize="18" 
+                                      FontWeight="Bold" 
+                                      Foreground="#495057"
+                                      VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Chart Content -->
+                        <ScrollViewer Grid.Row="1" 
+                                     VerticalScrollBarVisibility="Auto"
+                                     HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl x:Name="ChartItemsControl">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#F8F9FA" 
+                                               CornerRadius="6" 
+                                               Padding="12" 
+                                               Margin="0,4"
+                                               BorderBrush="#E9ECEF"
+                                               BorderThickness="1">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Metric}" 
+                                                          FontSize="13" 
+                                                          FontWeight="SemiBold"
+                                                          Foreground="#495057"
+                                                          Margin="0,0,0,6"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Rectangle Style="{StaticResource ChartBarStyle}"
+                                                              Width="{Binding Value, Converter={StaticResource WidthConverter}}"/>
+                                                    <TextBlock Text="{Binding Value, StringFormat=N1}" 
+                                                              VerticalAlignment="Center" 
+                                                              Margin="10,0"
+                                                              FontWeight="Bold"
+                                                              FontSize="12"
+                                                              Foreground="#007BFF"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding Description}" 
+                                                          FontSize="11" 
+                                                          Foreground="#6C757D"
+                                                          TextWrapping="Wrap"
+                                                          Margin="0,4,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Export Buttons Section -->
+            <Border Grid.Row="2" 
+                   Style="{StaticResource CardStyle}"
+                   Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Right">
+                    <TextBlock Text="🔧 Xuất báo cáo:" 
+                              FontSize="14" 
+                              FontWeight="SemiBold"
+                              Foreground="#495057"
+                              VerticalAlignment="Center"
+                              Margin="0,0,16,0"/>
+
+                    <Button x:Name="ExportExcelButton" 
+                           Content="📊 Xuất Excel" 
+                           Style="{StaticResource ExcelButtonStyle}"
+                           Click="ExportExcelButton_Click"/>
+
+                    <Button x:Name="ExportPdfButton" 
+                           Content="📄 Xuất PDF" 
+                           Style="{StaticResource PdfButtonStyle}"
+                           Click="ExportPdfButton_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Footer Section -->
+            <Border Grid.Row="3" 
+                   Background="#F8F9FA"
+                   CornerRadius="6"
+                   Padding="16,12"
+                   Margin="0,16,0,0"
+                   BorderBrush="#E9ECEF"
+                   BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                              Text="💡 Lưu ý: Dữ liệu được cập nhật theo thời gian thực từ cơ sở dữ liệu hệ thống."
+                              FontSize="12"
+                              Foreground="#6C757D"
+                              VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="1"
+                              Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='Hệ thống hoạt động: {0:dd/MM/yyyy HH:mm:ss}'}"
+                              FontSize="12"
+                              Foreground="#6C757D"
+                              VerticalAlignment="Center"
+                              xmlns:sys="clr-namespace:System;assembly=mscorlib"/>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
