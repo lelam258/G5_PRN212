@@ -196,13 +196,24 @@ namespace Presentation_Layer
 
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "PDF files (*.pdf)|*.pdf|Word files (*.doc;*.docx)|*.doc;*.docx|All files (*.*)|*.*",
-                Title = "Select Assessment File"
+                Filter = "ZIP files (*.zip)|*.zip",
+                Title = "Select Assessment ZIP File"
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                FilePath = openFileDialog.FileName;
+                string selectedFile = openFileDialog.FileName;
+                FileInfo fileInfo = new FileInfo(selectedFile);
+
+                // Check file size (30MB = 30 * 1024 * 1024 bytes)
+                long maxSize = 30 * 1024 * 1024;
+                if (fileInfo.Length > maxSize)
+                {
+                    StatusMessage = "File size exceeds 30MB limit. Please select a smaller file.";
+                    return;
+                }
+
+                FilePath = selectedFile;
                 StatusMessage = $"File selected: {Path.GetFileName(FilePath)}";
             }
         }
