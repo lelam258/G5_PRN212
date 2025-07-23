@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Presentation_Layer.Helpers;
 
 namespace Presentation_Layer
 {
@@ -11,6 +12,15 @@ namespace Presentation_Layer
         public StudentSettingPage()
         {
             InitializeComponent();
+            string currentTheme = Properties.Settings.Default.Theme;
+            if (currentTheme == "Dark")
+            {
+                DarkModeToggle.IsChecked = true;
+            }
+            else
+            {
+                DarkModeToggle.IsChecked = false;
+            }
         }
 
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
@@ -38,13 +48,19 @@ namespace Presentation_Layer
         private void DarkModeToggle_Checked(object sender, RoutedEventArgs e)
         {
             _darkModeEnabled = true;
-            Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            ThemeManager.SetTheme("Dark");
+
+            Properties.Settings.Default.Theme = "Dark";
+            Properties.Settings.Default.Save();
         }
 
         private void DarkModeToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             _darkModeEnabled = false;
-            Background = new SolidColorBrush(Color.FromRgb(244, 246, 248));
+            ThemeManager.SetTheme("Light");
+
+            Properties.Settings.Default.Theme = "Light";
+            Properties.Settings.Default.Save();
         }
 
         private void ResetProfile_Click(object sender, RoutedEventArgs e)

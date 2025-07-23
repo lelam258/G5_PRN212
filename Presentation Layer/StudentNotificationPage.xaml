@@ -1,17 +1,18 @@
 ﻿<Page x:Class="Presentation_Layer.StudentNotificationPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="StudentNotificationPage">
+      Title="StudentNotificationPage"
+      Background="{DynamicResource BackgroundBrush}">
 
-    <Border Background="#F4F6F8" Padding="30">
+    <Border Background="{DynamicResource BackgroundBrush}" Padding="30">
         <Grid>
             <TextBlock Text="🔔 Thông báo từ hệ thống"
                        FontSize="26"
                        FontWeight="SemiBold"
-                       Foreground="#2C3E50"
+                       Foreground="{DynamicResource ForegroundBrush}"
                        Margin="0,0,0,20" />
 
-            <Border Background="White"
+            <Border Background="{DynamicResource BackgroundBrush}"
                     CornerRadius="10"
                     BorderBrush="#DADADA"
                     BorderThickness="1"
@@ -22,18 +23,43 @@
                           CanUserAddRows="False"
                           IsReadOnly="True"
                           HeadersVisibility="Column"
-                          AlternatingRowBackground="#FAFAFA"
                           FontSize="14"
                           GridLinesVisibility="Horizontal"
                           ColumnHeaderHeight="40"
-                          RowHeight="35">
+                          RowHeight="35"
+                          Background="{DynamicResource BackgroundBrush}"
+                          Foreground="{DynamicResource ForegroundBrush}"
+                          RowBackground="{DynamicResource BackgroundBrush}"
+                          AlternatingRowBackground="{DynamicResource BackgroundBrush}">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridColumnHeader">
                             <Setter Property="FontWeight" Value="Bold"/>
-                            <Setter Property="Background" Value="#ECF0F1"/>
-                            <Setter Property="Foreground" Value="#2C3E50"/>
+                            <Setter Property="Background" Value="#4D4D4D"/>
+                            <Setter Property="Foreground" Value="White"/>
                         </Style>
                     </DataGrid.Resources>
+
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Padding" Value="10,5"/>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#999999"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="10,5"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Title}" Width="2*" />

@@ -3,26 +3,28 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="StudentSettingPage">
 
-    <Border Background="#F4F6F8" Padding="30">
+    <Border Background="{DynamicResource BackgroundBrush}" Padding="30">
         <StackPanel>
 
             <TextBlock Text="⚙️ Cài đặt"
                        FontSize="26"
                        FontWeight="SemiBold"
-                       Foreground="#2C3E50"
+                       Foreground="{DynamicResource ForegroundBrush}"
                        Margin="0,0,0,20" />
 
             <!-- Đổi mật khẩu -->
-            <GroupBox Header="🔐 Đổi mật khẩu" Margin="0,0,0,20">
+            <GroupBox Header="🔐 Đổi mật khẩu"
+                      Foreground="{DynamicResource ForegroundBrush}"
+                      Margin="0,0,0,20">
                 <StackPanel Margin="10">
 
-                    <TextBlock Text="Mật khẩu hiện tại" Margin="0,0,0,5"/>
+                    <TextBlock Text="Mật khẩu hiện tại" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
                     <PasswordBox x:Name="OldPasswordBox" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="Mật khẩu mới" Margin="0,0,0,5"/>
+                    <TextBlock Text="Mật khẩu mới" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
                     <PasswordBox x:Name="NewPasswordBox" Margin="0,0,0,10"/>
 
-                    <TextBlock Text="Xác nhận mật khẩu mới" Margin="0,0,0,5"/>
+                    <TextBlock Text="Xác nhận mật khẩu mới" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
                     <PasswordBox x:Name="ConfirmPasswordBox" Margin="0,0,0,10"/>
 
                     <Button Content="Đổi mật khẩu"
@@ -36,18 +38,33 @@
             </GroupBox>
 
             <!-- Chuyển đổi chế độ sáng/tối -->
-            <GroupBox Header="🌗 Giao diện" Margin="0,0,0,20">
+            <GroupBox Header="🌗 Giao diện"
+                      Foreground="{DynamicResource ForegroundBrush}"
+                      Margin="0,0,0,20">
                 <StackPanel Orientation="Horizontal" Margin="10">
-                    <TextBlock Text="Chế độ nền tối" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <ToggleButton x:Name="DarkModeToggle" Width="60" Height="25" Checked="DarkModeToggle_Checked" Unchecked="DarkModeToggle_Unchecked"/>
+                    <TextBlock Text="Chế độ nền tối"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource ForegroundBrush}"
+                               Margin="0,0,10,0"/>
+                    <ToggleButton x:Name="DarkModeToggle"
+                                  Width="60" Height="25"
+                                  Checked="DarkModeToggle_Checked"
+                                  Unchecked="DarkModeToggle_Unchecked"/>
                 </StackPanel>
             </GroupBox>
 
             <!-- Placeholder thiết lập khác -->
-            <GroupBox Header="🔄 Tùy chọn khác">
+            <GroupBox Header="🔄 Tùy chọn khác"
+                      Foreground="{DynamicResource ForegroundBrush}">
                 <StackPanel Margin="10">
-                    <Button Content="Đặt lại thông tin cá nhân" Width="200" Margin="0,0,0,10" Click="ResetProfile_Click"/>
-                    <Button Content="Đặt lại tất cả cài đặt" Width="200" Click="ResetAllSettings_Click"/>
+                    <Button Content="Đặt lại thông tin cá nhân"
+                            Width="200" Margin="0,0,0,10"
+                            Click="ResetProfile_Click"
+                            Foreground="{DynamicResource ForegroundBrush}"/>
+                    <Button Content="Đặt lại tất cả cài đặt"
+                            Width="200"
+                            Click="ResetAllSettings_Click"
+                            Foreground="{DynamicResource ForegroundBrush}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>

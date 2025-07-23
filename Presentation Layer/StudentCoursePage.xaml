@@ -6,15 +6,17 @@
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="900"
-      Title="Student Course Registration" Background="#F5F6FA">
-    <Grid Margin="20">
+      Title="Student Course Registration"
+      Background="{DynamicResource BackgroundBrush}">
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#F5F5F5">
+        <Grid Background="{DynamicResource BackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -26,11 +28,17 @@
             </Border>
 
             <!-- Course List -->
-            <ListView x:Name="CourseList" Grid.Row="1" Margin="20" Background="White" BorderBrush="#E0E0E0" BorderThickness="1" 
-                  ItemsSource="{Binding OpenCourses}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView x:Name="CourseList" Grid.Row="1" Margin="20"
+                      Background="{DynamicResource BackgroundBrush}"
+                      Foreground="{DynamicResource ForegroundBrush}"
+                      BorderBrush="#E0E0E0" BorderThickness="1" 
+                      ItemsSource="{Binding OpenCourses}"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
@@ -48,8 +56,8 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="RegisterButton" Content="Register Course" Click="RegisterButton_Click" 
-    Background="#27AE60" Foreground="White" Padding="5" 
-    Width="120" Height="30">
+                                            Background="#27AE60" Foreground="White" Padding="5" 
+                                            Width="120" Height="30">
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Setter Property="Cursor" Value="Hand"/>
