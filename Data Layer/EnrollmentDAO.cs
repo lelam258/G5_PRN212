@@ -18,6 +18,7 @@ namespace Data_Layer
         {
             return _context.Enrollments.ToList();
         }
+
         public Enrollment GetEnrollmentById(int id)
         {
             return _context.Enrollments.FirstOrDefault(e => e.EnrollmentId == id);
@@ -48,6 +49,7 @@ namespace Data_Layer
                  .Where(e => e.StudentId == studentId)
                  .ToList();
     }
+
 }
 
 

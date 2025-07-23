@@ -106,9 +106,9 @@ namespace Business_Layer.Migrations
                 b.Property<int>("CourseId")
                     .HasColumnType("int")
                     .IsRequired();
-                b.Property<bool>("ComplementStatus")
+                b.Property<bool>("CompletionStatus")
                     .HasColumnType("bit");
-                b.Property<DateTime>("ComplementDate")
+                b.Property<DateTime>("CompletionDate")
                     .HasColumnType("datetime2(7)");
                 b.HasKey("EnrollmentId");
                 b.HasIndex("StudentId");
