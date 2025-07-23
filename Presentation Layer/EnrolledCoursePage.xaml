@@ -1,0 +1,54 @@
+﻿<Page x:Class="Presentation_Layer.EnrolledCoursePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Presentation_Layer"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="Enrolled Course">
+
+    <Grid Background="#F5F5F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="20" CornerRadius="0 0 10 10">
+            <TextBlock Text="My Enrolled Courses" FontSize="24" FontWeight="Bold" Foreground="White"/>
+        </Border>
+
+        <!-- Course List -->
+        <ListView x:Name="EnrolledCourseList" Grid.Row="1" Margin="20" Background="White" BorderBrush="#E0E0E0" BorderThickness="1" 
+                  ItemsSource="{Binding EnrolledCourses}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Course Name" DisplayMemberBinding="{Binding CourseName}" Width="110"/>
+                    <GridViewColumn Header="Instructor" DisplayMemberBinding="{Binding Instructor.InstructorName}" Width="110"/>
+                    <GridViewColumn Header="Start Date" DisplayMemberBinding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}" Width="110"/>
+                    <GridViewColumn Header="End Date" DisplayMemberBinding="{Binding EndDate, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>
+                    <GridViewColumn Header="Completion Status" DisplayMemberBinding="{Binding CompletionStatus, StringFormat={}{0}}" Width="110"/>
+                    <GridViewColumn Header="Progress (%)" DisplayMemberBinding="{Binding ProgressPercentage, StringFormat={}{0:F0}}" Width="100"/>
+                    <GridViewColumn Header="Action" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Details" Click="ViewDetails_Click" Background="#3498DB" Foreground="White" Padding="5" Margin="5" 
+                                            BorderThickness="0" Cursor="Hand"/>
+                                    <Button Content="Cancel" Click="CancelCourse_Click" Background="#C0392B" Foreground="White" Padding="5" Margin="5" 
+                                            BorderThickness="0" Cursor="Hand"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

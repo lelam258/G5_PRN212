@@ -1,0 +1,137 @@
+﻿<Page x:Class="Presentation_Layer.AdminStudentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Presentation_Layer"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AdminStudentPage" Height="750">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Search -->
+            <RowDefinition Height="*"/>
+            <!-- Main content -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Quản lý người học" FontSize="28" FontWeight="Bold" Foreground="Black" Margin="0,0,0,15" Grid.Row="0"/>
+
+        <!-- Search Panel -->
+        <Border Grid.Row="1" CornerRadius="8" Background="White" Padding="10" 
+            BorderBrush="#DDD" BorderThickness="1" Margin="0,0,0,15" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Search by Name -->
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Tên người học, mã người học, email, SĐT" FontSize="12" Foreground="#555" Margin="3,0,0,3"/>
+                    <TextBox Name="SearchNameTextBox" Height="28" FontSize="14" Padding="5" />
+                </StackPanel>
+
+                <!-- Search by Email -->
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Trạng thái" FontSize="12" Foreground="#555" Margin="3,0,0,3"/>
+                    <ComboBox x:Name="GenderComboBox" Height="28" FontSize="14" Padding="5">
+                        <ComboBoxItem Content="Tất cả" IsSelected="True"/>
+                        <ComboBoxItem Content="Hoạt động"/>
+                        <ComboBoxItem Content="Không hoạt động"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <Button Grid.Column="3" Content="Search" Width="90" Height="32" Margin="0,18,0,0"
+                    Background="#2C3E50" Foreground="White" FontWeight="SemiBold" Cursor="Hand" Click="SearchButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Main content split: Left = Form, Right = DataGrid -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Guest Details Form -->
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" 
+                BorderBrush="#DDD" BorderThickness="1" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Thông tin người học" FontSize="20" FontWeight="SemiBold" Foreground="#34495E" Margin="0,0,0,20"/>
+
+                        <!-- Full Name -->
+                        <TextBlock Text="Mã người học" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Name="CodeTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"/>
+
+                        <!-- Email -->
+                        <TextBlock Text="Họ tên" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Name="NameTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Email" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Name="EmailTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Ngày sinh" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <DatePicker Name="BirthDatePicker" Height="30" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Số điện thoại" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Name="PhoneTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,20"/>
+
+                        <TextBlock Text="Trạng thái" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="GenderComboBox1" Height="30" FontSize="14" Padding="5" Margin="0,0,0,20" SelectionChanged="Gender_SelectionChanged">
+                            <ComboBoxItem Content="Hoạt động" />
+                            <ComboBoxItem Content="Không hoạt động" />
+                        </ComboBox>
+                        <TextBlock x:Name="GenderTextBox" Visibility="Collapsed"/>
+
+                        <!-- Buttons -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                            <Button Name="AddButton" Content="Thêm mới" Width="90" Height="35" Margin="5,0" 
+                                Background="#2980B9" Foreground="White" FontWeight="Bold" Cursor="Hand"
+                                BorderThickness="0" Click="RegisterButton_Click"/>
+                            <Button Name="UpdateButton" Content="Cập nhật" Width="90" Height="35" Margin="5,0"
+                                Background="#16A085" Foreground="White" FontWeight="Bold" Cursor="Hand"
+                                BorderThickness="0"
+                                IsEnabled="False" Click="UpdateButton_Click"
+                                />
+                            <Button Name="DeleteButton" Content="Xóa" Width="80" Height="35" Margin="5,0"
+                                Background="#C0392B" Foreground="White" FontWeight="Bold" Cursor="Hand"
+                                BorderThickness="0" IsEnabled="False" Click="DeleteButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Spacer -->
+            <GridSplitter Grid.Column="1" Width="10" Background="#CCC" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+
+            <!-- Guests DataGrid -->
+            <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="10" BorderBrush="#DDD" BorderThickness="1">
+                <DataGrid Name="DataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                      SelectionMode="Single" IsReadOnly="True"
+                      RowBackground="#F9FBFC" AlternatingRowBackground="White"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      SelectionChanged="DataList_SelectionChanged"
+                      >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="STT" Binding="{Binding StudentID}" Width="30"/>
+                        <DataGridTextColumn Header="Mã người học" Binding="{Binding StudentCode}" Width="*" />
+                        <DataGridTextColumn Header="Họ tên" Binding="{Binding StudentName}" Width="*" />
+                        <DataGridTextColumn Header="Ngày sinh" Binding="{Binding BirthDate}" Width="*" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
+                        <DataGridTextColumn Header="SĐT" Binding="{Binding Phone}" Width="*" />
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="Auto" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

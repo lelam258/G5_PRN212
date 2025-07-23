@@ -1,0 +1,57 @@
+﻿<Page x:Class="Presentation_Layer.StudentInformationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="StudentInformationPage">
+
+    <Border Background="#F4F6F8" Padding="30">
+        <Grid>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="0,0,0,20">
+                <TextBlock Text="👤 Thông tin cá nhân"
+                           FontSize="26"
+                           FontWeight="SemiBold"
+                           Foreground="#2C3E50"
+                           Margin="0,0,0,20" />
+
+                <!-- Form -->
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Email:" FontWeight="Bold" Margin="0,0,10,10"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Email}" Margin="0,0,0,10" />
+
+                    <TextBlock Grid.Row="1" Text="Số điện thoại:" FontWeight="Bold" Margin="0,0,10,10"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PhoneNumber}" Margin="0,0,0,10" />
+
+                    <TextBlock Grid.Row="2" Text="Ngày sinh:" FontWeight="Bold" Margin="0,0,10,10"/>
+                    <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding DateOfBirth}" Margin="0,0,0,10" />
+
+                    <TextBlock Grid.Row="3" Text="Ảnh đại diện:" FontWeight="Bold" Margin="0,0,10,10"/>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <Image Width="60" Height="60" Source="{Binding AvatarPath}" Margin="0,0,10,0"/>
+                        <Button Content="Chọn ảnh..." Click="UploadAvatar_Click" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Nút lưu -->
+                <Button Content="Lưu thay đổi"
+                        Width="150"
+                        Height="40"
+                        Background="#3498DB"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Click="SaveChanges_Click"
+                        HorizontalAlignment="Left" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Page>

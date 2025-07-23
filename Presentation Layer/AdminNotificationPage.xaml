@@ -1,0 +1,107 @@
+﻿<Page x:Class="Presentation_Layer.AdminNotificationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Presentation_Layer"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AdminNotificationPage">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Form -->
+            <RowDefinition Height="*"/>
+            <!-- History -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+               Text="Gửi Thông báo"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="Black"
+               Margin="0,0,0,15" />
+
+        <!-- Form -->
+        <Border Grid.Row="1"
+            Background="White"
+            CornerRadius="8"
+            Padding="10"
+            BorderBrush="#DDD"
+            BorderThickness="1"
+            Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Recipient combobox -->
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,10,0">
+                    <TextBlock Text="Gửi đến" FontSize="12" Foreground="#555" Margin="3,0,0,3" />
+                    <ComboBox x:Name="RecipientComboBox"
+                          Height="28"
+                          IsEditable="True"
+                          StaysOpenOnEdit="True"
+                          DisplayMemberPath="Display"
+                          SelectedValuePath="StudentId" />
+                </StackPanel>
+
+                <!-- Title and Content -->
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <TextBlock Text="Tiêu đề" FontSize="12" Foreground="#555" Margin="3,0,0,3" />
+                    <TextBox x:Name="TitleTextBox" Height="28" Margin="0,0,0,10" />
+                    <TextBlock Text="Nội dung" FontSize="12" Foreground="#555" Margin="3,0,0,3" />
+                    <TextBox x:Name="ContentTextBox" Height="80" TextWrapping="Wrap" AcceptsReturn="True"/>
+                </StackPanel>
+
+                <!-- Send Button -->
+                <Button Grid.Column="2"
+                    x:Name="SendButton"
+                    Content="Gửi"
+                    Width="80"
+                    Height="35"
+                    Margin="10,0,0,0"
+                    Background="#27AE60"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Click="SendButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- History -->
+        <Border Grid.Row="2"
+            Background="White"
+            CornerRadius="8"
+            Padding="10"
+            BorderBrush="#DDD"
+            BorderThickness="1">
+            <DataGrid x:Name="HistoryDataGrid"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Thời gian"
+                                    Binding="{Binding CreatedDate, StringFormat=dd/MM/yyyy HH:mm}"
+                                    Width="150" />
+                    <DataGridTextColumn Header="Gửi đến"
+                                    Binding="{Binding RecipientDisplay}"
+                                    Width="150" />
+                    <DataGridTextColumn Header="Tiêu đề"
+                                    Binding="{Binding Title}"
+                                    Width="*" />
+                    <DataGridTextColumn Header="Nội dung"
+                                    Binding="{Binding Content}"
+                                    Width="2*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Page>

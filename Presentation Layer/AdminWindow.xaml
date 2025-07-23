@@ -1,0 +1,73 @@
+﻿<Window x:Class="Presentation_Layer.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:Presentation_Layer"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Trang quản lý" Height="750" Width="1100"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
+
+    <Window.Resources>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" 
+                                CornerRadius="5" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter 
+                                VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="Aquamarine"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#5CF090"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#1e2b2b">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar Menu -->
+        <StackPanel Grid.Column="0" Background="#5CC1F0">
+            <TextBlock Text="Quản lý dữ liệu" 
+                       Foreground="White" FontSize="22" FontWeight="Bold" 
+                       Margin="0,20,0,20" HorizontalAlignment="Center"/>
+            <ListBox x:Name="MenuListBox" SelectionChanged="MenuListBox_SelectionChanged" Background="Transparent" BorderThickness="0" >
+                <ListBoxItem Tag="AdminCoursePage.xaml">Khóa học</ListBoxItem>
+                <ListBoxItem Tag="AdminStudentPage.xaml">Người học</ListBoxItem>
+                <ListBoxItem Tag="AdminInstructorPage.xaml">Giảng viên</ListBoxItem>
+                <ListBoxItem Tag="AdminAssessmentPage.xaml">Kiểm tra</ListBoxItem>
+                <ListBoxItem Tag="AdminCourseMaterialPage.xaml">Tài liệu khóa học</ListBoxItem>
+                <ListBoxItem Tag="AdminFeedbackPage.xaml">Phản hồi</ListBoxItem>
+                <ListBoxItem Tag="AdminCertificatePage.xaml">Chứng chỉ</ListBoxItem>
+                <ListBoxItem Tag="AdminCourseSchedulePage.xaml">Lịch học</ListBoxItem>
+                <ListBoxItem Tag="AdminPaymentPage.xaml">Thanh toán</ListBoxItem>
+                <ListBoxItem Tag="AdminActivityLogPage.xaml">Nhật kí hoạt động</ListBoxItem>
+                <ListBoxItem Tag="AdminNotificationPage.xaml">Thông báo</ListBoxItem>
+                <ListBoxItem Tag="AdminReportPage.xaml">Báo cáo</ListBoxItem>
+                <ListBoxItem Tag="AdminBackupRestorePage.xaml">Sao lưu và phục hồi</ListBoxItem>
+                <ListBoxItem Tag="Logout">Đăng xuất</ListBoxItem>
+            </ListBox>
+        </StackPanel>
+
+        <!-- Content Frame -->
+        <Frame x:Name="ContentFrame" Grid.Column="1" NavigationUIVisibility="Hidden" Background="White"/>
+    </Grid>
+</Window>

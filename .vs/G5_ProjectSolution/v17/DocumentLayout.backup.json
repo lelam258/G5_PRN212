@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{601923F3-F27B-4139-B630-47CCD2E04732}|Presentation Layer\\Presentation Layer.csproj|c:\\users\\gbcenter\\onedrive\\documents\\visual studio 2022\\project\\g5_materialdesign\\g5_prn212-main\\presentation layer\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{601923F3-F27B-4139-B630-47CCD2E04732}|Presentation Layer\\Presentation Layer.csproj|solutionrelative:presentation layer\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{601923F3-F27B-4139-B630-47CCD2E04732}|Presentation Layer\\Presentation Layer.csproj|c:\\users\\gbcenter\\onedrive\\documents\\visual studio 2022\\project\\g5_materialdesign\\g5_prn212-main\\presentation layer\\adminstudentpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{601923F3-F27B-4139-B630-47CCD2E04732}|Presentation Layer\\Presentation Layer.csproj|solutionrelative:presentation layer\\adminstudentpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Presentation Layer\\App.xaml",
+              "RelativeDocumentMoniker": "Presentation Layer\\App.xaml",
+              "ToolTip": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Presentation Layer\\App.xaml",
+              "RelativeToolTip": "Presentation Layer\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-07-23T14:04:55.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminStudentPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Presentation Layer\\AdminStudentPage.xaml.cs",
+              "RelativeDocumentMoniker": "Presentation Layer\\AdminStudentPage.xaml.cs",
+              "ToolTip": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Presentation Layer\\AdminStudentPage.xaml.cs",
+              "RelativeToolTip": "Presentation Layer\\AdminStudentPage.xaml.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAHEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T13:51:59.65Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

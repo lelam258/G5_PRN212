@@ -1,0 +1,13 @@
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\bin\Debug\net8.0\Business Layer.deps.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\bin\Debug\net8.0\Business Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\bin\Debug\net8.0\Business Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.csproj.AssemblyReference.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.AssemblyInfoInputs.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.AssemblyInfo.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.csproj.CoreCompileInputs.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.sourcelink.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\refint\Business Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\Business Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Business Layer\obj\Debug\net8.0\ref\Business Layer.dll

@@ -1,0 +1,16 @@
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\bin\Debug\net8.0\Data Layer.deps.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\bin\Debug\net8.0\Data Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\bin\Debug\net8.0\Data Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\bin\Debug\net8.0\Business Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\bin\Debug\net8.0\Business Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.csproj.AssemblyReference.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.AssemblyInfoInputs.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.AssemblyInfo.cs
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.csproj.CoreCompileInputs.cache
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.sourcelink.json
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.csproj.Up2Date
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\refint\Data Layer.dll
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\Data Layer.pdb
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Data Layer\obj\Debug\net8.0\ref\Data Layer.dll

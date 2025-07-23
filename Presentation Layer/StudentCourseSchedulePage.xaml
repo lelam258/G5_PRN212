@@ -1,0 +1,57 @@
+<Page x:Class="Presentation_Layer.StudentCourseSchedulePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Presentation_Layer"
+      mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="StudentCourseSchedulePage">
+
+    <!-- Nền sáng + padding toàn trang -->
+    <Border Background="#F4F6F8" Padding="30">
+        <Grid>
+            <!-- Tiêu đề -->
+            <TextBlock Text="📅 Lịch học của tôi"
+                       FontSize="26"
+                       FontWeight="SemiBold"
+                       Foreground="#2C3E50"
+                       Margin="0,0,0,20" />
+
+            <!-- Bảng lịch học -->
+            <Border Background="White"
+                    CornerRadius="10"
+                    BorderBrush="#DADADA"
+                    BorderThickness="1"
+                    Padding="10"
+                    Margin="0,40,0,0">
+                <DataGrid ItemsSource="{Binding ScheduleItems}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          AlternatingRowBackground="#FAFAFA"
+                          FontSize="14"
+                          GridLinesVisibility="Horizontal"
+                          ColumnHeaderHeight="40"
+                          RowHeight="35">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Background" Value="#ECF0F1"/>
+                            <Setter Property="Foreground" Value="#2C3E50"/>
+                        </Style>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tên khóa học" Binding="{Binding CourseName}" Width="2*" />
+                        <DataGridTextColumn Header="Ngày học" Binding="{Binding SessionDate}" Width="1.5*" />
+                        <DataGridTextColumn Header="Giờ bắt đầu" Binding="{Binding StartTime}" Width="1.2*" />
+                        <DataGridTextColumn Header="Giờ kết thúc" Binding="{Binding EndTime}" Width="1.2*" />
+                        <DataGridTextColumn Header="Phòng học" Binding="{Binding Room}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+    </Border>
+</Page>
