@@ -14,5 +14,7 @@ namespace Repositories.Interfaces
         void AddFeedback(Feedback feedback);
         void UpdateFeedback(Feedback feedback);
         void DeleteFeedback(int id);
+        List<Feedback> GetFeedbacksByCourse(int courseId);
+        List<Feedback> GetFeedbacksByMonth(int month, int year);
     }
 }
