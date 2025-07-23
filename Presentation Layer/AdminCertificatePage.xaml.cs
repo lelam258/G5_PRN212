@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -188,17 +189,36 @@ namespace Presentation_Layer
             }
         }
 
-        // DTO nội bộ
-        private class EligibleItem
+        // DTO nội bộ với INotifyPropertyChanged
+        private class EligibleItem : INotifyPropertyChanged
         {
-            public bool IsSelected { get; set; }
+            private bool _isSelected;
+
+            public bool IsSelected
+            {
+                get => _isSelected;
+                set
+                {
+                    if (_isSelected != value)
+                    {
+                        _isSelected = value;
+                        OnPropertyChanged(nameof(IsSelected));
+                    }
+                }
+            }
+
             public int StudentId { get; set; }
             public int CourseId { get; set; }
             public string StudentCode { get; set; }
             public string StudentName { get; set; }
             public string CourseName { get; set; }
 
-           
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

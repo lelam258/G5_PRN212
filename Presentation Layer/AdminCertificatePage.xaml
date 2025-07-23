@@ -59,7 +59,6 @@
             <DataGrid x:Name="EligibleDataGrid"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
-                IsReadOnly="True"
                 SelectionMode="Extended"
                 RowBackground="#F9FBFC"
                 AlternatingRowBackground="White"
@@ -67,11 +66,11 @@
                 SelectionUnit="FullRow">
                 <DataGrid.Columns>
                     <!-- Checkbox chọn từng sinh viên -->
-                    <DataGridCheckBoxColumn Header="Chọn" Binding="{Binding IsSelected}" Width="50"/>
-                    <DataGridTextColumn    Header="Mã SV" Binding="{Binding StudentCode}" Width="120"/>
-                    <DataGridTextColumn    Header="Họ tên" Binding="{Binding StudentName}" Width="2*"/>
-                    <DataGridTextColumn    Header="Khóa học" Binding="{Binding CourseName}" Width="2*"/>
-                    <DataGridTemplateColumn Header="Cấp từng" Width="100">
+                    <DataGridCheckBoxColumn Header="Chọn" Binding="{Binding IsSelected}" Width="50" IsReadOnly="False"/>
+                    <DataGridTextColumn    Header="Mã SV" Binding="{Binding StudentCode}" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn    Header="Họ tên" Binding="{Binding StudentName}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTextColumn    Header="Khóa học" Binding="{Binding CourseName}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="Cấp từng" Width="100" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Cấp"
