@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -12,6 +11,7 @@ using Microsoft.Win32;
 using Business_Layer;
 using Repositories.Interfaces;
 using Repositories.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Presentation_Layer
 {
@@ -133,36 +133,52 @@ namespace Presentation_Layer
             try
             {
                 IsLoading = true;
-                var allAssessments = _assessmentRepository.GetAllAssessments();
-                var enrollments = ApplicationDbContext.Instance.Enrollments
-                    .Where(e => e.StudentId == _studentId).ToList();
-                var submittedResults = _assessmentResultRepository.GetAllAssessmentResults()
-                    .Where(ar => ar.StudentId == _studentId && ar.SubmissionDate != null)
-                    .Select(ar => ar.AssessmentId).ToList();
 
+                // Get all assessments with related course information
+                var allAssessments = ApplicationDbContext.Instance.Assessments
+                    .Include(a => a.LifeSkillCourse)
+                    .ToList();
+
+                // Get student's enrollments
+                var studentEnrollments = ApplicationDbContext.Instance.Enrollments
+                    .Where(e => e.StudentId == _studentId)
+                    .Select(e => e.CourseId)
+                    .ToList();
+
+                // Get already submitted assessments for this student
+                var submittedAssessmentIds = ApplicationDbContext.Instance.AssessmentResults
+                    .Where(ar => ar.StudentId == _studentId && ar.SubmissionDate != null)
+                    .Select(ar => ar.AssessmentId)
+                    .ToList();
+
+                // Filter assessments: enrolled courses, not yet submitted, and not past due
                 Assessments = allAssessments
-                    .Where(a => a.DueDate >= DateTime.Today)
-                    .Where(a => enrollments.Any(e => e.CourseId == a.CourseId))
-                    .Where(a => !submittedResults.Contains(a.AssessmentId))
+                    .Where(a => studentEnrollments.Contains(a.CourseId)) // Student is enrolled
+                    .Where(a => !submittedAssessmentIds.Contains(a.AssessmentId)) // Not yet submitted
+                    .Where(a => a.DueDate >= DateTime.Today) // Not past due
+                    .OrderBy(a => a.DueDate)
                     .ToList();
 
                 if (!Assessments.Any())
                 {
-                    StatusMessage = "No open assessments available for this student.";
+                    StatusMessage = "No open assessments available for submission.";
                 }
                 else
                 {
-                    StatusMessage = "";
+                    StatusMessage = $"Found {Assessments.Count} assessment(s) available for submission.";
                 }
 
-                // Load previous results
-                AssessmentResults = _assessmentResultRepository.GetAllAssessmentResults()
-                    .Where(ar => ar.StudentId == _studentId && ar.SubmissionDate != null)
+                // Load previous assessment results with related data
+                AssessmentResults = ApplicationDbContext.Instance.AssessmentResults
+                    .Include(ar => ar.Assessment)
+                    .Where(ar => ar.StudentId == _studentId)
+                    .OrderByDescending(ar => ar.SubmissionDate)
                     .ToList();
             }
             catch (Exception ex)
             {
                 StatusMessage = $"Error loading data: {ex.Message}";
+                System.Diagnostics.Debug.WriteLine($"LoadData Error: {ex}");
             }
             finally
             {
@@ -180,13 +196,14 @@ namespace Presentation_Layer
 
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "PDF files (*.pdf)|*.pdf|Word files (*.doc;*.docx)|*.doc;*.docx|All files (*.*)|*.*"
+                Filter = "PDF files (*.pdf)|*.pdf|Word files (*.doc;*.docx)|*.doc;*.docx|All files (*.*)|*.*",
+                Title = "Select Assessment File"
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
                 FilePath = openFileDialog.FileName;
-                StatusMessage = "";
+                StatusMessage = $"File selected: {Path.GetFileName(FilePath)}";
             }
         }
 
@@ -197,6 +214,7 @@ namespace Presentation_Layer
             try
             {
                 IsLoading = true;
+
                 if (_selectedAssessment == null)
                 {
                     StatusMessage = "Please select an assessment.";
@@ -211,46 +229,67 @@ namespace Presentation_Layer
 
                 if (_selectedAssessment.DueDate < DateTime.Today)
                 {
-                    StatusMessage = "This assessment is past due.";
+                    StatusMessage = "This assessment is past due and cannot be submitted.";
                     return;
                 }
 
                 // Verify enrollment
                 bool isEnrolled = ApplicationDbContext.Instance.Enrollments
                     .Any(e => e.StudentId == _studentId && e.CourseId == _selectedAssessment.CourseId);
+
                 if (!isEnrolled)
                 {
                     StatusMessage = "You are not enrolled in this course.";
                     return;
                 }
 
-                // Save file
-                string fileName = $"{_studentId}_{_selectedAssessment.AssessmentId}_{Path.GetFileName(_filePath)}";
-                string destinationPath = Path.Combine("AppData/Submissions", fileName);
-                Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                // Check if already submitted
+                bool alreadySubmitted = ApplicationDbContext.Instance.AssessmentResults
+                    .Any(ar => ar.StudentId == _studentId && ar.AssessmentId == _selectedAssessment.AssessmentId && ar.SubmissionDate != null);
+
+                if (alreadySubmitted)
+                {
+                    StatusMessage = "You have already submitted this assessment.";
+                    return;
+                }
+
+                // Create submissions directory if it doesn't exist
+                string submissionsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppData", "Submissions");
+                Directory.CreateDirectory(submissionsDir);
+
+                // Generate unique filename
+                string fileExtension = Path.GetExtension(_filePath);
+                string fileName = $"{_studentId}_{_selectedAssessment.AssessmentId}_{DateTime.Now:yyyyMMdd_HHmmss}{fileExtension}";
+                string destinationPath = Path.Combine(submissionsDir, fileName);
+
+                // Copy file to submissions directory
                 File.Copy(_filePath, destinationPath, true);
 
-                // Save to AssessmentResults
+                // Create assessment result record
                 var assessmentResult = new AssessmentResult
                 {
                     AssessmentId = _selectedAssessment.AssessmentId,
                     StudentId = _studentId,
                     SubmissionDate = DateTime.Now,
                     SubmissionFilePath = destinationPath
-                    // Score remains null until graded
+                    // Score remains null until graded by instructor
                 };
 
                 _assessmentResultRepository.AddAssessmentResult(assessmentResult);
-                StatusMessage = "Assessment submitted successfully!";
 
-                // Reset UI
+                StatusMessage = $"Assessment '{_selectedAssessment.AssessmentName}' submitted successfully!";
+
+                // Reset form
                 SelectedAssessment = null;
                 FilePath = "";
+
+                // Reload data to refresh the lists
                 LoadData();
             }
             catch (Exception ex)
             {
                 StatusMessage = $"Error submitting assessment: {ex.Message}";
+                System.Diagnostics.Debug.WriteLine($"Submit Error: {ex}");
             }
             finally
             {
