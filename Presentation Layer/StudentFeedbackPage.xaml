@@ -6,20 +6,19 @@
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="StudentFeedbackPage">
+      Title="StudentFeedbackPage"
+      Background="{DynamicResource BackgroundBrush}">
 
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
             <RowDefinition Height="Auto"/>
-            <!-- Search -->
             <RowDefinition Height="*"/>
-            <!-- Main content -->
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <TextBlock Text="Phản hồi" FontSize="28" FontWeight="Bold" Foreground="Black" Margin="0,0,0,15" Grid.Row="0"/>
+        <!-- Header with distinct background -->
+        <TextBlock Text="Phản hồi" FontSize="28" FontWeight="Bold"
+           Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,15" Grid.Row="0"/>
 
         <!-- Main content split: Left = Form, Right = DataGrid -->
         <Grid Grid.Row="2">
@@ -29,16 +28,20 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Hotel Details Form -->
-            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" 
-            BorderBrush="#DDD" BorderThickness="1" >
+            <!-- Form -->
+            <Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="8" Padding="20" 
+                    BorderBrush="#DDD" BorderThickness="1">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <TextBlock Text="Phản hồi khóa học" FontSize="20" FontWeight="SemiBold" Foreground="#34495E" Margin="0,0,0,20"/>
-                        <TextBlock Text="Tên khóa học" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                        <TextBox x:Name="CourseTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"/>
+                        <TextBlock Text="Phản hồi khóa học" FontSize="20" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,20"/>
+                        <TextBlock Text="Tên khóa học" FontWeight="SemiBold" Margin="0,0,0,10"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                        <TextBox x:Name="CourseTextBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10"
+                                 TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"/>
 
-                        <TextBlock Text="Mức đánh giá" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="Mức đánh giá" FontWeight="SemiBold" Margin="0,0,0,5"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
                         <ComboBox x:Name="RatingComboBox" Height="30" FontSize="14" Padding="5" Margin="0,0,0,10">
                             <ComboBoxItem Content="1" />
                             <ComboBoxItem Content="2" />
@@ -48,16 +51,19 @@
                         </ComboBox>
                         <TextBlock x:Name="RatingTextBox" Visibility="Collapsed"/>
 
-                        <TextBlock Text="Nội dung phản hồi" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                        <TextBox x:Name="FeedbackTextBox" Height="90" FontSize="14" Padding="5" Margin="0,0,0,10" TextWrapping="Wrap" AcceptsReturn="True"/>
+                        <TextBlock Text="Nội dung phản hồi" FontWeight="SemiBold" Margin="0,0,0,5"
+                                   Foreground="{DynamicResource ForegroundBrush}"/>
+                        <TextBox x:Name="FeedbackTextBox" Height="90" FontSize="14" Padding="5" Margin="0,0,0,10"
+                                 TextWrapping="Wrap" AcceptsReturn="True"/>
+
                         <!-- Buttons -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                             <Button Name="AddButton" Content="Gửi đơn" Width="80" Height="35" Margin="5,0"
-                        Background="#2980B9" Foreground="White" FontWeight="Bold" Cursor="Hand"
-                        BorderThickness="0" Click="AddButton_Click" IsEnabled="False"/>
+                                    Background="#2980B9" Foreground="White" FontWeight="Bold" Cursor="Hand"
+                                    BorderThickness="0" Click="AddButton_Click" IsEnabled="False"/>
                             <Button Name="CancelButton" Content="Hủy bỏ" Width="80" Height="35" Margin="5,0"
-                        Background="#C0392B" Foreground="White" FontWeight="Bold" Cursor="Hand"
-                        BorderThickness="0" Click="CancelButton_Click" IsEnabled="False"/>
+                                    Background="#C0392B" Foreground="White" FontWeight="Bold" Cursor="Hand"
+                                    BorderThickness="0" Click="CancelButton_Click" IsEnabled="False"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
@@ -66,15 +72,36 @@
             <!-- Spacer -->
             <GridSplitter Grid.Column="1" Width="10" Background="#CCC" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
-            <!-- Hotels DataGrid -->
-            <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="10" BorderBrush="#DDD" BorderThickness="1">
+            <!-- DataGrid -->
+            <Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="8" Padding="10" BorderBrush="#DDD" BorderThickness="1">
                 <DataGrid Name="DataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
-                  SelectionMode="Single" IsReadOnly="True"
-                  RowBackground="#F9FBFC" AlternatingRowBackground="White"
-                  GridLinesVisibility="Horizontal"
-                  HeadersVisibility="Column"
-                  SelectionChanged="DataGrid_SelectionChanged"
-                  >
+                          SelectionMode="Single" IsReadOnly="True"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          SelectionChanged="DataGrid_SelectionChanged"
+                          Background="{DynamicResource BackgroundBrush}"
+                          Foreground="{DynamicResource ForegroundBrush}"
+                          RowBackground="{DynamicResource BackgroundBrush}"
+                          AlternatingRowBackground="{DynamicResource BackgroundBrush}">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Padding" Value="10,5"/>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#999999"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="8"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding CourseId}" Width="25"/>
                         <DataGridTextColumn Header="Tên khóa học" Binding="{Binding CourseName}" Width="100"/>

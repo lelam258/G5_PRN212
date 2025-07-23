@@ -31,29 +31,37 @@ namespace Presentation_Layer
             AvatarPath = _student.AvatarPath;
 
             DataContext = this;
+            string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AvatarPath);
+            if (File.Exists(fullPath))
+            {
+                AvatarImage.Source = new BitmapImage(new Uri(fullPath, UriKind.Absolute));
+            }
         }
 
         private void UploadAvatar_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg;*.png)|*.jpg;*.png";
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                Title = "Chọn ảnh đại diện",
-                Filter = "Hình ảnh (*.jpg;*.png)|*.jpg;*.png"
-            };
+                string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
+                string destinationDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppData", "Avatars");
 
-            if (dialog.ShowDialog() == true)
-            {
-                string fileName = System.IO.Path.GetFileName(dialog.FileName);
-                string destPath = $"AppData/Avatars/{fileName}";
+                // Tạo thư mục nếu chưa có
+                Directory.CreateDirectory(destinationDirectory);
 
-                Directory.CreateDirectory("AppData/Avatars");
-                File.Copy(dialog.FileName, destPath, true);
+                string destinationPath = Path.Combine(destinationDirectory, fileName);
+                File.Copy(openFileDialog.FileName, destinationPath, true);
 
-                AvatarPath = destPath;
-                DataContext = null;
-                DataContext = this;
+                // Lưu đường dẫn vào DB (tương đối)
+                AvatarPath = $"AppData/Avatars/{fileName}";
+
+                // Hiển thị ảnh luôn
+                AvatarImage.Source = new BitmapImage(new Uri(destinationPath, UriKind.Absolute));
             }
         }
+
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
