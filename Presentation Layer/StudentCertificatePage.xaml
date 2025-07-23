@@ -9,85 +9,322 @@
       Title="StudentCertificatePage">
 
     <Page.Resources>
-        <!-- Style for DataGrid -->
-        <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="#F5F6FA"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
-            <Setter Property="ColumnHeaderStyle">
+        <!-- Modern Color Palette -->
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="SecondaryBrush" Color="#64748B"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#10B981"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1E293B"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#64748B"/>
+
+        <!-- Drop Shadow Effect -->
+        <DropShadowEffect x:Key="CardShadow" 
+                          Color="#000000" 
+                          Opacity="0.1" 
+                          BlurRadius="10" 
+                          ShadowDepth="2" 
+                          Direction="270"/>
+
+        <!-- Download Icon Path -->
+        <PathGeometry x:Key="DownloadIconPath">
+            <PathFigure StartPoint="12,2">
+                <LineSegment Point="12,15"/>
+                <LineSegment Point="17,10"/>
+                <LineSegment Point="15,10"/>
+                <LineSegment Point="12,13"/>
+                <LineSegment Point="9,10"/>
+                <LineSegment Point="7,10"/>
+                <LineSegment Point="12,15"/>
+            </PathFigure>
+            <PathFigure StartPoint="3,17">
+                <LineSegment Point="21,17"/>
+                <LineSegment Point="21,19"/>
+                <LineSegment Point="3,19"/>
+                <LineSegment Point="3,17"/>
+            </PathFigure>
+        </PathGeometry>
+
+        <!-- Modern Download Button Style -->
+        <Style x:Key="DownloadButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinWidth" Value="110"/>
+            <Setter Property="Template">
                 <Setter.Value>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="#4A90E2"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                    </Style>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="CellStyle">
-                <Setter.Value>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                    </Style>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Horizontal" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <!-- Download Icon -->
+                                <Path Data="M12 2v13m0 0l4-4m-4 4L8 11m13 6v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2" 
+                                      Stroke="{TemplateBinding Foreground}" 
+                                      StrokeThickness="2" 
+                                      
+                                      Width="16" 
+                                      Height="16" 
+                                      Stretch="Uniform"
+                                      Margin="0,0,6,0"/>
+                                <!-- Button Text -->
+                                <TextBlock Text="Download" 
+                                          Foreground="{TemplateBinding Foreground}"
+                                          FontWeight="{TemplateBinding FontWeight}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1D4ED8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#94A3B8"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Modern DataGrid Style -->
+        <Style x:Key="ModernDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+            <Setter Property="AlternatingRowBackground" Value="#F8FAFC"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowHeight" Value="60"/>
+        </Style>
+
+        <!-- DataGrid Header Style -->
+        <Style x:Key="ModernDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+
+        <!-- DataGrid Cell Style -->
+        <Style x:Key="ModernDataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#EBF4FF"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Certificate Badge Style -->
+        <Style x:Key="CertificateBadgeStyle" TargetType="Border">
+            <Setter Property="Background" Value="#EBF4FF"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
     </Page.Resources>
 
-    <Grid Margin="20">
+    <Grid Background="{StaticResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Header Section -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-            <TextBlock Text="My Certificates" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
-            <Rectangle Width="2" Height="30" Fill="#4A90E2" Margin="10,0,10,0"/>
-            <TextBlock Text="Your earned certificates" FontSize="16" Foreground="#7F8C8D" VerticalAlignment="Center"/>
-        </StackPanel>
+        <Border Grid.Row="0" Background="{StaticResource CardBrush}" 
+                Padding="32,24" Margin="24,24,24,0"
+                CornerRadius="12" 
+                Effect="{StaticResource CardShadow}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <Ellipse Width="48" Height="48" Margin="0,0,16,0">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#2563EB" Offset="0"/>
+                                <GradientStop Color="#7C3AED" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="My Certificates" 
+                                 FontSize="28" 
+                                 FontWeight="Bold" 
+                                 Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <TextBlock Text="View and download your earned certificates" 
+                                 FontSize="16" 
+                                 Foreground="{StaticResource TextSecondaryBrush}"
+                                 Margin="0,4,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
 
-        <!-- DataGrid Section -->
-        <Border Grid.Row="1" Background="White" CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1" Padding="10">
-            <DataGrid x:Name="CertificatesDataGrid"
-                      AutoGenerateColumns="False"
-                      CanUserAddRows="False"
-                      CanUserDeleteRows="False"
+        <!-- Statistics Cards -->
+        <Grid Grid.Row="1" Margin="24,16,24,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Total Certificates Card -->
+            <Border Grid.Column="0" Background="{StaticResource CardBrush}" 
+                    CornerRadius="12" Padding="20" Margin="0,0,8,0"
+                    Effect="{StaticResource CardShadow}">
+                <StackPanel>
+                    <TextBlock Text="Total Certificates" 
+                             FontSize="14" 
+                             Foreground="{StaticResource TextSecondaryBrush}"
+                             Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding Certificates.Count}" 
+                             FontSize="24" 
+                             FontWeight="Bold" 
+                             Foreground="{StaticResource PrimaryBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Completed Courses Card -->
+            <Border Grid.Column="1" Background="{StaticResource CardBrush}" 
+                    CornerRadius="12" Padding="20" Margin="4,0"
+                    Effect="{StaticResource CardShadow}">
+                <StackPanel>
+                    <TextBlock Text="Completed Courses" 
+                             FontSize="14" 
+                             Foreground="{StaticResource TextSecondaryBrush}"
+                             Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding Certificates.Count}" 
+                             FontSize="24" 
+                             FontWeight="Bold" 
+                             Foreground="{StaticResource AccentBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Latest Year Card -->
+            <Border Grid.Column="2" Background="{StaticResource CardBrush}" 
+                    CornerRadius="12" Padding="20" Margin="8,0,0,0"
+                    Effect="{StaticResource CardShadow}">
+                <StackPanel>
+                    <TextBlock Text="Latest Year" 
+                             FontSize="14" 
+                             Foreground="{StaticResource TextSecondaryBrush}"
+                             Margin="0,0,0,4"/>
+                    <TextBlock Text="2024" 
+                             FontSize="24" 
+                             FontWeight="Bold" 
+                             Foreground="#7C3AED"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Main Content Card -->
+        <Border Grid.Row="2" Background="{StaticResource CardBrush}" 
+                CornerRadius="12" Margin="24,16,24,24"
+                Effect="{StaticResource CardShadow}">
+            <DataGrid ItemsSource="{Binding Certificates}" 
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False" 
                       IsReadOnly="True"
-                      ItemsSource="{Binding Certificates}"
-                      SelectionMode="Single"
-                      RowHeight="40"
-                      ColumnHeaderHeight="40">
+                      Style="{StaticResource ModernDataGridStyle}"
+                      ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeaderStyle}"
+                      CellStyle="{StaticResource ModernDataGridCellStyle}"
+                      Margin="1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Certificate Code" Binding="{Binding CertificateCode}" Width="*"/>
-                    <DataGridTextColumn Header="Course Name" Binding="{Binding LifeSkillCourse.CourseName}" Width="2*"/>
-                    <DataGridTextColumn Header="Issue Date" Binding="{Binding IssueDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
-                    <DataGridTemplateColumn Header="Actions" Width="Auto">
+                    <!-- Certificate ID Column -->
+                    <DataGridTemplateColumn Header="Certificate ID" Width="140">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Download"
-                                        Command="{Binding DataContext.DownloadCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                        CommandParameter="{Binding FilePath}"
-                                        Padding="10,2"/>
+                                <Border Style="{StaticResource CertificateBadgeStyle}">
+                                    <TextBlock Text="{Binding CertificateId}" 
+                                             FontWeight="SemiBold" 
+                                             FontSize="12"
+                                             Foreground="{StaticResource PrimaryBrush}"
+                                             HorizontalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Course Name Column -->
+                    <DataGridTemplateColumn Header="Course Name" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding LifeSkillCourse.CourseName}" 
+                                             FontWeight="SemiBold" 
+                                             FontSize="14"
+                                             Foreground="{StaticResource TextPrimaryBrush}"
+                                             TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CertificateCode}" 
+                                             FontSize="12" 
+                                             Foreground="{StaticResource TextSecondaryBrush}"
+                                             Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Issue Date Column -->
+                    <DataGridTemplateColumn Header="Issue Date" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding IssueDate, StringFormat=dd/MM/yyyy}" 
+                                             FontWeight="SemiBold" 
+                                             FontSize="14"
+                                             Foreground="{StaticResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Issued" 
+                                             FontSize="12" 
+                                             Foreground="{StaticResource TextSecondaryBrush}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Action Column -->
+                    <DataGridTemplateColumn Header="Action" Width="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.DownloadCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding FilePath}" 
+                                        Style="{StaticResource DownloadButtonStyle}"
+                                        HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
-
-        <!-- Footer Section -->
-        <TextBlock Grid.Row="2"
-                   Text="Last Updated: {Binding LastUpdatedText}"
-                   FontSize="12"
-                   Foreground="#7F8C8D"
-                   Margin="0,20,0,0"
-                   HorizontalAlignment="Right"/>
     </Grid>
 </Page>
