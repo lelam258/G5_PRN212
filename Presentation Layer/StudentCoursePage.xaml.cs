@@ -57,6 +57,12 @@ namespace Presentation_Layer
             return true; // Replace with actual logic
         }
 
+        private bool IsStudentAlreadyEnrolled(int courseId, int studentId)
+        {
+            // Check if the student is already enrolled in the course
+            return _context.Enrollments.Any(e => e.CourseId == courseId && e.StudentId == studentId);
+        }
+
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -67,6 +73,15 @@ namespace Presentation_Layer
                     int courseId = dataContext.CourseId;
                     var course = _courseRepository.GetLifeSkillCourseById(courseId);
                     var enrollmentsCount = _context.Enrollments.Count(e => e.CourseId == courseId);
+
+                    // Check if the student is already enrolled
+                    if (IsStudentAlreadyEnrolled(courseId, _currentStudentId))
+                    {
+                        MessageBox.Show("You are already registered for this course!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    // Check if there are available spots and payment is completed
                     if (course.MaxStudents > enrollmentsCount && HasPaidForCourse(courseId))
                     {
                         var enrollment = new Enrollment { StudentId = _currentStudentId, CourseId = courseId, CompletionStatus = false };
