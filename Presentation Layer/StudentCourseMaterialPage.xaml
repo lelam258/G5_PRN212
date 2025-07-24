@@ -12,7 +12,6 @@
         <!-- Style for DataGrid -->
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-            
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
@@ -105,16 +104,19 @@
         <!-- Material List Section -->
         <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="10" BorderThickness="1" Padding="20" Margin="20">
             <DataGrid x:Name="MaterialsDataGrid" ItemsSource="{Binding CourseMaterials}" AutoGenerateColumns="False" 
-                CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                      CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Material Title" Binding="{Binding Title}" Width="2*"/>
                     <DataGridTextColumn Header="Upload Date" Binding="{Binding UploadDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                     <DataGridTemplateColumn Header="Action" Width="150">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Download" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                    Path=DataContext.DownloadCommand}" 
-                        CommandParameter="{Binding}" Width="100" Height="30"/>
+                                <Button Content="Download" 
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, 
+                                                         Path=DataContext.DownloadCommand}" 
+                                        CommandParameter="{Binding}" 
+                                        Width="100" 
+                                        Height="30"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -123,7 +125,7 @@
         </Border>
 
         <!-- Footer Section -->
-        <TextBlock Grid.Row="2" Text="Last Updated: 02:30 PM +07, July 22, 2025" FontSize="12" Foreground="#7F8C8D" 
-               Margin="20,10,20,20" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Row="2" Text="Last Updated: 08:36 AM +07, July 24, 2025" FontSize="12" Foreground="#7F8C8D" 
+                   Margin="20,10,20,20" HorizontalAlignment="Right"/>
     </Grid>
 </Page>

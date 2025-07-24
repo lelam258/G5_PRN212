@@ -16,7 +16,6 @@ namespace Presentation_Layer
 {
     public partial class StudentCourseMaterialPage : Page
     {
-
         public StudentCourseMaterialPage(int studentId)
         {
             InitializeComponent();
@@ -24,6 +23,7 @@ namespace Presentation_Layer
             DataContext = new StudentCourseMaterialViewModel(studentId);
         }
     }
+
     public class StudentCourseMaterialViewModel : INotifyPropertyChanged
     {
         private readonly ICourseMaterialRepository _courseMaterialRepository;
@@ -78,6 +78,7 @@ namespace Presentation_Layer
                 CourseMaterials.Clear();
                 foreach (var material in materials)
                 {
+                    System.Diagnostics.Debug.WriteLine($"Loaded material: {material.Title}, FilePath: {material.FilePath}");
                     CourseMaterials.Add(material);
                 }
 
@@ -88,6 +89,7 @@ namespace Presentation_Layer
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Error loading course materials: {ex.Message}\nStackTrace: {ex.StackTrace}");
                 MessageBox.Show($"Error loading course materials: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 CourseMaterials.Clear();
             }
@@ -99,9 +101,21 @@ namespace Presentation_Layer
 
             try
             {
-                if (string.IsNullOrEmpty(material.FilePath) || !File.Exists(material.FilePath))
+                if (string.IsNullOrEmpty(material.FilePath))
                 {
-                    MessageBox.Show("File not found on the server.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("File path is empty or invalid.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Attempting to download file: {material.FilePath}");
+
+                // Adjust this base path based on where your files are stored
+                string basePath = @"C:\CourseMaterials\"; // Example: Local path or network share like @"\\server\shared\course_materials\"
+                string fullPath = Path.Combine(basePath, material.FilePath.TrimStart('\\', '/'));
+
+                if (!File.Exists(fullPath))
+                {
+                    MessageBox.Show($"File not found at: {fullPath}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -115,12 +129,13 @@ namespace Presentation_Layer
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    File.Copy(material.FilePath, saveFileDialog.FileName, true);
+                    File.Copy(fullPath, saveFileDialog.FileName, true);
                     MessageBox.Show("File downloaded successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Error downloading file: {ex.Message}\nStackTrace: {ex.StackTrace}");
                 MessageBox.Show($"Error downloading file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
