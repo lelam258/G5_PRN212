@@ -3024,11 +3024,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Business Layer\\Business Layer.csproj",
+      "projectUniqueName": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-materialDesign\\Business Layer\\Business Layer.csproj",
       "projectName": "Business Layer",
-      "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Business Layer\\Business Layer.csproj",
+      "projectPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-materialDesign\\Business Layer\\Business Layer.csproj",
       "packagesPath": "C:\\Users\\GBCenter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Business Layer\\obj\\",
+      "outputPath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-materialDesign\\Business Layer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

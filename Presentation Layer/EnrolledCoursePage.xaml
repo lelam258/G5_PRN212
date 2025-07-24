@@ -6,9 +6,10 @@
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Enrolled Course">
+      Title="Enrolled Course"
+      Background="{DynamicResource BackgroundBrush}">
 
-    <Grid Background="#F5F5F5">
+    <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -20,11 +21,13 @@
         </Border>
 
         <!-- Course List -->
-        <ListView x:Name="EnrolledCourseList" Grid.Row="1" Margin="20" Background="White" BorderBrush="#E0E0E0" BorderThickness="1" 
+        <ListView x:Name="EnrolledCourseList" Grid.Row="1" Margin="20" Background="{DynamicResource BacksgroundBrush}" BorderBrush="#E0E0E0" BorderThickness="1" 
                   ItemsSource="{Binding EnrolledCourses}" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>

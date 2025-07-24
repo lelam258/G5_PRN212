@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Presentation Layer\obj\Debug\net8.0-windows\
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-materialDesign\Presentation Layer\obj\Debug\net8.0-windows\
 Presentation_Layer
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-main\Presentation Layer\App.xaml
-28-1964678870
+C:\Users\GBCenter\OneDrive\Documents\Visual Studio 2022\Project\G5_MaterialDesign\G5_PRN212-materialDesign\Presentation Layer\App.xaml
+301484199085
 
-351561986806
-269-808936867
-AdminActivityLogPage.xaml;AdminAssessmentPage.xaml;AdminBackupRestorePage.xaml;AdminCertificatePage.xaml;AdminCourseMaterialPage.xaml;AdminCoursePage.xaml;AdminCourseSchedulePage.xaml;AdminFeedbackPage.xaml;AdminInstructorPage.xaml;AdminNotificationPage.xaml;AdminPaymentPage.xaml;AdminReportPage.xaml;AdminStudentPage.xaml;AdminWindow.xaml;CourseDetailsPage.xaml;EnrolledCoursePage.xaml;LoginWindow.xaml;StudentAssessmentPage.xaml;StudentCertificatePage.xaml;StudentCourseMaterialPage.xaml;StudentCoursePage.xaml;StudentCourseSchedulePage.xaml;StudentFeedbackPage.xaml;StudentInfomationPage.xaml;StudentNotificationPage.xaml;StudentPaymentPage.xaml;StudentSettingPage.xaml;StudentWindow.xaml;
+37-1708859748
+269-988248763
+AdminActivityLogPage.xaml;AdminAssessmentPage.xaml;AdminBackupRestorePage.xaml;AdminCertificatePage.xaml;AdminCourseMaterialPage.xaml;AdminCoursePage.xaml;AdminCourseSchedulePage.xaml;AdminFeedbackPage.xaml;AdminInstructorPage.xaml;AdminNotificationPage.xaml;AdminPaymentPage.xaml;AdminReportPage.xaml;AdminStudentPage.xaml;AdminWindow.xaml;CourseDetailsPage.xaml;EnrolledCoursePage.xaml;LoginWindow.xaml;StudentAssessmentPage.xaml;StudentCertificatePage.xaml;StudentCourseMaterialPage.xaml;StudentCoursePage.xaml;StudentCourseSchedulePage.xaml;StudentFeedbackPage.xaml;StudentInfomationPage.xaml;StudentNotificationPage.xaml;StudentPaymentPage.xaml;StudentSettingPage.xaml;StudentWindow.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;
 
-True
+False
 

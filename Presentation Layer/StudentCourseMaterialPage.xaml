@@ -6,20 +6,22 @@
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="My Course Materials">
+      Title="My Course Materials"
+      Background="{DynamicResource BackgroundBrush}">
     <Page.Resources>
         <!-- Style for DataGrid -->
         <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+            
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="RowBackground" Value="#FFFFFF"/>
-            <Setter Property="AlternatingRowBackground" Value="#F5F7FA"/>
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+            <Setter Property="RowBackground" Value="{DynamicResource BackgroundBrush}"/>
+            <Setter Property="AlternatingRowBackground" Value="{DynamicResource BackgroundBrush}"/>
             <Setter Property="ColumnHeaderStyle">
                 <Setter.Value>
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="#4A90E2"/>
+                        <Setter Property="Background" Value="#999999"/>
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="Padding" Value="10,5"/>
@@ -32,6 +34,8 @@
                     <Style TargetType="DataGridCell">
                         <Setter Property="Padding" Value="10,5"/>
                         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                     </Style>
                 </Setter.Value>
             </Setter>
@@ -84,13 +88,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#F0F4F8" Offset="0"/>
-                <GradientStop Color="#D6EAF8" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+    <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -99,15 +97,15 @@
 
         <!-- Header Section -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,20,20,10">
-            <TextBlock Text="My Course Materials" FontSize="28" FontWeight="Bold" Foreground="#2C3E50"/>
+            <TextBlock Text="My Course Materials" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource ForegroundBrush}"/>
             <Rectangle Width="2" Height="30" Fill="#4A90E2" Margin="10,0"/>
             <TextBlock Text="Explore Your Learning Resources" FontSize="16" Foreground="#7F8C8D" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!-- Material List Section -->
-        <Border Grid.Row="1" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="20" Margin="20">
+        <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="10" BorderThickness="1" Padding="20" Margin="20">
             <DataGrid x:Name="MaterialsDataGrid" ItemsSource="{Binding CourseMaterials}" AutoGenerateColumns="False" 
-                      CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Material Title" Binding="{Binding Title}" Width="2*"/>
                     <DataGridTextColumn Header="Upload Date" Binding="{Binding UploadDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
@@ -115,8 +113,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Download" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                    Path=DataContext.DownloadCommand}" 
-                                        CommandParameter="{Binding}" Width="100" Height="30"/>
+                                                    Path=DataContext.DownloadCommand}" 
+                        CommandParameter="{Binding}" Width="100" Height="30"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -126,6 +124,6 @@
 
         <!-- Footer Section -->
         <TextBlock Grid.Row="2" Text="Last Updated: 02:30 PM +07, July 22, 2025" FontSize="12" Foreground="#7F8C8D" 
-                   Margin="20,10,20,20" HorizontalAlignment="Right"/>
+               Margin="20,10,20,20" HorizontalAlignment="Right"/>
     </Grid>
 </Page>

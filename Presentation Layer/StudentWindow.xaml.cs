@@ -112,7 +112,15 @@ namespace Presentation_Layer
         ContentFrame.Navigate(new StudentFeedbackPage(student.StudentId));
         }
     }
-    else
+                    else if (pagePath == "StudentSettingPage.xaml")
+                    {
+                        var student = _studentRepository.GetStudentByCode(_code);
+                        if (student != null)
+                        {
+                            ContentFrame.Navigate(new StudentSettingPage(student.StudentId));
+                        }
+                    }
+                    else
     {
         // 👈 mặc định các page không cần tham số
         ContentFrame.Navigate(new Uri(pagePath, UriKind.Relative));

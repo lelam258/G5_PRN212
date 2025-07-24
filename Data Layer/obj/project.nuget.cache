@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "95GPZD5+PFY=",
+  "dgSpecHash": "mVWyzNVtjAE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-main\\Data Layer\\Data Layer.csproj",
+  "projectFilePath": "C:\\Users\\GBCenter\\OneDrive\\Documents\\Visual Studio 2022\\Project\\G5_MaterialDesign\\G5_PRN212-materialDesign\\Data Layer\\Data Layer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\GBCenter\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\GBCenter\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

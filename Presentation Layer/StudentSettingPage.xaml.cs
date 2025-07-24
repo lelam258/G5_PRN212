@@ -1,60 +1,95 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Business_Layer;
+using Presentation_Layer.Helpers;
+using Repositories.Interfaces;
 
 namespace Presentation_Layer
 {
     public partial class StudentSettingPage : Page
     {
         private bool _darkModeEnabled = false;
+        private readonly IStudentRepository _studentRepository;
+        private int _studentId;
 
-        public StudentSettingPage()
+        public StudentSettingPage(int studentId)
         {
             InitializeComponent();
+            _studentId = studentId;
+
+            string currentTheme = Properties.Settings.Default.Theme;
+            if (currentTheme == "Dark")
+            {
+                DarkModeToggle.IsChecked = true;
+            }
+            else
+            {
+                DarkModeToggle.IsChecked = false;
+            }
         }
+
 
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            var oldPassword = OldPasswordBox.Password;
-            var newPassword = NewPasswordBox.Password;
-            var confirm = ConfirmPasswordBox.Password;
+            var context = ApplicationDbContext.Instance;
 
-            if (string.IsNullOrWhiteSpace(oldPassword) || string.IsNullOrWhiteSpace(newPassword))
+            var student = context.Students.FirstOrDefault(s => s.StudentId == _studentId);
+            if (student == null)
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Không tìm thấy sinh viên.");
                 return;
             }
 
-            if (newPassword != confirm)
+            string oldPassword = OldPasswordBox.Password;
+            string newPassword = NewPasswordBox.Password;
+            string confirmPassword = ConfirmPasswordBox.Password;
+
+            if (string.IsNullOrWhiteSpace(oldPassword) || string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
             {
-                MessageBox.Show("Mật khẩu xác nhận không khớp.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Vui lòng nhập đầy đủ các trường.");
                 return;
             }
 
-            // TODO: Thực hiện đổi mật khẩu (gọi repo/update)
-            MessageBox.Show("Mật khẩu đã được thay đổi.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (!BCrypt.Net.BCrypt.Verify(oldPassword, student.Password))
+            {
+                MessageBox.Show("Mật khẩu hiện tại không đúng.");
+                return;
+            }
+
+            if (newPassword != confirmPassword)
+            {
+                MessageBox.Show("Mật khẩu mới không khớp.");
+                return;
+            }
+
+            // Mã hóa mật khẩu mới
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            student.Password = hashedPassword;
+
+            context.SaveChanges();
+
+            MessageBox.Show("✅ Đổi mật khẩu thành công!");
         }
+
 
         private void DarkModeToggle_Checked(object sender, RoutedEventArgs e)
         {
             _darkModeEnabled = true;
-            Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            ThemeManager.SetTheme("Dark");
+
+            Properties.Settings.Default.Theme = "Dark";
+            Properties.Settings.Default.Save();
         }
 
         private void DarkModeToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             _darkModeEnabled = false;
-            Background = new SolidColorBrush(Color.FromRgb(244, 246, 248));
+            ThemeManager.SetTheme("Light");
+
+            Properties.Settings.Default.Theme = "Light";
+            Properties.Settings.Default.Save();
         }
 
-        private void ResetProfile_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Chức năng đang phát triển...", "Thông báo");
-        }
-
-        private void ResetAllSettings_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Đã khôi phục cài đặt mặc định.", "Thông báo");
-        }
     }
 }
