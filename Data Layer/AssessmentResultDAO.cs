@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business_Layer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data_Layer
 {
@@ -16,7 +17,9 @@ namespace Data_Layer
         }
         public List<AssessmentResult> GetAllAssessmentResults()
         {
-            return _context.AssessmentResults.ToList();
+            return _context.AssessmentResults
+                          .Include(ar => ar.Student)
+                          .ToList();
         }
         public AssessmentResult GetAssessmentResultById(int id)
         {

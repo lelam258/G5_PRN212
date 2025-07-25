@@ -12,6 +12,7 @@ namespace Repositories.Repositories
     public class AssessmentRepository : IAssessmentRepository
     {
         private readonly AssessmentDAO _assessmentDAO;
+        
         public AssessmentRepository()
         {
             _assessmentDAO = new AssessmentDAO();
@@ -21,5 +22,6 @@ namespace Repositories.Repositories
         public Assessment GetAssessmentById(int id) => _assessmentDAO.GetAssessmentById(id);
         public List<Assessment> GetAllAssessments() => _assessmentDAO.GetAllAssessments();
         public void UpdateAssessment(Assessment assessment) => _assessmentDAO.UpdateAssessment(assessment);
+
     }
 }

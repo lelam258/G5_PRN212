@@ -21,5 +21,6 @@ namespace Repositories.Repositories
         public AssessmentResult GetAssessmentResultById(int id) => _assessmentResultDAO.GetAssessmentResultById(id);
         public List<AssessmentResult> GetAllAssessmentResults() => _assessmentResultDAO.GetAllAssessmentResults();
         public void UpdateAssessmentResult(AssessmentResult assessmentResult) => _assessmentResultDAO.UpdateAssessmentResult(assessmentResult);
+
     }
 }

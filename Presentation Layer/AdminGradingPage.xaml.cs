@@ -25,9 +25,7 @@ namespace Presentation_Layer
         private void LoadResults()
         {
             // Lấy tất cả AssessmentResult kèm Student nav prop
-            _allResults = _resultRepo.GetAllAssessmentResults()
-                                     .Include(ar => ar.Student)
-                                     .ToList();
+            _allResults = _resultRepo.GetAllAssessmentResults();
             ResultsDataGrid.ItemsSource = _allResults;
         }
 
@@ -38,7 +36,13 @@ namespace Presentation_Layer
                 AssessmentIdTextBox.Text = ar.AssessmentId.ToString();
                 StudentCodeTextBox.Text = ar.Student?.StudentCode ?? "";
                 ScoreTextBox.Text = ar.Score.ToString();
-                SubmissionDateTextBox.Text = ar.SubmissionDate.ToString("dd/MM/yyyy HH:mm");
+
+                // SubmissionDate phải là DateTime, nên ToString(format) sẽ hợp lệ
+                if (ar.SubmissionDate.HasValue)
+                    SubmissionDateTextBox.Text = ar.SubmissionDate.Value
+                                                          .ToString("dd/MM/yyyy HH:mm");
+                else
+                    SubmissionDateTextBox.Text = "";
             }
             else
             {

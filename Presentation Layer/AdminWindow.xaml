@@ -54,6 +54,7 @@
                 <ListBoxItem Tag="AdminStudentPage.xaml">Người học</ListBoxItem>
                 <ListBoxItem Tag="AdminInstructorPage.xaml">Giảng viên</ListBoxItem>
                 <ListBoxItem Tag="AdminAssessmentPage.xaml">Kiểm tra</ListBoxItem>
+                <ListBoxItem Tag="AdminGradingPage.xaml">Chấm Điểm</ListBoxItem>
                 <ListBoxItem Tag="AdminCourseMaterialPage.xaml">Tài liệu khóa học</ListBoxItem>
                 <ListBoxItem Tag="AdminFeedbackPage.xaml">Phản hồi</ListBoxItem>
                 <ListBoxItem Tag="AdminCertificatePage.xaml">Chứng chỉ</ListBoxItem>
