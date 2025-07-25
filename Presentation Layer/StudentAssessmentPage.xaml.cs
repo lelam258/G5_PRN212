@@ -12,6 +12,7 @@ using Business_Layer;
 using Repositories.Interfaces;
 using Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Presentation_Layer
 {
@@ -56,6 +57,7 @@ namespace Presentation_Layer
             {
                 _selectedAssessment = value;
                 OnPropertyChanged(nameof(SelectedAssessment));
+                OnPropertyChanged(nameof(IsDownloadEnabled));
                 UpdateSubmitButtonState();
                 StatusMessage = _selectedAssessment == null ? "Please select an assessment." : "";
             }
@@ -115,8 +117,11 @@ namespace Presentation_Layer
 
         public bool IsSubmitEnabled => _selectedAssessment != null && !string.IsNullOrEmpty(_filePath) && File.Exists(_filePath);
 
+        public bool IsDownloadEnabled => _selectedAssessment != null && !string.IsNullOrEmpty(_selectedAssessment.FilePath);
+
         public ICommand UploadCommand { get; }
         public ICommand SubmitCommand { get; }
+        public ICommand DownloadAssessmentCommand { get; }
 
         public StudentAssessmentViewModel(int studentId)
         {
@@ -125,6 +130,7 @@ namespace Presentation_Layer
             _assessmentResultRepository = new AssessmentResultRepository();
             UploadCommand = new RelayCommand(ExecuteUpload);
             SubmitCommand = new RelayCommand(ExecuteSubmit, CanExecuteSubmit);
+            DownloadAssessmentCommand = new RelayCommand(ExecuteDownloadAssessment, CanExecuteDownloadAssessment);
             LoadData();
         }
 
@@ -305,6 +311,59 @@ namespace Presentation_Layer
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        private bool CanExecuteDownloadAssessment(object parameter) => IsDownloadEnabled;
+
+        private void ExecuteDownloadAssessment(object parameter)
+        {
+            try
+            {
+                if (_selectedAssessment == null)
+                {
+                    StatusMessage = "Please select an assessment first.";
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(_selectedAssessment.FilePath))
+                {
+                    StatusMessage = "No assessment file available for download.";
+                    return;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Attempting to download: {_selectedAssessment.FilePath}");
+
+                if (!File.Exists(_selectedAssessment.FilePath))
+                {
+                    StatusMessage = $"Assessment file not found. Please contact your instructor.";
+                    System.Diagnostics.Debug.WriteLine($"File not found: {_selectedAssessment.FilePath}");
+                    return;
+                }
+
+                // Check if it's a ZIP file
+                string extension = Path.GetExtension(_selectedAssessment.FilePath).ToLower();
+                if (extension != ".zip")
+                {
+                    StatusMessage = "Only ZIP files are supported for download.";
+                    return;
+                }
+
+                // Open file with default application
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = _selectedAssessment.FilePath,
+                    UseShellExecute = true,
+                    Verb = "open"
+                };
+
+                Process.Start(processInfo);
+                StatusMessage = $"Opening assessment file: {Path.GetFileName(_selectedAssessment.FilePath)}";
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error downloading assessment file: {ex.Message}";
+                System.Diagnostics.Debug.WriteLine($"Download Error: {ex}");
             }
         }
 

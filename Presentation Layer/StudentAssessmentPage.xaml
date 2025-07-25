@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Presentation_Layer"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1000"
+      d:DesignHeight="700" d:DesignWidth="1000"
       Title="Submit Assessment"
       Background="{DynamicResource BackgroundBrush}">
     <Page.Resources>
@@ -65,6 +65,32 @@
             </Setter>
         </Style>
 
+        <!-- Download Button Style -->
+        <Style x:Key="DownloadButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#28a745"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#218838"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#B0BEC5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Submit Button Style -->
+        <Style x:Key="SubmitButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#007bff"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0056b3"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#B0BEC5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- ComboBox Style -->
         <Style TargetType="ComboBox">
             <Setter Property="FontSize" Value="14"/>
@@ -93,6 +119,19 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <!-- Assessment Details Panel Style -->
+        <Style x:Key="DetailsPanelStyle" TargetType="StackPanel">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedAssessment}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedAssessment, Converter={x:Static local:NullToBoolConverter.Instance}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
 
     <Grid Margin="20">
@@ -108,68 +147,223 @@
             <TextBlock Text="Submit Assessment" FontSize="28" FontWeight="Bold"
                    Foreground="{DynamicResource ForegroundBrush}"/>
             <Rectangle Width="2" Height="30" Fill="#4A90E2" Margin="10,0"/>
-            <TextBlock Text="Upload and View Scores" FontSize="16" VerticalAlignment="Center"
+            <TextBlock Text="Download, Upload and View Scores" FontSize="16" VerticalAlignment="Center"
                    Foreground="{DynamicResource ForegroundBrush}"/>
         </StackPanel>
 
-        <!-- Upload Form Section -->
+        <!-- Assessment Selection and Upload Form Section -->
         <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"
             CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1"
             Padding="20" Margin="0,0,0,20">
             <StackPanel>
+                <!-- Assessment Selection -->
                 <TextBlock Text="Select Assessment to Submit" FontSize="16" FontWeight="SemiBold"
                        Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,10"/>
                 <ComboBox ItemsSource="{Binding Assessments}" 
                       SelectedItem="{Binding SelectedAssessment}" 
                       DisplayMemberPath="AssessmentName" 
-                      Width="300" Height="30" Margin="0,0,0,10"
-                      Name="dat"/>
-                <TextBlock Text="Upload File" FontSize="14" Margin="0,0,0,5"
-                       Foreground="{DynamicResource ForegroundBrush}"/>
-                <TextBox Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="300" Height="30" Margin="0,0,0,10" IsReadOnly="True"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <Button Content="Browse File" Width="100" Height="30" Command="{Binding UploadCommand}"/>
-                    <Button Content="Submit Assessment" Width="150" Height="30" Margin="10,0,0,0" 
-                        Command="{Binding SubmitCommand}" IsEnabled="{Binding IsSubmitEnabled}"/>
+                      Width="400" Height="35" Margin="0,0,0,15"
+                      Name="AssessmentComboBox"/>
+
+                <!-- Assessment Details Panel -->
+                <StackPanel Style="{StaticResource DetailsPanelStyle}" Margin="0,0,0,15">
+                    <Border Background="#f8f9fa" CornerRadius="5" Padding="15" BorderBrush="#dee2e6" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Course -->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Course:" FontWeight="Bold" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedAssessment.LifeSkillCourse.CourseName}" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
+
+                            <!-- Due Date -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Due Date:" FontWeight="Bold" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedAssessment.DueDate, StringFormat=dd/MM/yyyy HH:mm}" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
+
+                            <!-- Max Score -->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Max Score:" FontWeight="Bold" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedAssessment.MaxScore}" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
+
+                            <!-- Assessment Type -->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Type:" FontWeight="Bold" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedAssessment.AssessmentType}" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
+
+                            <!-- Instructions -->
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Instructions:" FontWeight="Bold" 
+                                   Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,10,5" VerticalAlignment="Top"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SelectedAssessment.Instructions}" 
+                                   TextWrapping="Wrap" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
+
+                            <!-- Download Assessment File Button -->
+                            <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                Content="📁 Download&#x0a;Assessment File"
+                                Style="{StaticResource DownloadButtonStyle}"
+                                Command="{Binding DownloadAssessmentCommand}"
+                                IsEnabled="{Binding IsDownloadEnabled}"
+                                Width="120" Height="50"
+                                FontSize="12" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
                 </StackPanel>
-                <TextBlock Text="{Binding StatusMessage}" Foreground="{Binding StatusColor}" FontSize="12" Margin="0,10,0,0"/>
+
+                <!-- File Upload Section -->
+                <Separator Margin="0,10,0,15"/>
+                <TextBlock Text="Upload Your Submission (ZIP file only, max 30MB)" FontSize="14" FontWeight="SemiBold"
+                       Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,10"/>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" 
+                         Height="35" Margin="0,0,10,0" IsReadOnly="True"
+                         ToolTip="Selected file path will appear here"/>
+                    <Button Grid.Column="1" Content="📂 Browse File" 
+                        Width="120" Height="35" Command="{Binding UploadCommand}"/>
+                </Grid>
+
+                <!-- Action Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                    <Button Content="✅ Submit Assessment" 
+                        Style="{StaticResource SubmitButtonStyle}"
+                        Width="180" Height="40" 
+                        Command="{Binding SubmitCommand}" 
+                        IsEnabled="{Binding IsSubmitEnabled}"
+                        FontWeight="Bold"/>
+                </StackPanel>
+
+                <!-- Status Message -->
+                <TextBlock Text="{Binding StatusMessage}" 
+                       Foreground="{Binding StatusColor}" 
+                       FontSize="13" FontWeight="Medium"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Margin="0,10,0,0"/>
+
+                <!-- Loading Progress Bar -->
                 <ProgressBar Style="{StaticResource ProgressBarStyle}"/>
             </StackPanel>
         </Border>
 
-        <!-- DataGrid Section -->
+        <!-- Previous Submissions DataGrid Section -->
         <Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}"
-            CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1" Padding="10">
-            <DataGrid ItemsSource="{Binding AssessmentResults}" 
-          AutoGenerateColumns="False" CanUserAddRows="False" 
-          CanUserDeleteRows="False" IsReadOnly="True"
-          RowHeight="40" ColumnHeaderHeight="40"
-          Background="{DynamicResource BackgroundBrush}"
-          Foreground="{DynamicResource ForegroundBrush}"
-          RowBackground="{DynamicResource BackgroundBrush}"
-          AlternatingRowBackground="{DynamicResource BackgroundBrush}">
+            CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15">
+            <StackPanel>
+                <TextBlock Text="Previous Submissions" FontSize="16" FontWeight="SemiBold"
+                       Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,15"/>
 
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-                        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
-                        <Setter Property="Padding" Value="10,5"/>
-                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                    </Style>
-                </DataGrid.CellStyle>
+                <DataGrid ItemsSource="{Binding AssessmentResults}" 
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" IsReadOnly="True"
+                  RowHeight="45" ColumnHeaderHeight="40"
+                  Background="{DynamicResource BackgroundBrush}"
+                  Foreground="{DynamicResource ForegroundBrush}"
+                  RowBackground="{DynamicResource BackgroundBrush}"
+                  AlternatingRowBackground="{DynamicResource BackgroundBrush}">
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Assessment Name" Binding="{Binding Assessment.AssessmentName}" Width="2*"/>
-                    <DataGridTextColumn Header="Due Date" Binding="{Binding Assessment.DueDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
-                    <DataGridTextColumn Header="Score" Binding="{Binding Score, StringFormat={}{0:F1}, TargetNullValue=N/A}" Width="*"/>
-                    <DataGridTextColumn Header="Submission Date" Binding="{Binding SubmissionDate, StringFormat={}{0:dd/MM/yyyy}, TargetNullValue=N/A}" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+                            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+                            <Setter Property="Padding" Value="10,5"/>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Assessment Name" 
+                                        Binding="{Binding Assessment.AssessmentName}" 
+                                        Width="2*" MinWidth="200"/>
+                        <DataGridTextColumn Header="Course" 
+                                        Binding="{Binding Assessment.LifeSkillCourse.CourseName}" 
+                                        Width="1.5*" MinWidth="150"/>
+                        <DataGridTextColumn Header="Due Date" 
+                                        Binding="{Binding Assessment.DueDate, StringFormat={}{0:dd/MM/yyyy}}" 
+                                        Width="*" MinWidth="100"/>
+                        <DataGridTextColumn Header="Submission Date" 
+                                        Binding="{Binding SubmissionDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}" 
+                                        Width="1.2*" MinWidth="140"/>
+                        <DataGridTemplateColumn Header="Score" Width="*" MinWidth="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Score}" Value="{x:Null}">
+                                                        <Setter Property="Text" Value="Pending"/>
+                                                        <Setter Property="Foreground" Value="#ffc107"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                <Setter Property="Text" Value="{Binding Score, StringFormat={}{0:F1}}"/>
+                                                <Setter Property="Foreground" Value="#28a745"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Status" Width="*" MinWidth="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="12" Padding="8,3" HorizontalAlignment="Center">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Score}" Value="{x:Null}">
+                                                        <Setter Property="Background" Value="#fff3cd"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                <Setter Property="Background" Value="#d4edda"/>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" FontWeight="Bold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Score}" Value="{x:Null}">
+                                                            <Setter Property="Text" Value="⏳ Grading"/>
+                                                            <Setter Property="Foreground" Value="#856404"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="Text" Value="✅ Graded"/>
+                                                    <Setter Property="Foreground" Value="#155724"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
         </Border>
 
         <!-- Footer Section -->
-        <TextBlock Grid.Row="3" Text="Last Updated: 05:38 PM +07, July 21, 2025"
+        <TextBlock Grid.Row="3" Text="Last Updated: 05:38 PM +07, July 26, 2025"
                FontSize="12" Foreground="{DynamicResource ForegroundBrush}"
                Margin="0,20,0,0" HorizontalAlignment="Right"/>
     </Grid>

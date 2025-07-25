@@ -89,7 +89,7 @@
         <!-- Input Styles -->
         <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
             <Setter Property="Height" Value="40"/>
-            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Padding" Value="2,3"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Background" Value="#F8F9FA"/>
             <Setter Property="BorderBrush" Value="#E9ECEF"/>
@@ -449,7 +449,7 @@
                             Binding="{Binding AssessmentId}"
                             Width="60"
                             ElementStyle="{StaticResource CenterTextStyle}"/>
-
+ 
                                 
                                 <DataGridTextColumn Header="📝 Tên bài kiểm tra"
                             Binding="{Binding AssessmentName}"

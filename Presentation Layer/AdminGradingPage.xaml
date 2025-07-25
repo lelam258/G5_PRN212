@@ -267,21 +267,32 @@
                                     <Setter Property="Padding" Value="8"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
+                                
+                                <Style x:Key="CenterTextStyle" TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                </Style>
+
                             </DataGrid.Resources>
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="🆔 Assessment ID"
                                                     Binding="{Binding AssessmentId}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="👤 Mã SV"
                                                     Binding="{Binding Student.StudentCode}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="🎯 Điểm"
                                                     Binding="{Binding Score}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="📅 Ngày nộp"
                                                     Binding="{Binding SubmissionDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                                                    Width="1.5*"/>
+                                                    Width="1.5*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTemplateColumn Header="📎 File" Width="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

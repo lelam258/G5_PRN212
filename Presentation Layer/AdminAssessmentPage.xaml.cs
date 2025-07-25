@@ -125,19 +125,31 @@ namespace Presentation_Layer
             AssessmentsDataGrid.UnselectAll();
         }
 
-        // Browse file gốc
+        // Browse file - chỉ cho phép ZIP files
         private void BrowseFileButton_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog
             {
-                Title = "Chọn file Word hoặc PDF",
-                Filter = "Word (*.doc;*.docx)|*.doc;*.docx|PDF (*.pdf)|*.pdf",
+                Title = "Select Assessment ZIP File",
+                Filter = "ZIP files (*.zip)|*.zip",
                 CheckFileExists = true,
                 Multiselect = false
             };
             if (dlg.ShowDialog() == true)
             {
-                FilePathTextBox.Text = dlg.FileName;
+                string selectedFile = dlg.FileName;
+                FileInfo fileInfo = new FileInfo(selectedFile);
+
+                // Check file size (30MB = 30 * 1024 * 1024 bytes) - giống như StudentAssessmentPage
+                long maxSize = 30 * 1024 * 1024;
+                if (fileInfo.Length > maxSize)
+                {
+                    MessageBox.Show("File size exceeds 30MB limit. Please select a smaller file.",
+                                  "File Size Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                FilePathTextBox.Text = selectedFile;
             }
         }
 
@@ -148,36 +160,53 @@ namespace Presentation_Layer
 
             if (CourseFormComboBox.SelectedValue is not int cid)
             {
-                MessageBox.Show("Vui lòng chọn khóa học.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Vui long chon khoa hoc.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             var name = NameTextBox.Text.Trim();
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Tên bài kiểm tra không được để trống.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Ten bai kiem tra khong duoc de trong.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             var type = TypeTextBox.Text.Trim();
             if (string.IsNullOrEmpty(type))
             {
-                MessageBox.Show("Loại bài kiểm tra không được để trống.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Loai bai kiem tra khong duoc de trong.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             var instr = InstructionsTextBox.Text.Trim();
             if (string.IsNullOrEmpty(instr))
             {
-                MessageBox.Show("Hướng dẫn không được để trống.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Huong dan khong duoc de trong.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             if (!int.TryParse(MaxScoreTextBox.Text.Trim(), out int max) || max <= 0)
             {
-                MessageBox.Show("Điểm tối đa phải là số nguyên dương.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Diem toi da phai la so nguyen duong.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             if (DueDatePicker.SelectedDate is not DateTime due || due < DateTime.Today)
             {
-                MessageBox.Show("Hạn nộp phải là hôm nay hoặc tương lai.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Han nop phai la hom nay hoac tuong lai.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
+            }
+
+            // Validate file path nếu có - chỉ cho phép ZIP
+            if (!string.IsNullOrWhiteSpace(FilePathTextBox.Text))
+            {
+                var filePath = FilePathTextBox.Text.Trim();
+                if (!File.Exists(filePath))
+                {
+                    MessageBox.Show("File khong ton tai.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                if (!Path.GetExtension(filePath).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Chi cho phep file ZIP.", "Canh bao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
             }
 
             model = new Assessment
@@ -250,8 +279,8 @@ namespace Presentation_Layer
             if (AssessmentsDataGrid.SelectedItem is not AssessmentItem sel) return;
 
             var result = MessageBox.Show(
-                $"Chắc chắn xóa “{sel.AssessmentName}”?",
-                "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                $"Chac chan xoa \"{sel.AssessmentName}\"?",
+                "Xac nhan", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 _assessRepo.DeleteAssessment(sel.AssessmentId);
@@ -265,24 +294,22 @@ namespace Presentation_Layer
                 btn.Tag is string path &&
                 File.Exists(path))
             {
-                Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+                // Kiểm tra xem có phải file ZIP không trước khi mở
+                if (Path.GetExtension(path).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+                }
+                else
+                {
+                    MessageBox.Show("Chi co the mo file ZIP.", "Loi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
             else
             {
-                MessageBox.Show("Không tìm thấy file.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Khong tim thay file.", "Loi", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
 
-    /// <summary>
-    /// Converter giúp Enable nút Download khi FilePath != null/empty
-    /// </summary>
-    public class NullToBoolConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-            => !string.IsNullOrWhiteSpace(value as string);
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-            => throw new NotSupportedException();
-    }
+    
 }

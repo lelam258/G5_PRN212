@@ -387,27 +387,40 @@
                                     <Setter Property="Padding" Value="8"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
+                                <Style x:Key="CenterTextStyle" TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                </Style>
+
+                             
                             </DataGrid.Resources>
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="🔢 ID"
                                                     Binding="{Binding ScheduleId}"
-                                                    Width="60"/>
+                                                    Width="60"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="📚 Khóa học"
                                                     Binding="{Binding LifeSkillCourse.CourseName}"
-                                                    Width="2*"/>
+                                                    Width="2*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="📅 Ngày"
                                                     Binding="{Binding SessionDate, StringFormat=dd/MM/yyyy}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="🕰️ Bắt đầu"
                                                     Binding="{Binding StartTime}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="🕰️ Kết thúc"
                                                     Binding="{Binding EndTime}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                                 <DataGridTextColumn Header="🏢 Phòng"
                                                     Binding="{Binding Room}"
-                                                    Width="*"/>
+                                                    Width="*"
+                                                    ElementStyle="{StaticResource CenterTextStyle}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
