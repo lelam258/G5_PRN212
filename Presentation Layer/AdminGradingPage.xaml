@@ -7,113 +7,299 @@
       Title="AdminGradingPage"
       d:DesignHeight="600" d:DesignWidth="900">
 
-    <Grid Margin="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- header -->
-            <RowDefinition Height="*"/>
-            <!-- nội dung chính -->
-        </Grid.RowDefinitions>
+    <Page.Resources>
+        <!-- Gradient Brushes -->
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#667eea" Offset="0"/>
+            <GradientStop Color="#4A90E2" Offset="1"/>
+        </LinearGradientBrush>
 
-        <!-- Header -->
-        <TextBlock Grid.Row="0"
-               Text="📊 Quản lý Điểm"
-               FontSize="28"
-               FontWeight="Bold"
-               Foreground="#2C3E50"
-               Margin="0,0,0,10"/>
+        <LinearGradientBrush x:Key="SaveButtonGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#56ab2f" Offset="0"/>
+            <GradientStop Color="#a8e6cf" Offset="1"/>
+        </LinearGradientBrush>
 
-        <!-- Main: form & grid -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <LinearGradientBrush x:Key="DownloadButtonGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#667eea" Offset="0"/>
+            <GradientStop Color="#764ba2" Offset="1"/>
+        </LinearGradientBrush>
 
-            <!-- Form chỉnh điểm -->
-            <Border Grid.Column="0"
-              Background="White"
-              CornerRadius="5"
-              BorderBrush="#DDD"
-              BorderThickness="1"
-              Padding="20">
+        <!-- Button Styles -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="20"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#E0E0E0" BlurRadius="15" ShadowDepth="5" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TextBox Style -->
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="2,3"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Background" Value="#F8F9FA"/>
+            <Setter Property="BorderBrush" Value="#E9ECEF"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Margin" Value="0,5,0,15"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource HeaderGradient}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <!-- Main Background -->
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#f8f9fa" Offset="0"/>
+                <GradientStop Color="#e9ecef" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Modern Header -->
+            <Border Grid.Row="0" Background="{StaticResource HeaderGradient}" 
+                    CornerRadius="15" Padding="25,20" Margin="0,0,0,20">
+                <Border.Effect>
+                    <DropShadowEffect Color="#667eea" BlurRadius="20" ShadowDepth="8" Opacity="0.3"/>
+                </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="Chi tiết chấm điểm"
-                     FontSize="20"
-                     FontWeight="SemiBold"
-                     Margin="0,0,0,10"/>
-
-                    <TextBlock Text="Assessment ID" FontWeight="SemiBold"/>
-                    <TextBox x:Name="AssessmentIdTextBox" IsReadOnly="True"/>
-
-                    <TextBlock Text="Sinh viên (Mã SV)" FontWeight="SemiBold"/>
-                    <TextBox x:Name="StudentCodeTextBox" IsReadOnly="True"/>
-
-                    <TextBlock Text="Điểm" FontWeight="SemiBold"/>
-                    <TextBox x:Name="ScoreTextBox"/>
-
-                    <TextBlock Text="Ngày nộp" FontWeight="SemiBold"/>
-                    <TextBox x:Name="SubmissionDateTextBox" IsReadOnly="True"/>
-
-                    <Button x:Name="SaveScoreButton"
-                  Content="Lưu điểm"
-                  Width="100" Height="30"
-                  Background="#2980B9"
-                  Foreground="White"
-                  HorizontalAlignment="Center"
-                  Margin="0,10,0,0"
-                  Click="SaveScoreButton_Click"/>
+                    <TextBlock Text="📊 Quản lý Điểm số" 
+                               FontSize="32" FontWeight="Bold" 
+                               Foreground="White" 
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="Chấm điểm và quản lý kết quả bài thi của sinh viên" 
+                               FontSize="14" FontWeight="Light" 
+                               Foreground="#E8E8E8" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
 
-            <GridSplitter Grid.Column="1"
-                    Width="10"
-                    Background="#CCC"/>
+            <!-- Main Content -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- DataGrid danh sách bài làm -->
-            <Border Grid.Column="2"
-              Background="White"
-              CornerRadius="5"
-              BorderBrush="#DDD"
-              BorderThickness="1"
-              Padding="10">
-                <DataGrid x:Name="ResultsDataGrid"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  SelectionChanged="ResultsDataGrid_SelectionChanged"
-                  RowHeight="30"
-                  ColumnHeaderHeight="35"
-                  AlternatingRowBackground="#F9FBFC"
-                  GridLinesVisibility="Horizontal">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Assessment ID"
-                                Binding="{Binding AssessmentId}"
-                                Width="*"/>
-                        <DataGridTextColumn Header="Mã SV"
-                                Binding="{Binding Student.StudentCode}"
-                                Width="*"/>
-                        <DataGridTextColumn Header="Điểm"
-                                Binding="{Binding Score}"
-                                Width="*"/>
-                        <DataGridTextColumn Header="Ngày nộp"
-                                Binding="{Binding SubmissionDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                                Width="1.5*"/>
-                        <DataGridTemplateColumn Header="File"
-                                    Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Tải"
-                          Tag="{Binding FilePath}"
-                          Click="DownloadSubmissionButton_Click"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+                <!-- Form Section -->
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <!-- Form Header -->
+                        <Border Background="{StaticResource HeaderGradient}"
+                                CornerRadius="10"
+                                Padding="15,10"
+                                Margin="0,0,0,20">
+                            <TextBlock Text="✏️ Chi tiết chấm điểm"
+                                       FontSize="18" FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <!-- Form Fields -->
+                        <TextBlock Text="🆔 Assessment ID" FontWeight="SemiBold" FontSize="13" Foreground="#495057"/>
+                        <TextBox x:Name="AssessmentIdTextBox" 
+                                 IsReadOnly="True" 
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 Background="#E9ECEF"/>
+
+                        <TextBlock Text="👤 Sinh viên (Mã SV)" FontWeight="SemiBold" FontSize="13" Foreground="#495057"/>
+                        <TextBox x:Name="StudentCodeTextBox" 
+                                 IsReadOnly="True" 
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 Background="#E9ECEF"/>
+
+                        <TextBlock Text="🎯 Điểm số" FontWeight="SemiBold" FontSize="13" Foreground="#495057"/>
+                        <TextBox x:Name="ScoreTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
+
+                        <TextBlock Text="📅 Ngày nộp" FontWeight="SemiBold" FontSize="13" Foreground="#495057"/>
+                        <TextBox x:Name="SubmissionDateTextBox" 
+                                 IsReadOnly="True" 
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 Background="#E9ECEF"/>
+
+                        <!-- Save Button -->
+                        <Border Background="#F8F9FA" CornerRadius="10" Padding="15" Margin="0,10,0,0">
+                            <Button x:Name="SaveScoreButton"
+                                    Content="💾 Lưu điểm"
+                                    Width="120" 
+                                    Height="45"
+                                    Background="{StaticResource SaveButtonGradient}"
+                                    Style="{StaticResource ModernButtonStyle}"
+                                    HorizontalAlignment="Center"
+                                    Click="SaveScoreButton_Click"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Splitter -->
+                <Rectangle Grid.Column="1" 
+                           Fill="#E9ECEF" 
+                           Width="2" 
+                           HorizontalAlignment="Center"
+                           RadiusX="1" RadiusY="1"/>
+
+                <!-- DataGrid Section -->
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- DataGrid Header -->
+                        <Border Grid.Row="0" 
+                                Background="{StaticResource HeaderGradient}"
+                                CornerRadius="10"
+                                Padding="15,10"
+                                Margin="0,0,0,15">
+                            <TextBlock Text="📋 Danh sách bài làm"
+                                       FontSize="18" FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <!-- DataGrid -->
+                        <DataGrid Grid.Row="1"
+                                  x:Name="ResultsDataGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  SelectionChanged="ResultsDataGrid_SelectionChanged"
+                                  RowBackground="#FDFDFD"
+                                  AlternatingRowBackground="#F8F9FA"
+                                  GridLinesVisibility="None"
+                                  RowHeight="50"
+                                  ColumnHeaderHeight="45"
+                                  FontSize="13">
+
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#6C757D"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="12,8"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Margin" Value="0,2"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#E3F2FD"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#BBDEFB"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="8"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGrid.Resources>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="🆔 Assessment ID"
+                                                    Binding="{Binding AssessmentId}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="👤 Mã SV"
+                                                    Binding="{Binding Student.StudentCode}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="🎯 Điểm"
+                                                    Binding="{Binding Score}"
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="📅 Ngày nộp"
+                                                    Binding="{Binding SubmissionDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
+                                                    Width="1.5*"/>
+                                <DataGridTemplateColumn Header="📎 File" Width="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="📥 Tải"
+                                                    Tag="{Binding FilePath}"
+                                                    Width="70"
+                                                    Height="30"
+                                                    Background="{StaticResource DownloadButtonGradient}"
+                                                    Style="{StaticResource ModernButtonStyle}"
+                                                    Click="DownloadSubmissionButton_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
