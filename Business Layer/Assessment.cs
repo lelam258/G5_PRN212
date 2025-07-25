@@ -20,5 +20,8 @@ namespace Business_Layer
         public string? AssessmentType { get; set; }
         public string? Instructions { get; set; }
         public LifeSkillCourse? LifeSkillCourse { get; set; }
+        public string? FilePath { get; set; }
+
+    
     }
 }

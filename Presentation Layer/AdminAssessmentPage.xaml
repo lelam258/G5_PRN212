@@ -93,6 +93,17 @@
                     <TextBlock Text="Hạn nộp" FontWeight="SemiBold"/>
                     <DatePicker x:Name="DueDatePicker" Height="30"/>
 
+                    <TextBlock Text="File đính kèm (Word/PDF)" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="FilePathTextBox"
+                        Width="220"
+                        IsReadOnly="True"
+                        
+                        Margin="0,0,5,0"/>
+                        <Button Content="Chọn file…" 
+                                  Width="80" 
+                                  Click="BrowseFileButton_Click"/>
+                    </StackPanel>
                     <!-- Buttons -->
                     <StackPanel Orientation="Horizontal"
                       HorizontalAlignment="Center"
