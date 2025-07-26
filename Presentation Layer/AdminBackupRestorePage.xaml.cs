@@ -40,6 +40,7 @@ namespace Presentation_Layer
                 StatusText.Foreground = System.Windows.Media.Brushes.Red;
                 BackupButton.IsEnabled = false;
                 RestoreButton.IsEnabled = false;
+                ImportSqlButton.IsEnabled = false;
             }
         }
 
@@ -141,6 +142,125 @@ namespace Presentation_Layer
             }
         }
 
+        private async void ImportSqlButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "SQL files (*.sql)|*.sql",
+                Title = "Select SQL File to Import"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var result = MessageBox.Show(
+                    "Importing SQL will drop and recreate the database. All existing data will be lost. Proceed?",
+                    "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result != MessageBoxResult.Yes) return;
+
+                ProgressBar.Visibility = Visibility.Visible;
+                StatusText.Text = "Reading SQL file...";
+                await Task.Delay(100);
+
+                try
+                {
+                    var sqlContent = await File.ReadAllTextAsync(openFileDialog.FileName);
+                    StatusText.Text = "Executing SQL commands...";
+                    await ExecuteSqlScript(sqlContent);
+                    StatusText.Text = $"SQL import completed successfully at {DateTime.Now:HH:mm:ss}.";
+                    StatusText.Foreground = System.Windows.Media.Brushes.Green;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    StatusText.Text = "Permission denied. Please check file access or run as administrator.";
+                    StatusText.Foreground = System.Windows.Media.Brushes.Red;
+                }
+                catch (Exception ex)
+                {
+                    StatusText.Text = $"SQL import failed: {ex.Message}";
+                    StatusText.Foreground = System.Windows.Media.Brushes.Red;
+                }
+                finally
+                {
+                    ProgressBar.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private async Task ExecuteSqlScript(string sqlScript)
+        {
+            try
+            {
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    // Split SQL script into individual commands
+                    var commands = SplitSqlCommands(sqlScript);
+
+                    foreach (var command in commands)
+                    {
+                        if (!string.IsNullOrWhiteSpace(command))
+                        {
+                            // Skip certain commands that may cause issues in this context
+                            if (command.Trim().StartsWith("USE [master]", StringComparison.OrdinalIgnoreCase) ||
+                                command.Trim().StartsWith("IF EXISTS (SELECT * FROM sys.databases", StringComparison.OrdinalIgnoreCase) ||
+                                command.Trim().StartsWith("CREATE DATABASE", StringComparison.OrdinalIgnoreCase))
+                            {
+                                continue; // Skip database creation and master-related commands
+                            }
+
+                            await _context.Database.ExecuteSqlRawAsync(command);
+                        }
+                    }
+
+                    await transaction.CommitAsync();
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"SQL execution error: {ex.InnerException?.Message ?? ex.Message}");
+            }
+        }
+
+        private List<string> SplitSqlCommands(string sqlScript)
+        {
+            var commands = new List<string>();
+            var currentCommand = new System.Text.StringBuilder();
+            bool inSingleQuote = false;
+            bool inDoubleQuote = false;
+
+            for (int i = 0; i < sqlScript.Length; i++)
+            {
+                char c = sqlScript[i];
+
+                if (c == '\'' && (i == 0 || sqlScript[i - 1] != '\\')) inSingleQuote = !inSingleQuote;
+                if (c == '"' && (i == 0 || sqlScript[i - 1] != '\\')) inDoubleQuote = !inDoubleQuote;
+
+                if (c == ';' && !inSingleQuote && !inDoubleQuote)
+                {
+                    if (currentCommand.Length > 0)
+                    {
+                        commands.Add(currentCommand.ToString().Trim());
+                        currentCommand.Clear();
+                    }
+                    continue;
+                }
+
+                currentCommand.Append(c);
+            }
+
+            if (currentCommand.Length > 0)
+            {
+                commands.Add(currentCommand.ToString().Trim());
+            }
+
+            return commands;
+        }
+
         private async Task<BackupData> GetBackupData()
         {
             return new BackupData
@@ -165,7 +285,6 @@ namespace Presentation_Layer
         {
             try
             {
-                // Begin transaction to ensure atomicity
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
                 {
